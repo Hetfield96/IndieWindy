@@ -1,40 +1,48 @@
-drop table "user" cascade;
-drop table artist cascade;
-drop table album cascade;
-drop table song cascade;
-drop table concert cascade;
-drop table user_artist_link_subscriptions cascade;
-drop table user_song_link_added cascade;
-drop table artist_concert_link cascade;
+/*
+CREATE DATABASE indie_windy_db;
+CREATE USER indie_admin WITH ENCRYPTED PASSWORD 'pass' SUPERUSER;
+GRANT ALL PRIVILEGES ON DATABASE indie_windy_db TO indie_admin;
+CREATE EXTENSION pgcrypto;
+*/
+
+drop table if exists appUser cascade;
+drop table if exists artist cascade;
+drop table if exists album cascade;
+drop table if exists song cascade;
+drop table if exists concert cascade;
+drop table if exists user_artist_link_subscriptions cascade;
+drop table if exists user_song_link_added cascade;
+drop table if exists artist_concert_link cascade;
 
 -- Пользователь приложения
-create table "user"(
+create table appUser(
     id serial primary key,
-    name varchar not null,
-    login varchar not null,
-    password varchar not null
+    name varchar(20) unique,
+    password text not null
 );
-insert into "user"(name, login, password)
+insert into appUser(name, password)
 values
-('Sergey Roytman', 'royt', '0341da'),
-('Fedor Haleev', 'fedos', '1234');
+('royt', PGP_SYM_ENCRYPT('123456', 'AES_KEY')),
+('fedos', PGP_SYM_ENCRYPT('1234', 'AES_KEY'));
 
 -- Исполнитель
 create table artist(
     id serial primary key,
-    name varchar not null
+    name varchar(30) not null,
+    image_url varchar(200) null
 );
-insert into artist(name)
+insert into artist(name, image_url)
 values
-('Пасош'),
-('Хадн Дадн'),
-('СБПЧ');
+('Пасош', 'https://indie-windy.s3.eu-north-1.amazonaws.com/photos/1.Pasosh.jpg'),
+('Хадн Дадн', null),
+('СБПЧ', null);
 
 -- Альбом
 create table album(
     id serial primary key,
     artist_id int not null,
-    name varchar not null,
+    name varchar(30) not null,
+    image_url varchar null,
     foreign key (artist_id) references artist
 );
 insert into album(artist_id, name)
@@ -49,29 +57,31 @@ create table song(
     id serial primary key,
     artist_id int not null,
     album_id int,
-    name varchar not null,
+    name varchar(30) not null,
+    song_url varchar null,
     foreign key (album_id) references album(id),
     foreign key (artist_id) references artist(id)
 );
-insert into song(artist_id, album_id, name)
+insert into song(artist_id, album_id, name, song_url)
 values
-(1, 1, 'Каждый день'),
-(1, 1, 'Никогда'),
-(1, 2, 'Лето'),
-(1, 2, 'Россия'),
-(2, 3, 'Рязань'),
-(2, 3, 'Гулять'),
-(3, 4, 'Злой'),
-(3, 4, 'Король');
+(1, 1, 'Каждый день', null),
+(1, 1, 'Никогда', null),
+(1, 2, 'Лето', 'https://indie-windy.s3.eu-north-1.amazonaws.com/music/1.Pasosh-Leto.mp3'),
+(1, 2, 'Россия', null),
+(2, 3, 'Рязань', null),
+(2, 3, 'Гулять', null),
+(3, 4, 'Злой', null),
+(3, 4, 'Король', null);
 
 -- Концерт
 create table concert(
     id serial primary key,
-    name varchar not null,
+    name varchar(50) not null,
     start_time timestamp not null,
-    club_name varchar not null,
+    club_name varchar(30) not null,
     address varchar not null,
-    cost int not null
+    cost int not null,
+    image_url varchar null
 );
 insert into concert(name, start_time, club_name, address, cost)
 values
@@ -95,7 +105,7 @@ values
 create table user_artist_link_subscriptions(
     user_id int not null,
     artist_id int not null,
-    foreign key (user_id) references "user"(id),
+    foreign key (user_id) references appUser(id),
     foreign key (artist_id) references artist(id),
     primary key (user_id, artist_id)
 );
@@ -110,7 +120,7 @@ values
 create table user_song_link_added(
     user_id int not null,
     song_id int not null,
-    foreign key (user_id) references "user"(id),
+    foreign key (user_id) references appUser(id),
     foreign key (song_id) references song(id),
     primary key (user_id, song_id)
 );
@@ -124,3 +134,7 @@ values
 (2, 2),
 (2, 3),
 (2, 4);
+
+select id, name, pgp_sym_decrypt(password::bytea, 'AES_KEY') from appUser;
+
+select * from artist

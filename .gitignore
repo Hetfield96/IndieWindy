@@ -1,4 +1,4 @@
 *.DS_Store
-IndieWindyServer/IndieWindyServer/.idea/
-IndieWindyServer/IndieWindyServer/IndieWindyServer/bin/
-IndieWindyServer/IndieWindyServer/IndieWindyServer/obj/
+**/.idea
+**/bin
+**/obj

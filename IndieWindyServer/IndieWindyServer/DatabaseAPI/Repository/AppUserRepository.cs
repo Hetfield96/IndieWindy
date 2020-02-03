@@ -1,16 +1,8 @@
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using Dapper;
-using Microsoft.Extensions.Configuration;
-using Npgsql;
-using ServerCore.Models;
-
 namespace DatabaseAPI.Repository
 {
     public class AppUserRepository
     {
+        /*
         private readonly string _connectionString = null;
         
         public AppUserRepository(IConfiguration configuration)
@@ -38,5 +30,6 @@ namespace DatabaseAPI.Repository
 
             return res;
         }
+        */
     }
 }

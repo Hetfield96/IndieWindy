@@ -1,17 +1,25 @@
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
-namespace ServerCore.Models
+namespace ServerCore
 {
-    [Table("artist")]
-    public class Artist: BaseEntity
+    public partial class Artist
     {
-        [Column("id")]
+        public Artist()
+        {
+            Album = new HashSet<Album>();
+            ArtistConcertLink = new HashSet<ArtistConcertLink>();
+            Song = new HashSet<Song>();
+            UserArtistLinkSubscriptions = new HashSet<UserArtistLinkSubscriptions>();
+        }
+
         public int Id { get; set; }
-        
-        [Column("name")]
         public string Name { get; set; }
-        
-        [Column("image_url")]
         public string ImageUrl { get; set; }
+
+        public virtual ICollection<Album> Album { get; set; }
+        public virtual ICollection<ArtistConcertLink> ArtistConcertLink { get; set; }
+        public virtual ICollection<Song> Song { get; set; }
+        public virtual ICollection<UserArtistLinkSubscriptions> UserArtistLinkSubscriptions { get; set; }
     }
 }

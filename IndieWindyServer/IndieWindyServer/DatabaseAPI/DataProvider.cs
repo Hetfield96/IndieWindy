@@ -1,25 +1,25 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
-using Dapper.Contrib.Extensions;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
-using Npgsql;
+using ServerCore;
 
 namespace DatabaseAPI
 {
     public class DataProvider<TEntity> where TEntity : class
     {
         private readonly string _connectionString;
+        private readonly DbContext db;
         
         public DataProvider(IConfiguration configuration)
         {
+            db = new DbContext(configuration);
             _connectionString = configuration.GetSection("DB")?["ConnectionStrings"];
         }
         
         public IEnumerable<TEntity> GetAll()
         {
-            using var connection = new NpgsqlConnection(_connectionString);
-            return connection.GetAll<TEntity>();
+            var res = db.Set<TEntity>().ToList();
+            return res;
         }
     }
 }

@@ -1,23 +1,23 @@
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
-namespace ServerCore.Models
+namespace ServerCore
 {
-    [Table("song")]
-    public class Song: BaseEntity
+    public partial class Song
     {
-        [Column("id")]
+        public Song()
+        {
+            UserSongLinkAdded = new HashSet<UserSongLinkAdded>();
+        }
+
         public int Id { get; set; }
-        
-        [Column("artist_id")]
-        public int ArtistId { get; set; }      
-        
-        [Column("album_id")]
-        public int AlbumId { get; set; }
-        
-        [Column("name")]
+        public int ArtistId { get; set; }
+        public int? AlbumId { get; set; }
         public string Name { get; set; }
-        
-        [Column("song_url")]
         public string SongUrl { get; set; }
+
+        public virtual Album Album { get; set; }
+        public virtual Artist Artist { get; set; }
+        public virtual ICollection<UserSongLinkAdded> UserSongLinkAdded { get; set; }
     }
 }

@@ -1,22 +1,27 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace ServerCore
 {
-    public partial class indie_windy_dbContext : DbContext
+    public partial class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        public indie_windy_dbContext()
+        private readonly string _connectionString;
+        
+        public DbContext(IConfiguration configuration)
         {
+            _connectionString = configuration.GetSection("DB")?["ConnectionStrings"];
         }
 
-        public indie_windy_dbContext(DbContextOptions<indie_windy_dbContext> options)
+        public DbContext(IConfiguration configuration, DbContextOptions<DbContext> options)
             : base(options)
         {
+            _connectionString = configuration.GetSection("DB")?["ConnectionStrings"];
         }
 
         public virtual DbSet<Album> Album { get; set; }
-        public virtual DbSet<Appuser> Appuser { get; set; }
+        public virtual DbSet<AppUser> Appuser { get; set; }
         public virtual DbSet<Artist> Artist { get; set; }
         public virtual DbSet<ArtistAlbums> ArtistAlbums { get; set; }
         public virtual DbSet<ArtistConcertLink> ArtistConcertLink { get; set; }
@@ -33,7 +38,7 @@ namespace ServerCore
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=indie_windy_db;Username=indie_admin;Password=0341da;", x => x.UseNodaTime());
+                optionsBuilder.UseNpgsql(_connectionString, x => x.UseNodaTime());
             }
         }
 
@@ -65,7 +70,7 @@ namespace ServerCore
                     .HasConstraintName("album_artist_id_fkey");
             });
 
-            modelBuilder.Entity<Appuser>(entity =>
+            modelBuilder.Entity<AppUser>(entity =>
             {
                 entity.ToTable("appuser");
 

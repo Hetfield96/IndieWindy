@@ -9,6 +9,6 @@ namespace ServerCore
         public int SongId { get; set; }
 
         public virtual Song Song { get; set; }
-        public virtual Appuser User { get; set; }
+        public virtual AppUser User { get; set; }
     }
 }

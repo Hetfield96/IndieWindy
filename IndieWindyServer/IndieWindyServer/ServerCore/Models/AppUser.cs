@@ -1,17 +1,20 @@
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
 
-namespace ServerCore.Models
+namespace ServerCore
 {
-    [Table("appUser")]
-    public class AppUser : BaseEntity
+    public partial class AppUser
     {
-        [Column("id")]
+        public AppUser()
+        {
+            UserArtistLinkSubscriptions = new HashSet<UserArtistLinkSubscriptions>();
+            UserSongLinkAdded = new HashSet<UserSongLinkAdded>();
+        }
+
         public int Id { get; set; }
-        
-        [Column("name")]
         public string Name { get; set; }
-        
-        [Column("password")]
         public string Password { get; set; }
+
+        public virtual ICollection<UserArtistLinkSubscriptions> UserArtistLinkSubscriptions { get; set; }
+        public virtual ICollection<UserSongLinkAdded> UserSongLinkAdded { get; set; }
     }
 }

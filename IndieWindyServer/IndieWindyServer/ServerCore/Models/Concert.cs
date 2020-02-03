@@ -1,32 +1,24 @@
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using NodaTime;
 
-namespace ServerCore.Models
+namespace ServerCore
 {
-    [Table("concert")]
-    public class Concert: BaseEntity
+    public partial class Concert
     {
-        [Column("id")]
-        public int Id { get; set; }
-        
-        [Column("name")]
-        public string Name { get; set; }
-        
-        [Column("start_time")]
-        public string StartTime { get; set; }
-        
-        [Column("end_time")]
-        public string EndTime { get; set; }
+        public Concert()
+        {
+            ArtistConcertLink = new HashSet<ArtistConcertLink>();
+        }
 
-        [Column("club_name")]
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public Instant StartTime { get; set; }
         public string ClubName { get; set; }
-        
-        [Column("address")]
         public string Address { get; set; }
-        
-        [Column("cost")]
         public int Cost { get; set; }
-        
-        [Column("image_url")]
         public string ImageUrl { get; set; }
+
+        public virtual ICollection<ArtistConcertLink> ArtistConcertLink { get; set; }
     }
 }

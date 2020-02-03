@@ -15,5 +15,3 @@ where ac.artist_id = 1;
 select a.name from artist_concerts ac
 join artist a on ac.artist_id = a.id
 where ac.concert_id = 1;
-
-select name, PGP_SYM_DECRYPT(password::bytea, 'AES_KEY') from "user";

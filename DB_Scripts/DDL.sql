@@ -135,6 +135,4 @@ values
 (2, 3),
 (2, 4);
 
-select id, name, pgp_sym_decrypt(password::bytea, 'AES_KEY') from appUser;
-
-select * from artist
+--select id, name, pgp_sym_decrypt(password::bytea, 'AES_KEY') from appUser;

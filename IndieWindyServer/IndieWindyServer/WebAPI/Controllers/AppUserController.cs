@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DatabaseAPI;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using ServerCore;
+using ServerCore.Models;
 
 namespace WebAPI.Controllers
 {
@@ -11,21 +12,34 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     public class AppUserController : ControllerBase
     {
-        private readonly DataProvider<AppUser> _dataProvider;
-        //private readonly AppUserRepository _userRepository;
-        
-        public AppUserController(IConfiguration configuration)
+        private readonly AppUserService _appUserService;
+
+        public AppUserController(AppUserService appUserService)
         {
-            
-            _dataProvider = new DataProvider<AppUser>(configuration);
-            //_userRepository = new AppUserRepository(configuration);
+            _appUserService = appUserService;
         }
-        
+
         [HttpGet]
         public IEnumerable<AppUser> GetAll()
         {
-            var res = _dataProvider.GetAll();
-            return res;
+            return _appUserService.GetAll();
+        }
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<AppUser> CreateAppUser(AppUser user)
+        {
+            return await _appUserService.AddNewItem(user);
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<bool> Login(AppUser loginUser)
+        {
+            var user = await _appUserService.FindByName(loginUser.Name);
+            if (user == null)
+                return false;
+            return PasswordHasherService.VerifyMd5Hash(loginUser.Password, user.Password);
         }
     }
 }

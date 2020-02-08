@@ -13,7 +13,7 @@ namespace ServerCore
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public Instant StartTime { get; set; }
+        public DateTime StartTime { get; set; }
         public string ClubName { get; set; }
         public string Address { get; set; }
         public int Cost { get; set; }

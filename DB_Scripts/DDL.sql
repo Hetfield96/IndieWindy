@@ -2,7 +2,6 @@
 CREATE DATABASE indie_windy_db;
 CREATE USER indie_admin WITH ENCRYPTED PASSWORD 'pass' SUPERUSER;
 GRANT ALL PRIVILEGES ON DATABASE indie_windy_db TO indie_admin;
-CREATE EXTENSION pgcrypto;
 */
 
 drop table if exists appUser cascade;
@@ -22,8 +21,8 @@ create table appUser(
 );
 insert into appUser(name, password)
 values
-('royt', PGP_SYM_ENCRYPT('123456', 'AES_KEY')),
-('fedos', PGP_SYM_ENCRYPT('1234', 'AES_KEY'));
+('royt', 'dfdfdfr547gh45gh458gh45'),
+('fedos', '554545454vtrgv45fesdlg');
 
 -- Исполнитель
 create table artist(
@@ -134,5 +133,3 @@ values
 (2, 2),
 (2, 3),
 (2, 4);
-
---select id, name, pgp_sym_decrypt(password::bytea, 'AES_KEY') from appUser;

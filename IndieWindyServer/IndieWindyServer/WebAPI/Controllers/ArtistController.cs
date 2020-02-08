@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using DatabaseAPI;
-using DatabaseAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using ServerCore;
 
 namespace WebAPI.Controllers
@@ -11,20 +8,14 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     public class ArtistController : Controller
     {
-        //private ArtistRepository _artistRepository;
-        private DataProvider<Artist> _dataProvider;
 
-        public ArtistController(IConfiguration configuration)
-        {
-            _dataProvider = new DataProvider<Artist>(configuration);
-            //_artistRepository = new ArtistRepository(configuration);
-        }
 
         [HttpGet]
         public IEnumerable<Artist> GetAll()
         {
-            var res = _dataProvider.GetAll();
-            return res;
+//            var res = _databaseBaseService.GetAll();
+//            return res;
+            return null;
         }
         
     }

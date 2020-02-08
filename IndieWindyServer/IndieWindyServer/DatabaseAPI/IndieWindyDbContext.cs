@@ -1,23 +1,12 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ServerCore
 {
-    public partial class DbContext : Microsoft.EntityFrameworkCore.DbContext
+    public partial class IndieWindyDbContext : DbContext
     {
-        private readonly string _connectionString;
-        
-        public DbContext(IConfiguration configuration)
-        {
-            _connectionString = configuration.GetSection("DB")?["ConnectionStrings"];
-        }
-
-        public DbContext(IConfiguration configuration, DbContextOptions<DbContext> options)
+        public IndieWindyDbContext(DbContextOptions<IndieWindyDbContext> options)
             : base(options)
         {
-            _connectionString = configuration.GetSection("DB")?["ConnectionStrings"];
         }
 
         public virtual DbSet<Album> Album { get; set; }
@@ -33,19 +22,8 @@ namespace ServerCore
         public virtual DbSet<UserSongLinkAdded> UserSongLinkAdded { get; set; }
         public virtual DbSet<UserSongs> UserSongs { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql(_connectionString, x => x.UseNodaTime());
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasPostgresExtension("pgcrypto");
-
             modelBuilder.Entity<Album>(entity =>
             {
                 entity.ToTable("album");

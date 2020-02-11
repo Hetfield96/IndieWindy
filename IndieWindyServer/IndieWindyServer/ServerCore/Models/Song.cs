@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace ServerCore
+namespace ServerCore.Models
 {
     public partial class Song
     {

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using NodaTime;
 
-namespace ServerCore
+namespace ServerCore.Models
 {
     public partial class Concert
     {

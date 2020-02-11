@@ -1,9 +1,10 @@
 using System.Threading.Tasks;
+using DatabaseAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using ServerCore;
 using ServerCore.Models;
 
-namespace DatabaseAPI
+namespace DatabaseAPI.Services
 {
     public class AppUserService : DatabaseBaseService<AppUser>
     {
@@ -11,7 +12,7 @@ namespace DatabaseAPI
         
         public AppUserService(IndieWindyDbContext indieWindyDb) : base(indieWindyDb)
         {
-            _indieWindyDb = indieWindyDb;
+            _indieWindyDb = indieWindyDb; // TODO What will happen if remove this line?
         }
 
         public override async Task<AppUser> AddNewItem(AppUser user)

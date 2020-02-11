@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ServerCore;
+using ServerCore.Models;
 
-namespace ServerCore
+namespace DatabaseAPI
 {
     public partial class IndieWindyDbContext : DbContext
     {

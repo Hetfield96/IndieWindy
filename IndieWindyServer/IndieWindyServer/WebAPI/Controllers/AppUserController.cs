@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DatabaseAPI;
+using DatabaseAPI.Models;
+using DatabaseAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using ServerCore;
 using ServerCore.Models;
@@ -20,6 +21,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+        public string Index()
+        {
+            return "Hello! This is AppUserController!";
+        }
+
+        [HttpGet]
+        [Route("all")]
         public IEnumerable<AppUser> GetAll()
         {
             return _appUserService.GetAll();

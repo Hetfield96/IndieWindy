@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ServerCore.Models
+namespace DatabaseAPI.Models
 {
     public static class PasswordHasherService
     {

@@ -3,13 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using ServerCore;
 
-namespace DatabaseAPI
+namespace DatabaseAPI.Services
 {
     public class DatabaseBaseService<T> where T : class
     {
         private readonly IndieWindyDbContext _dbContext;
 
-        public DatabaseBaseService(IndieWindyDbContext indieWindyDb)
+        protected DatabaseBaseService(IndieWindyDbContext indieWindyDb)
         {
             _dbContext = indieWindyDb;
         }

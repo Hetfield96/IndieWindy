@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using DatabaseAPI.Models;
 using DatabaseAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using ServerCore;
 using ServerCore.Models;
 
 namespace WebAPI.Controllers
@@ -42,12 +41,13 @@ namespace WebAPI.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<bool> Login(AppUser loginUser)
+        public async Task<AppUser> Login([FromBody] AppUser loginUser)
         {
             var user = await _appUserService.FindByName(loginUser.Name);
             if (user == null)
-                return false;
-            return PasswordHasherService.VerifyMd5Hash(loginUser.Password, user.Password);
+                return null;
+            var res = PasswordHasherService.VerifyMd5Hash(loginUser.Password, user.Password);
+            return res ? user : null;
         }
     }
 }

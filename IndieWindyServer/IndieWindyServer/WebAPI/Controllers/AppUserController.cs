@@ -34,9 +34,10 @@ namespace WebAPI.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<AppUser> CreateAppUser(AppUser user)
+        public async Task<AppUser> CreateAppUser([FromBody] AppUser user)
         {
-            return await _appUserService.AddNewItem(user);
+            var duplicateCheck = await _appUserService.FindByName(user.Name);
+            return duplicateCheck == null ? await _appUserService.AddNewItem(user) : null;
         }
 
         [HttpPost]

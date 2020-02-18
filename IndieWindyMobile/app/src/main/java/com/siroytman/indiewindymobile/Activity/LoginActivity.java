@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.siroytman.indiewindymobile.Api.ApiController;
 import com.siroytman.indiewindymobile.Api.VolleyJSONCallback;
+import com.siroytman.indiewindymobile.Api.VolleyJSONCallbackImp;
 import com.siroytman.indiewindymobile.Core;
 import com.siroytman.indiewindymobile.Model.AppUser;
 import com.siroytman.indiewindymobile.R;
@@ -37,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordText = findViewById(R.id.passwordText);
     }
 
+    // Авторизация
     public void loginOnClick(View view) {
         String name = nameText.getText().toString();
         String password = passwordText.getText().toString();
@@ -66,9 +68,41 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    // Регистрация
+    public void registerOnClick(View view)
+    {
+        String name = nameText.getText().toString();
+        String password = passwordText.getText().toString();
+
+        if (name.isEmpty() || password.isEmpty())
+        {
+            MakeToastMessage("No login or password is entered", Toast.LENGTH_LONG);
+            return;
+        }
+
+        Map<String, String> postParam = new HashMap<>();
+        postParam.put("Name", name);
+        postParam.put("Password", password);
+        apiController.getStringResponseJSON("appuser/register", new JSONObject(postParam), new VolleyJSONCallback() {
+            @Override
+            public void onSuccessResponse(JSONObject result) {
+                Core.user = apiController.gson.fromJson(result.toString(), AppUser.class);
+                MakeToastMessage("Hello, " + Core.user.name + "!", Toast.LENGTH_LONG);
+                // Swap to main activity
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO NoConnectionError or TimeoutError
+                MakeToastMessage("User with that login already exists!", Toast.LENGTH_LONG);
+            }
+        });
+    }
+
+
     public void MakeToastMessage(String msg, int ToastLength)
     {
         Toast.makeText(this, msg, ToastLength).show();
     }
-
 }

@@ -9,7 +9,6 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.siroytman.indiewindymobile.Api.ApiController;
 import com.siroytman.indiewindymobile.Api.VolleyJSONCallback;
-import com.siroytman.indiewindymobile.Api.VolleyJSONCallbackImp;
 import com.siroytman.indiewindymobile.Core;
 import com.siroytman.indiewindymobile.Model.AppUser;
 import com.siroytman.indiewindymobile.R;
@@ -52,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         Map<String, String> postParam = new HashMap<>();
         postParam.put("Name", name);
         postParam.put("Password", password);
-        apiController.getStringResponseJSON("appuser/login", new JSONObject(postParam), new VolleyJSONCallback() {
+        apiController.getJSONResponse("appuser/login", new JSONObject(postParam), new VolleyJSONCallback() {
             @Override
             public void onSuccessResponse(JSONObject result) {
                 Core.user = apiController.gson.fromJson(result.toString(), AppUser.class);
@@ -83,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         Map<String, String> postParam = new HashMap<>();
         postParam.put("Name", name);
         postParam.put("Password", password);
-        apiController.getStringResponseJSON("appuser/register", new JSONObject(postParam), new VolleyJSONCallback() {
+        apiController.getJSONResponse("appuser/register", new JSONObject(postParam), new VolleyJSONCallback() {
             @Override
             public void onSuccessResponse(JSONObject result) {
                 Core.user = apiController.gson.fromJson(result.toString(), AppUser.class);

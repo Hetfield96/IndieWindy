@@ -1,19 +1,13 @@
 using System.Threading.Tasks;
 using DatabaseAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using ServerCore;
 using ServerCore.Models;
 
 namespace DatabaseAPI.Services
 {
     public class AppUserService : DatabaseBaseService<AppUser>
     {
-        private readonly IndieWindyDbContext _indieWindyDb;
-        
-        public AppUserService(IndieWindyDbContext indieWindyDb) : base(indieWindyDb)
-        {
-            _indieWindyDb = indieWindyDb; // TODO What will happen if remove this line?
-        }
+        public AppUserService(IndieWindyDbContext indieWindyDb) : base(indieWindyDb) { }
 
         public override async Task<AppUser> AddNewItem(AppUser user)
         {

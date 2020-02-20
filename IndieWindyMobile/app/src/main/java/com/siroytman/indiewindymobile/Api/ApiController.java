@@ -1,5 +1,6 @@
 package com.siroytman.indiewindymobile.Api;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.widget.Toast;
@@ -86,7 +87,7 @@ public class ApiController extends Application {
      * @param apiUrl api address
      * @param callback function to call when got response
      */
-    public void getStringResponseJSON(String apiUrl, JSONObject json, final VolleyJSONCallback callback) {
+    public void getJSONResponse(String apiUrl, JSONObject json, final VolleyJSONCallback callback) {
         JsonObjectRequest request = new JsonObjectRequest(appContext.getString(R.string.server_url) + "/" + apiUrl,
                 json,
                 new Response.Listener<JSONObject> () {
@@ -98,8 +99,8 @@ public class ApiController extends Application {
             @Override
             public void onErrorResponse(VolleyError e) {
                 callback.onErrorResponse(e);
-                e.printStackTrace();
                 System.out.println("Error: " + e.toString());
+                e.printStackTrace();
             }
         });
 

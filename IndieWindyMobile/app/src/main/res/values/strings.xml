@@ -2,4 +2,6 @@
     <string name="app_name">IndieWindyMobile</string>
     <string name="server_url">https://10.0.2.2:5001</string>
     <string name="server_host">10.0.2.2</string>
+    <string name="search_title">Поиск по исполнителям</string>
+    <string name="search_hint">Поиск...</string>
 </resources>

@@ -7,11 +7,11 @@ namespace DatabaseAPI.Services
 {
     public class DatabaseBaseService<T> where T : class
     {
-        private readonly IndieWindyDbContext _dbContext;
+        protected readonly IndieWindyDbContext _indieWindyDb;
 
-        protected DatabaseBaseService(IndieWindyDbContext indieWindyDb)
+        public DatabaseBaseService(IndieWindyDbContext indieWindyDb)
         {
-            _dbContext = indieWindyDb;
+            _indieWindyDb = indieWindyDb;
         }
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace DatabaseAPI.Services
         /// <returns></returns>
         public List<T> GetAll()
         {
-            return _dbContext.Set<T>().ToList();
+            return _indieWindyDb.Set<T>().ToList();
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace DatabaseAPI.Services
         /// <returns></returns>
         public virtual async Task<T> AddNewItem(T item)
         {
-            var itemInDb = await _dbContext.AddAsync(item);
+            var itemInDb = await _indieWindyDb.AddAsync(item);
             await SaveChangesAsync();
             return itemInDb.Entity;
         }
@@ -43,7 +43,7 @@ namespace DatabaseAPI.Services
         /// <returns></returns>
         public async Task<T> FindItemByIdAsync(string id)
         {
-            return await _dbContext.FindAsync<T>(id);
+            return await _indieWindyDb.FindAsync<T>(id);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace DatabaseAPI.Services
         public async Task<bool> DeleteItemById(string id)
         {
             var item = await FindItemByIdAsync(id);
-            _dbContext.Remove(item);
+            _indieWindyDb.Remove(item);
             return await SaveChangesAsync();
         }
 
@@ -66,7 +66,7 @@ namespace DatabaseAPI.Services
         {
             try
             {
-                await _dbContext.SaveChangesAsync();
+                await _indieWindyDb.SaveChangesAsync();
                 return true;
             }
             catch

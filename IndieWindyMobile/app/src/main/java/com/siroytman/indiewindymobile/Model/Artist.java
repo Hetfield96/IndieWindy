@@ -1,13 +1,17 @@
 package com.siroytman.indiewindymobile.Model;
 
-public class AppUser {
-
+public class Artist {
     public int id;
 
     public String name;
 
-    public String password;
+    public String imageUrl;
+
+    public Album[] album;
+
+    public ArtistConcertLink[] artistConcertLink;
+
+    public Song[] song;
 
     public UserArtistLinkSubscriptions[] userArtistLinkSubscriptions;
-    public UserSongLinkAdded[] userSongLinkAdded;
 }

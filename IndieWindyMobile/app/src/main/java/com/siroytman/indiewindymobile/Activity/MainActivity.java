@@ -1,7 +1,5 @@
 package com.siroytman.indiewindymobile.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -10,6 +8,8 @@ import com.siroytman.indiewindymobile.Api.ApiController;
 import com.siroytman.indiewindymobile.Api.RestMethod;
 import com.siroytman.indiewindymobile.Api.VolleyStringCallback;
 import com.siroytman.indiewindymobile.R;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 

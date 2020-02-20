@@ -1,5 +1,5 @@
 package com.siroytman.indiewindymobile.Model;
 
-public class UserSongLinkAdded {
+public class Album {
     //TODO
 }

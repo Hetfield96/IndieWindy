@@ -1,11 +1,10 @@
 package com.siroytman.indiewindymobile.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.SearchView;
@@ -14,18 +13,13 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.siroytman.indiewindymobile.Api.ApiController;
 import com.siroytman.indiewindymobile.Api.ErrorHandler;
-import com.siroytman.indiewindymobile.Api.RestMethod;
 import com.siroytman.indiewindymobile.Api.VolleyJSONCallback;
-import com.siroytman.indiewindymobile.Api.VolleyStringCallback;
-import com.siroytman.indiewindymobile.Core;
-import com.siroytman.indiewindymobile.Model.AppUser;
 import com.siroytman.indiewindymobile.Model.Artist;
 import com.siroytman.indiewindymobile.R;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -62,7 +56,7 @@ public class SearchActivity extends AppCompatActivity {
         handleSearchIntent(intent);
     }
 
-    // Поиск (пока только по артистам)
+    // Search (by artists)
     private void handleSearchIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
@@ -71,23 +65,27 @@ public class SearchActivity extends AppCompatActivity {
             apiController.getJSONResponse(url, null, new VolleyJSONCallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
-                    Artist artist = apiController.gson.fromJson(result.toString(), Artist.class);
-                    MakeToastMessage("Artist found: " + artist.name, Toast.LENGTH_LONG);
+                    try {
+                        Artist artist = apiController.gson.fromJson(result.toString(), Artist.class);
+                        Toast.makeText(SearchActivity.this, "Artist found: " + artist.name, Toast.LENGTH_LONG)
+                                .show();
+                    }
+                    catch (Exception e)
+                    {
+                        Log.d("VolleyError", "Unable to parse response: " + e.getMessage());
+                    }
+
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    String res = ErrorHandler.HandleError(error);
-
-                    MakeToastMessage("Artist not found!", Toast.LENGTH_LONG);
+                    if (!ErrorHandler.HandleError(SearchActivity.this, error)) {
+                        Toast.makeText(SearchActivity.this, "Artist not found!", Toast.LENGTH_LONG)
+                                .show();
+                    }
                 }
             });
         }
-    }
-
-    public void MakeToastMessage(String msg, int ToastLength)
-    {
-        Toast.makeText(this, msg, ToastLength).show();
     }
 
 

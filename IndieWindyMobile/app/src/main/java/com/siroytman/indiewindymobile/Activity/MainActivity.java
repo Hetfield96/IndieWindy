@@ -3,9 +3,9 @@ package com.siroytman.indiewindymobile.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.siroytman.indiewindymobile.Api.ApiController;
-import com.siroytman.indiewindymobile.Api.RestMethod;
 import com.siroytman.indiewindymobile.Api.VolleyStringCallback;
 import com.siroytman.indiewindymobile.R;
 
@@ -27,22 +27,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void request()
     {
-        apiController.getStringResponse(RestMethod.GET, "appuser", new VolleyStringCallback() {
+        apiController.getStringResponse(Request.Method.GET, "appuser", new VolleyStringCallback() {
             @Override
             public void onSuccessResponse(String result) {
-                MakeToastMessage("Result: " + result, Toast.LENGTH_LONG);
+                Toast.makeText(MainActivity.this, "Result: " + result, Toast.LENGTH_LONG)
+                        .show();
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                MakeToastMessage("Error: " + error.toString(), Toast.LENGTH_LONG);
+                Toast.makeText(MainActivity.this, "VolleyError: " + error.getMessage(), Toast.LENGTH_LONG)
+                        .show();
             }
         });
     }
 
-    public void MakeToastMessage(String msg, int ToastLength)
-    {
-        Toast.makeText(this, msg, ToastLength).show();
-    }
 
 }

@@ -59,12 +59,12 @@ public class ApiController extends Application {
 
     /**
      * Returns string response from server
-     * @param method restMethod: GET, POST, ... {@link RestMethod}
+     * @param method restMethod: GET, POST, ... {@link com.android.volley.Request.Method}
      * @param apiUrl api address
      * @param callback function to call when got response
      */
-    public void getStringResponse(RestMethod method, String apiUrl, final VolleyStringCallback callback) {
-        StringRequest request = new StringRequest(method.ordinal(),
+    public void getStringResponse(int method, String apiUrl, final VolleyStringCallback callback) {
+        StringRequest request = new StringRequest(method,
                 appContext.getString(R.string.server_url) + "/" + apiUrl,
         new Response.Listener <String> () {
             @Override

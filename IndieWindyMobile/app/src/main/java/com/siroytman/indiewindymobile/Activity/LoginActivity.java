@@ -2,12 +2,14 @@ package com.siroytman.indiewindymobile.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.siroytman.indiewindymobile.Api.ApiController;
+import com.siroytman.indiewindymobile.Api.ErrorHandler;
 import com.siroytman.indiewindymobile.Api.VolleyJSONCallback;
 import com.siroytman.indiewindymobile.Core;
 import com.siroytman.indiewindymobile.Model.AppUser;
@@ -37,14 +39,15 @@ public class LoginActivity extends AppCompatActivity {
         passwordText = findViewById(R.id.passwordText);
     }
 
-    // Авторизация
+    // Authorization
     public void loginOnClick(View view) {
         String name = nameText.getText().toString();
         String password = passwordText.getText().toString();
 
         if (name.isEmpty() || password.isEmpty())
         {
-            MakeToastMessage("No login or password is entered", Toast.LENGTH_LONG);
+            Toast.makeText(LoginActivity.this, "No login or password was entered!", Toast.LENGTH_LONG)
+                    .show();
             return;
         }
 
@@ -54,20 +57,31 @@ public class LoginActivity extends AppCompatActivity {
         apiController.getJSONResponse("appuser/login", new JSONObject(postParam), new VolleyJSONCallback() {
             @Override
             public void onSuccessResponse(JSONObject result) {
-                Core.user = apiController.gson.fromJson(result.toString(), AppUser.class);
-                MakeToastMessage("Hello, " + Core.user.name + "!", Toast.LENGTH_LONG);
-                // Swap to main activity
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                try {
+                    Core.user = apiController.gson.fromJson(result.toString(), AppUser.class);
+                    Toast.makeText(LoginActivity.this, "Hello, " + Core.user.name + "!", Toast.LENGTH_LONG)
+                            .show();
+                    // Swap to main activity
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                }
+                catch (Exception e)
+                {
+                    Log.d("VolleyError", "Unable to parse response: " + e.getMessage());
+                }
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                MakeToastMessage("Incorrect login or password!", Toast.LENGTH_LONG);
+                if (!ErrorHandler.HandleError(LoginActivity.this, error)) {
+                    Toast.makeText(LoginActivity.this, "Incorrect login or password!" + error.getMessage(),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
             }
         });
     }
 
-    // Регистрация
+    // Registration
     public void registerOnClick(View view)
     {
         String name = nameText.getText().toString();
@@ -75,7 +89,8 @@ public class LoginActivity extends AppCompatActivity {
 
         if (name.isEmpty() || password.isEmpty())
         {
-            MakeToastMessage("No login or password is entered", Toast.LENGTH_LONG);
+            Toast.makeText(LoginActivity.this, "No login or password was entered!", Toast.LENGTH_LONG)
+                    .show();
             return;
         }
 
@@ -85,23 +100,29 @@ public class LoginActivity extends AppCompatActivity {
         apiController.getJSONResponse("appuser/register", new JSONObject(postParam), new VolleyJSONCallback() {
             @Override
             public void onSuccessResponse(JSONObject result) {
-                Core.user = apiController.gson.fromJson(result.toString(), AppUser.class);
-                MakeToastMessage("Hello, " + Core.user.name + "!", Toast.LENGTH_LONG);
-                // Swap to main activity
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                try {
+                    Core.user = apiController.gson.fromJson(result.toString(), AppUser.class);
+                    Toast.makeText(LoginActivity.this, "Hello, " + Core.user.name + "!", Toast.LENGTH_LONG)
+                            .show();
+                    // Swap to main activity
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    // TODO check finish is working
+                    finish();
+                }
+                catch (Exception e)
+                {
+                    Log.d("VolleyError", "Unable to parse response: " + e.getMessage());
+                }
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                // TODO NoConnectionError or TimeoutError
-                MakeToastMessage("User with that login already exists!", Toast.LENGTH_LONG);
+                if (!ErrorHandler.HandleError(LoginActivity.this, error)) {
+                    Toast.makeText(LoginActivity.this, "User with that login already exists!" + error.getMessage(),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
             }
         });
-    }
-
-
-    public void MakeToastMessage(String msg, int ToastLength)
-    {
-        Toast.makeText(this, msg, ToastLength).show();
     }
 }

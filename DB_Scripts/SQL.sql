@@ -15,3 +15,8 @@ where ac.artist_id = 1;
 select a.name from artist_concerts ac
 join artist a on ac.artist_id = a.id
 where ac.concert_id = 1;
+
+select * from appuser;
+select * from artist;
+select * from user_artist_link_subscriptions;
+select * from user_song_link_added

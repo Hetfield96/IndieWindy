@@ -24,6 +24,8 @@ namespace WebAPI
             // Database services
             services.AddScoped<AppUserService>();
             services.AddScoped<ArtistService>();
+            services.AddScoped<UserArtistLinkSubscriptionsService>();
+            services.AddScoped<UserSongLinkAddedService>();
             
             services.AddControllers();
 

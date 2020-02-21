@@ -8,7 +8,7 @@ namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ArtistController : Controller
+    public class ArtistController : ControllerBase
     {
         private readonly ArtistService _artistService;
 

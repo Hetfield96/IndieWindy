@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
+using DatabaseAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using ServerCore.Models;
 
-namespace DatabaseAPI.Services
+namespace DatabaseAPI.DB_Services
 {
     public class ArtistService : DatabaseBaseService<Artist>
     {

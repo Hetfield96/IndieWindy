@@ -1,5 +1,5 @@
 using DatabaseAPI;
-using DatabaseAPI.Services;
+using DatabaseAPI.DB_Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,9 +26,9 @@ namespace WebAPI
             services.AddScoped<ArtistService>();
             
             services.AddControllers();
-
-            services.AddDbContext<IndieWindyDbContext>(options => 
-                options.UseNpgsql(Configuration.GetSection("DB")?["ConnectionStrings"]));
+            
+            services.AddEntityFrameworkNpgsql().AddDbContext<IndieWindyDbContext>(opt =>
+                opt.UseNpgsql(Configuration.GetSection("DB")?["ConnectionStrings"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +44,7 @@ namespace WebAPI
             app.UseRouting();
 
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

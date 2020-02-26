@@ -1,17 +1,17 @@
--- Поиск песен добавленных пользователем
-select art.name as artist_name, a.name as album_name, s.name as song_name
-from user_songs us
-join song s on us.song_id = s.id
-join album a on s.album_id = a.id
-join artist art on a.artist_id = art.id
-where us.user_id = 1;
+select * from "AppUser";
 
--- Поиск концертов группы
-select c.* from artist_concerts ac
-join concert c on ac.concert_id = c.id
-where ac.artist_id = 1;
+select * from "Album";
 
--- Поиск групп участвующих в концерте
-select a.name from artist_concerts ac
-join artist a on ac.artist_id = a.id
-where ac.concert_id = 1;
+delete from "Album";
+delete from "Artist";
+delete from "Concert";
+delete from "Song";
+delete from "UserAlbumLink";
+delete from "UserSongLink";
+delete from "UserArtistLink";
+delete from "ArtistConcertLink";
+
+ALTER SEQUENCE "Album_Id_seq" RESTART WITH 1;
+ALTER SEQUENCE "Artist_Id_seq" RESTART WITH 1;
+ALTER SEQUENCE "Concert_Id_seq" RESTART WITH 1;
+ALTER SEQUENCE "Song_Id_seq" RESTART WITH 1;

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ServerCore;
 
-namespace DatabaseAPI.Services
+namespace DatabaseAPI.DB_Services
 {
     public class DatabaseBaseService<T> where T : class
     {

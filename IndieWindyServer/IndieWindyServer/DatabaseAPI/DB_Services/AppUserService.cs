@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using DatabaseAPI.Models;
+using DatabaseAPI.Services;
 using Microsoft.EntityFrameworkCore;
-using ServerCore.Models;
 
-namespace DatabaseAPI.Services
+namespace DatabaseAPI.DB_Services
 {
     public class AppUserService : DatabaseBaseService<AppUser>
     {
@@ -17,7 +17,7 @@ namespace DatabaseAPI.Services
 
         public async Task<AppUser> FindByName(string name)
         {
-            return await _indieWindyDb.Appuser.
+            return await _indieWindyDb.AppUser.
                 SingleOrDefaultAsync(u => u.Name.Equals(name));
         }
     }

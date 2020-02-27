@@ -1,5 +1,6 @@
 using DatabaseAPI;
 using DatabaseAPI.DB_Services;
+using DatabaseAPI.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,10 @@ namespace WebAPI
             // Database services
             services.AddScoped<AppUserService>();
             services.AddScoped<ArtistService>();
-            services.AddScoped<UserArtistLinkSubscriptionsService>();
+            services.AddScoped<UserArtistLinkService>();
+            services.AddScoped<UserAlbumLinkService>();
+            services.AddScoped<UserSongLinkService>();
+            services.AddScoped<UserConcertLinkService>();
             
             services.AddControllers();
             

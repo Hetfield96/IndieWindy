@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseAPI.Services
 {
@@ -11,8 +12,11 @@ namespace DatabaseAPI.Services
         
         public List<Song> FindByName(string query)
         {
-            var songs = _indieWindyDb.Song.AsEnumerable();
-            return songs.Where(a => SearchService.StartsWith(a.Name, query)).ToList();
+            var songs = _indieWindyDb.Song
+                .Include(s => s.Artist)
+                .Include(s => s.Album)
+                .AsEnumerable();
+            return songs.Where(s => SearchService.StartsWith(s.Name, query)).ToList();
         }
     }
 }

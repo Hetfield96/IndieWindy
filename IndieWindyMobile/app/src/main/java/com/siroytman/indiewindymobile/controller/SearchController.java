@@ -59,7 +59,7 @@ public class SearchController  {
         {
             try {
                 JSONObject jsonObject = songs.getJSONObject(i);
-                Song song = new Song(jsonObject.getString("name"));
+                Song song = Song.ParseSong(jsonObject);
                 result.add(song);
             }
             catch (JSONException e)
@@ -69,4 +69,5 @@ public class SearchController  {
         }
         return result;
     }
+
 }

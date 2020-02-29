@@ -1,17 +1,56 @@
 package com.siroytman.indiewindymobile.model;
 
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Artist {
-    public int id;
+    private int id;
 
-    public String name;
+    private String name;
 
-    public String imageUrl;
+    private String imageUrl;
 
-    public Album[] album;
+    public Artist() { }
 
-    public ArtistConcertLink[] artistConcertLink;
+    public static Artist ParseArtist(JSONObject jsonObject) {
+        try {
+            Artist artist = new Artist();
+            artist.setId(jsonObject.getInt("id"));
+            artist.setName(jsonObject.getString("name"));
+            artist.setImageUrl(jsonObject.getString("imageUrl"));
 
-    public Song[] song;
+            return artist;
+        } catch (JSONException e)
+        {
+            Log.d("ParseArtist", "Error: " + e.getMessage());
+            return null;
+        }
+    }
 
-    public UserArtistLinkSubscriptions[] userArtistLinkSubscriptions;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

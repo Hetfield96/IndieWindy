@@ -39,6 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Song song = songsList.get(position); // each contact object inside of our list
 
         viewHolder.songName.setText(song.getName());
+        viewHolder.artistName.setText(song.getArtist().getName());
     }
 
 
@@ -50,6 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView songName;
+        public TextView artistName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,6 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             itemView.setOnClickListener(this);
 
             songName = itemView.findViewById(R.id.song_name);
+            artistName = itemView.findViewById(R.id.artist_name);
         }
 
         @Override

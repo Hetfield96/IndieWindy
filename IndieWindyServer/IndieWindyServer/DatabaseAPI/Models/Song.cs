@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DatabaseAPI.Models
 {
-    public class Song
+    public class Song : BaseEntity
     {
         [Key]
         public int Id { get; set; }

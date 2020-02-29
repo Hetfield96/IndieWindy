@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using DatabaseAPI.DB_Services;
 using DatabaseAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -18,24 +17,17 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public string Index()
-        {
-            return "ArtistController";
-        }
-
-        [HttpGet]
         [Route("all")]
         public IEnumerable<Artist> GetAll()
         {
             return _artistService.GetAll();
         }
-
-
+        
         [HttpGet]
-        [Route("getByName/{query}")]
-        public async Task<Artist> GetByName(string query)
+        [Route("find/{query}")]
+        public List<Artist> FindByName(string query)
         {
-            var res = await _artistService.FindByName(query);
+            var res = _artistService.FindByName(query);
             return res;
         }
     }

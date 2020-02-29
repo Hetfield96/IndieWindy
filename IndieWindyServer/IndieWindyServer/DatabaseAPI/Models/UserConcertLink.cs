@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DatabaseAPI.Models
 {
-    public class UserConcertLink
+    public class UserConcertLink : BaseEntity
     {
         [Key]
         [Column(Order=1)]

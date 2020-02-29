@@ -1,6 +1,6 @@
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 using DatabaseAPI.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseAPI.DB_Services
 {
@@ -8,10 +8,10 @@ namespace DatabaseAPI.DB_Services
     {
         public ArtistService(IndieWindyDbContext indieWindyDb) : base(indieWindyDb) { }
         
-        public async Task<Artist> FindByName(string name)
+        public List<Artist> FindByName(string query)
         {
-            return await _indieWindyDb.Artist.
-                SingleOrDefaultAsync(a => a.Name.Equals(name));
+            var artists = _indieWindyDb.Artist.AsEnumerable();
+            return artists.Where(a => SearchService.Contains(a.Name, query)).ToList();
         }
     }
 }

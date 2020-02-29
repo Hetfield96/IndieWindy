@@ -1,4 +1,4 @@
-package com.siroytman.indiewindymobile.Api;
+package com.siroytman.indiewindymobile.api;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -23,10 +23,10 @@ class VolleyQueue {
      */
     private RequestQueue mRequestQueue;
 
-    Context appContext;
+    Context context;
 
-    VolleyQueue(Context appContext){
-        this.appContext = appContext;
+    VolleyQueue(Context context){
+        this.context = context;
     }
 
     /**
@@ -36,8 +36,8 @@ class VolleyQueue {
         // lazy initialize the request queue, the queue instance will be
         // created when it is accessed for the first time
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(appContext,
-                    new HurlStack(null, SSLSocketFactoryProvider.getSocketFactory(appContext)));
+            mRequestQueue = Volley.newRequestQueue(context,
+                    new HurlStack(null, SSLSocketFactoryProvider.getSocketFactory(context)));
         }
 
         return mRequestQueue;

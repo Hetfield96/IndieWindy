@@ -1,4 +1,4 @@
-package com.siroytman.indiewindymobile.Api;
+package com.siroytman.indiewindymobile.api;
 
 import android.content.Context;
 import android.util.Log;

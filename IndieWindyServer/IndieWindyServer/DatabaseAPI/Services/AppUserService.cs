@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using DatabaseAPI.Models;
-using DatabaseAPI.Services;
+using DatabaseAPI.Utils;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatabaseAPI.DB_Services
+namespace DatabaseAPI.Services
 {
     public class AppUserService : DatabaseBaseService<AppUser>
     {

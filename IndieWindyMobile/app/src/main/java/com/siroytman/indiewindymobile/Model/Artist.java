@@ -1,4 +1,4 @@
-package com.siroytman.indiewindymobile.Model;
+package com.siroytman.indiewindymobile.model;
 
 public class Artist {
     public int id;

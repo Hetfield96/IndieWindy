@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI.Models;
 
-namespace DatabaseAPI.DB_Services
+namespace DatabaseAPI.Services
 {
     public class ConcertService : DatabaseBaseService<Concert>
     {
@@ -11,7 +11,7 @@ namespace DatabaseAPI.DB_Services
         public List<Concert> FindByName(string query)
         {
             var concerts = _indieWindyDb.Concert.AsEnumerable();
-            return concerts.Where(a => SearchService.Contains(a.Name, query)).ToList();
+            return concerts.Where(a => SearchService.StartsWith(a.Name, query)).ToList();
         }
     }
 }

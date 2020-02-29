@@ -1,6 +1,6 @@
 using DatabaseAPI.Models;
 
-namespace DatabaseAPI.DB_Services
+namespace DatabaseAPI.Services
 {
     public class UserAlbumLinkService: DatabaseBaseService<UserAlbumLink>
     {

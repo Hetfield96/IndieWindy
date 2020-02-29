@@ -1,4 +1,4 @@
-package com.siroytman.indiewindymobile.Activity;
+package com.siroytman.indiewindymobile.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,11 +8,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
-import com.siroytman.indiewindymobile.Api.ApiController;
-import com.siroytman.indiewindymobile.Api.ErrorHandler;
-import com.siroytman.indiewindymobile.Api.VolleyJSONCallback;
-import com.siroytman.indiewindymobile.Core;
-import com.siroytman.indiewindymobile.Model.AppUser;
+import com.siroytman.indiewindymobile.api.ApiController;
+import com.siroytman.indiewindymobile.api.ErrorHandler;
+import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
+import com.siroytman.indiewindymobile.controller.AppController;
+import com.siroytman.indiewindymobile.model.AppUser;
 import com.siroytman.indiewindymobile.R;
 
 import org.json.JSONObject;
@@ -54,15 +54,16 @@ public class LoginActivity extends AppCompatActivity {
         Map<String, String> postParam = new HashMap<>();
         postParam.put("Name", name);
         postParam.put("Password", password);
-        apiController.getJSONResponse("appuser/login", new JSONObject(postParam), new VolleyJSONCallback() {
+        apiController.getJSONObjectResponse("appuser/login", new JSONObject(postParam), new VolleyCallbackJSONObject() {
             @Override
             public void onSuccessResponse(JSONObject result) {
                 try {
-                    Core.user = apiController.gson.fromJson(result.toString(), AppUser.class);
-                    Toast.makeText(LoginActivity.this, "Hello, " + Core.user.name + "!", Toast.LENGTH_LONG)
+                    AppController.user = apiController.gson.fromJson(result.toString(), AppUser.class);
+                    Toast.makeText(LoginActivity.this, "Hello, " + AppController.user.name + "!", Toast.LENGTH_LONG)
                             .show();
                     // Swap to main activity
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
                 }
                 catch (Exception e)
                 {
@@ -97,16 +98,15 @@ public class LoginActivity extends AppCompatActivity {
         Map<String, String> postParam = new HashMap<>();
         postParam.put("Name", name);
         postParam.put("Password", password);
-        apiController.getJSONResponse("appuser/register", new JSONObject(postParam), new VolleyJSONCallback() {
+        apiController.getJSONObjectResponse("appuser/register", new JSONObject(postParam), new VolleyCallbackJSONObject() {
             @Override
             public void onSuccessResponse(JSONObject result) {
                 try {
-                    Core.user = apiController.gson.fromJson(result.toString(), AppUser.class);
-                    Toast.makeText(LoginActivity.this, "Hello, " + Core.user.name + "!", Toast.LENGTH_LONG)
+                    AppController.user = apiController.gson.fromJson(result.toString(), AppUser.class);
+                    Toast.makeText(LoginActivity.this, "Hello, " + AppController.user.name + "!", Toast.LENGTH_LONG)
                             .show();
                     // Swap to main activity
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    // TODO check finish is working
                     finish();
                 }
                 catch (Exception e)

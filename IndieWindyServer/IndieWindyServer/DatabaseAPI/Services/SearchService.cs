@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using DatabaseAPI.Models;
 
-namespace DatabaseAPI.DB_Services
+namespace DatabaseAPI.Services
 {
     public class SearchService : DatabaseBaseService<BaseEntity>
     {
@@ -19,9 +19,9 @@ namespace DatabaseAPI.DB_Services
             _songService = songService;
             _concertService = concertService;
         }
-        public static bool Contains(string name, string query)
+        public static bool StartsWith(string name, string query)
         {
-            return name.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0;
+            return name.IndexOf(query, StringComparison.OrdinalIgnoreCase) == 0;
         }
 
         public List<Artist> SearchArtist(string query)

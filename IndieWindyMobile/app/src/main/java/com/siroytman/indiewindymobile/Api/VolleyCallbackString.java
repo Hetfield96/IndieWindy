@@ -1,8 +1,9 @@
-package com.siroytman.indiewindymobile.Api;
+package com.siroytman.indiewindymobile.api;
 
 import com.android.volley.VolleyError;
 
-public interface VolleyStringCallback {
+public interface VolleyCallbackString
+{
     void onSuccessResponse(String result);
     void onErrorResponse(VolleyError error);
 }

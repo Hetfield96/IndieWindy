@@ -1,5 +1,5 @@
 using DatabaseAPI;
-using DatabaseAPI.DB_Services;
+using DatabaseAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

@@ -1,12 +1,12 @@
-package com.siroytman.indiewindymobile.Activity;
+package com.siroytman.indiewindymobile.activity;
 
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
-import com.siroytman.indiewindymobile.Api.ApiController;
-import com.siroytman.indiewindymobile.Api.VolleyStringCallback;
+import com.siroytman.indiewindymobile.api.ApiController;
+import com.siroytman.indiewindymobile.api.VolleyCallbackString;
 import com.siroytman.indiewindymobile.R;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void request()
     {
-        apiController.getStringResponse(Request.Method.GET, "appuser", new VolleyStringCallback() {
+        apiController.getStringResponse(Request.Method.GET, "appuser", new VolleyCallbackString() {
             @Override
             public void onSuccessResponse(String result) {
                 Toast.makeText(MainActivity.this, "Result: " + result, Toast.LENGTH_LONG)

@@ -8,18 +8,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.google.gson.Gson;
 import com.siroytman.indiewindymobile.R;
+import com.siroytman.indiewindymobile.controller.AppController;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ApiController {
-
-    public Gson gson;
-
-    private Context context;
-
     /**
      * Volley queue for executing requests to server
      */
@@ -29,34 +24,21 @@ public class ApiController {
      * A singleton instance of the application class for easy access in other places
      */
     private static ApiController instance;
-    // TODO deal with memory leak...
 
-
-    private ApiController(Context context) {
-        this.context = context;
+    private ApiController() {
         // initialize the singleton
         instance = this;
         // initialize volley queue
-        volleyQueue = new VolleyQueue(context);
-        gson = new Gson();
+        volleyQueue = new VolleyQueue(AppController.getContext());
     }
 
     /**
      * @return ApplicationController singleton instance
      */
-    public static synchronized ApiController getInstance(Context appContext) {
+    public static synchronized ApiController getInstance() {
         if (instance == null)
         {
-            instance = new ApiController(appContext);
-        }
-        return instance;
-    }
-
-    public static synchronized ApiController getInstance() throws Exception {
-        if (instance == null)
-        {
-            Log.d("ApiController", "Calling get instance withouth context, when instance doesn't exists");
-            throw new Exception("ApiController: Calling get instance withouth context, when instance doesn't exists");
+            instance = new ApiController();
         }
         return instance;
     }
@@ -69,7 +51,7 @@ public class ApiController {
      */
     public void getStringResponse(int method, String apiUrl, final VolleyCallbackString callback) {
         StringRequest request = new StringRequest(method,
-                context.getString(R.string.server_url) + "/" + apiUrl,
+                AppController.getContext().getString(R.string.server_url) + "/" + apiUrl,
         new Response.Listener <String> () {
             @Override
             public void onResponse(String response) {
@@ -87,7 +69,7 @@ public class ApiController {
 
 
     public void getJSONObjectResponse(String apiUrl, JSONObject json, final VolleyCallbackJSONObject callback) {
-        JsonObjectRequest request = new JsonObjectRequest(context.getString(R.string.server_url) + "/" + apiUrl,
+        JsonObjectRequest request = new JsonObjectRequest(AppController.getContext().getString(R.string.server_url) + "/" + apiUrl,
                 json,
                 new Response.Listener<JSONObject> () {
                     @Override
@@ -106,7 +88,7 @@ public class ApiController {
     }
 
     public void getJSONArrayResponse(int method, String apiUrl, JSONArray json, final VolleyCallbackJSONArray callback) {
-        JsonArrayRequest request = new JsonArrayRequest(method, context.getString(R.string.server_url) + "/" + apiUrl,
+        JsonArrayRequest request = new JsonArrayRequest(method, AppController.getContext().getString(R.string.server_url) + "/" + apiUrl,
                 json,
                 new Response.Listener<JSONArray> () {
                     @Override

@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        apiController = ApiController.getInstance(this);
+        apiController = ApiController.getInstance();
 
         nameText = findViewById(R.id.nameText);
         passwordText = findViewById(R.id.passwordText);
@@ -58,10 +58,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccessResponse(JSONObject result) {
                 try {
-                    AppController.user = apiController.gson.fromJson(result.toString(), AppUser.class);
-                    Toast.makeText(LoginActivity.this, "Hello, " + AppController.user.name + "!", Toast.LENGTH_LONG)
+                    AppController.user = AppUser.ParseAppUser(result);
+                    Toast.makeText(LoginActivity.this, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_LONG)
                             .show();
-                    // Swap to main activity
+                    // Swap to next activity
                     startActivity(new Intent(LoginActivity.this, SearchActivity.class));
                     finish();
                 }
@@ -102,10 +102,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccessResponse(JSONObject result) {
                 try {
-                    AppController.user = apiController.gson.fromJson(result.toString(), AppUser.class);
-                    Toast.makeText(LoginActivity.this, "Hello, " + AppController.user.name + "!", Toast.LENGTH_LONG)
+                    AppController.user = AppUser.ParseAppUser(result);
+                    Toast.makeText(LoginActivity.this, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_LONG)
                             .show();
-                    // Swap to main activity
+                    // Swap to next activity
                     startActivity(new Intent(LoginActivity.this, SearchActivity.class));
                     finish();
                 }
@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (!ErrorHandler.HandleError(LoginActivity.this, error)) {
-                    Toast.makeText(LoginActivity.this, "User with that login already exists!" + error.getMessage(),
+                    Toast.makeText(LoginActivity.this, "User with that login already exists!",
                             Toast.LENGTH_LONG)
                             .show();
                 }

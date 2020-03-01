@@ -27,7 +27,7 @@ public class SongController {
         String url = "userSongLink/add";
 
         Map<String, Integer> postParam = new HashMap<>();
-        postParam.put("AppUserId", AppController.user.id);
+        postParam.put("AppUserId", AppController.user.getId());
         postParam.put("SongId", songId);
         apiController.getJSONObjectResponse(url, new JSONObject(postParam), new VolleyCallbackJSONObject() {
             @Override

@@ -32,7 +32,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        apiController = ApiController.getInstance(this);
+        apiController = ApiController.getInstance();
 
         SearchController.handleSearchIntent(this, apiController, getIntent());
 

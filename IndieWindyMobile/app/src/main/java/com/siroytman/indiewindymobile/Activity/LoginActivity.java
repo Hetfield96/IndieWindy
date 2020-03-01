@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Hello, " + AppController.user.name + "!", Toast.LENGTH_LONG)
                             .show();
                     // Swap to main activity
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, SearchActivity.class));
                     finish();
                 }
                 catch (Exception e)
@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Hello, " + AppController.user.name + "!", Toast.LENGTH_LONG)
                             .show();
                     // Swap to main activity
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, SearchActivity.class));
                     finish();
                 }
                 catch (Exception e)

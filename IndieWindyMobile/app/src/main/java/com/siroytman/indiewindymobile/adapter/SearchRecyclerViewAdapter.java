@@ -5,9 +5,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.siroytman.indiewindymobile.R;
+import com.siroytman.indiewindymobile.controller.SongController;
 import com.siroytman.indiewindymobile.model.Song;
 
 import java.util.List;
@@ -15,12 +17,12 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
     private List<Song> songsList;
 
-    public RecyclerViewAdapter(Context context, List<Song> songsList) {
+    public SearchRecyclerViewAdapter(Context context, List<Song> songsList) {
         this.context = context;
         this.songsList = songsList;
     }
@@ -50,17 +52,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView songName;
-        public TextView artistName;
+        private TextView songName;
+        private TextView artistName;
+        private ImageView songAddButton;
+        private ImageView songOptionsButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(this);
-
             songName = itemView.findViewById(R.id.song_name);
             artistName = itemView.findViewById(R.id.artist_name);
+            songAddButton = itemView.findViewById(R.id.song_add_button);
+            songOptionsButton = itemView.findViewById(R.id.song_options_button);
+
+            itemView.setOnClickListener(this);
+            songAddButton.setOnClickListener(this);
         }
+
 
         @Override
         public void onClick(View v) {
@@ -68,21 +76,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             int position = getAdapterPosition();
             Song song = songsList.get(position);
 
-//            Intent intent = new Intent(context, DetailsActivity.class);
-//            intent.putExtra("name", song.getName());
-//            intent.putExtra("number", song.getPhoneNumber());
-//
-//            context.startActivity(intent);
 
-
-//            switch (v.getId()) {
-//                case R.id.icon_button:
-//                    Log.d("IconClicked", "onClick: " + song.getPhoneNumber());
-//                    break;
-//            }
+            switch (v.getId()) {
+                case R.id.song_add_button:
+                    SongController.AddSong(this, song.getId());
+                    break;
+            }
 
 
              Log.d("Clicked", "onClick: " + song.getName());
+        }
+
+        public void songAddedChangeIcon()
+        {
+            songAddButton.setImageResource(R.drawable.ic_check);
         }
     }
 }

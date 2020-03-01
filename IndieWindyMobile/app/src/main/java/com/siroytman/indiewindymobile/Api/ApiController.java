@@ -52,6 +52,15 @@ public class ApiController {
         return instance;
     }
 
+    public static synchronized ApiController getInstance() throws Exception {
+        if (instance == null)
+        {
+            Log.d("ApiController", "Calling get instance withouth context, when instance doesn't exists");
+            throw new Exception("ApiController: Calling get instance withouth context, when instance doesn't exists");
+        }
+        return instance;
+    }
+
     /**
      * Returns string response from server
      * @param method restMethod: GET, POST, ... {@link com.android.volley.Request.Method}

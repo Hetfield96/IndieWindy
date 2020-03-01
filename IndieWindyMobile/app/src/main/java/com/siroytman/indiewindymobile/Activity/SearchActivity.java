@@ -9,7 +9,7 @@ import android.view.MenuInflater;
 import android.widget.SearchView;
 
 import com.siroytman.indiewindymobile.R;
-import com.siroytman.indiewindymobile.adapter.RecyclerViewAdapter;
+import com.siroytman.indiewindymobile.adapter.SearchRecyclerViewAdapter;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.controller.SearchController;
 import com.siroytman.indiewindymobile.model.Song;
@@ -25,7 +25,7 @@ public class SearchActivity extends AppCompatActivity {
     ApiController apiController;
 
     private RecyclerView recyclerView;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private SearchRecyclerViewAdapter searchRecyclerViewAdapter;
     private ArrayList<Song> songsList;
 
     @Override
@@ -67,7 +67,7 @@ public class SearchActivity extends AppCompatActivity {
     {
         songsList = songs;
         // Setup adapter
-        recyclerViewAdapter = new RecyclerViewAdapter(SearchActivity.this, songsList);
-        recyclerView.setAdapter(recyclerViewAdapter);
+        searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(SearchActivity.this, songsList);
+        recyclerView.setAdapter(searchRecyclerViewAdapter);
     }
 }

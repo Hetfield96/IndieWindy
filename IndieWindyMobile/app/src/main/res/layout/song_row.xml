@@ -46,8 +46,8 @@
                 android:textSize="12dp" />
 
             <ImageView
-                android:id="@+id/add_button"
-                android:layout_toLeftOf="@id/options_button"
+                android:id="@+id/song_add_button"
+                android:layout_toLeftOf="@id/song_options_button"
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                 android:contentDescription="Add button" />
 
             <ImageView
-                android:id="@+id/options_button"
+                android:id="@+id/song_options_button"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"

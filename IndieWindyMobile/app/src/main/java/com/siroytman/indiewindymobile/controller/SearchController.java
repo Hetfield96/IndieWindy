@@ -52,7 +52,7 @@ public class SearchController  {
                 public void onSuccessResponse(JSONArray result) {
                     try {
                         Log.d("Search", "Songs found");
-                        searchActivity.SongsFound(ParseSongs(result));
+                        searchActivity.SongsFoundUpdate(parseSongs(result));
                     }
                     catch (Exception e)
                     {
@@ -70,7 +70,7 @@ public class SearchController  {
         }
     }
 
-    private static ArrayList<Song> ParseSongs(JSONArray songs)
+    private static ArrayList<Song> parseSongs(JSONArray songs)
     {
         ArrayList<Song> result = new ArrayList<>();
         for(int i = 0; i < songs.length(); ++i)

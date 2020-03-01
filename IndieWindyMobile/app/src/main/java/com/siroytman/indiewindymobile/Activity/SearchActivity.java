@@ -39,6 +39,14 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    public void SongsFoundUpdate(ArrayList<Song> songs)
+    {
+        songsList = songs;
+        // Setup adapter
+        searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(SearchActivity.this, songsList);
+        recyclerView.setAdapter(searchRecyclerViewAdapter);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -61,11 +69,4 @@ public class SearchActivity extends AppCompatActivity {
         searchController.handleSearchIntent(intent);
     }
 
-    public void SongsFound(ArrayList<Song> songs)
-    {
-        songsList = songs;
-        // Setup adapter
-        searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(SearchActivity.this, songsList);
-        recyclerView.setAdapter(searchRecyclerViewAdapter);
-    }
 }

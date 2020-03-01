@@ -36,8 +36,7 @@ public class ApiController {
      * @return ApplicationController singleton instance
      */
     public static synchronized ApiController getInstance() {
-        if (instance == null)
-        {
+        if (instance == null) {
             instance = new ApiController();
         }
         return instance;

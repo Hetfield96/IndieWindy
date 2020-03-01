@@ -21,8 +21,26 @@ import java.util.ArrayList;
 
 public class SearchController  {
 
+    private ApiController apiController;
+    private SearchActivity searchActivity;
+    private static SearchController instance;
+
+    private SearchController(SearchActivity searchActivity) {
+        this.searchActivity = searchActivity;
+        apiController = ApiController.getInstance();
+    }
+
+    public static synchronized SearchController getInstance(SearchActivity searchActivity) {
+        if (instance == null) {
+            instance = new SearchController(searchActivity);
+        }
+        // Always last search activity here - specific of search activity
+        instance.searchActivity = searchActivity;
+        return instance;
+    }
+
     // Search (by songs)
-    public static void handleSearchIntent(final SearchActivity searchActivity, final ApiController apiController, Intent intent) {
+    public void handleSearchIntent(Intent intent) {
         final Context context = searchActivity.getApplicationContext();
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {

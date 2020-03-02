@@ -25,6 +25,8 @@ public class LoginActivity extends AppCompatActivity {
 
         nameText = findViewById(R.id.nameText);
         passwordText = findViewById(R.id.passwordText);
+
+        loginController.loginFromSharedPrefs();
     }
 
     // Authorization

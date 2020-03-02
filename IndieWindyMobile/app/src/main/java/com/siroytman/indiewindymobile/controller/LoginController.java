@@ -11,6 +11,7 @@ import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.ErrorHandler;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.model.AppUser;
+import com.siroytman.indiewindymobile.services.SharedPrefsService;
 
 import org.json.JSONObject;
 
@@ -19,12 +20,15 @@ import java.util.Map;
 
 public class LoginController {
     private ApiController apiController;
+    private SharedPrefsService sharedPrefsService;
+
     private LoginActivity loginActivity;
     private static LoginController instance;
 
     private LoginController(LoginActivity LoginActivity) {
         this.loginActivity = LoginActivity;
         apiController = ApiController.getInstance();
+        sharedPrefsService = new SharedPrefsService();
     }
 
     public static synchronized LoginController getInstance(LoginActivity LoginActivity) {
@@ -43,6 +47,9 @@ public class LoginController {
             public void onSuccessResponse(JSONObject result) {
                 try {
                     AppController.user = AppUser.ParseAppUser(result);
+                    // Save to shared prefs
+                    sharedPrefsService.saveAppUser(AppController.user);
+
                     Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_LONG)
                             .show();
                     // Swap to next activity
@@ -75,6 +82,9 @@ public class LoginController {
             public void onSuccessResponse(JSONObject result) {
                 try {
                     AppController.user = AppUser.ParseAppUser(result);
+                    // Save to shared prefs
+                    sharedPrefsService.saveAppUser(AppController.user);
+
                     Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_LONG)
                             .show();
                     // Swap to next activity
@@ -96,5 +106,22 @@ public class LoginController {
                 }
             }
         });
+    }
+
+    public void loginFromSharedPrefs(){
+        AppUser user = sharedPrefsService.getAppUser();
+        if (user != null){
+            AppController.user = user;
+            Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_LONG)
+                    .show();
+            // Swap to next activity
+            loginActivity.startActivity(new Intent(loginActivity, SearchActivity.class));
+            loginActivity.finish();
+
+            Log.d("Login", "Login by shared prefs");
+        }
+        else{
+            Log.d("Login", "No shared prefs exists for login");
+        }
     }
 }

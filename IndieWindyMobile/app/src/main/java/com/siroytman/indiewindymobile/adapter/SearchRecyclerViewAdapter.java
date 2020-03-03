@@ -8,38 +8,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.siroytman.indiewindymobile.R;
+import com.siroytman.indiewindymobile.controller.MediaController;
 import com.siroytman.indiewindymobile.controller.SongController;
 import com.siroytman.indiewindymobile.model.Song;
 
-import java.io.IOException;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder> {
-    private MediaPlayer mediaPlayer;
-
+    private MediaController mediaController;
     private Context context;
     private List<Song> songsList;
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        if (mediaPlayer != null) {
-            mediaPlayer.pause();
-            mediaPlayer.release();
-        }
-    }
 
     public SearchRecyclerViewAdapter(Context context, List<Song> songsList) {
         this.context = context;
         this.songsList = songsList;
 
-        mediaPlayer = new MediaPlayer();
+        mediaController = MediaController.getInstance();
     }
 
     @NonNull
@@ -91,22 +80,19 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
             int position = getAdapterPosition();
             Song song = songsList.get(position);
 
-            try {
-                mediaPlayer.setDataSource(song.getSongUrl());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            MediaPlayer.OnPreparedListener preparedListener = new MediaPlayer.OnPreparedListener() {
+            MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(final MediaPlayer mp) {
-                    Log.d("MediaPlayer", "Music is playing");
-                    Toast.makeText(v.getContext(), "Music is playing!", Toast.LENGTH_LONG).show();
-                    mp.start();
+                    mediaController.startSong();
                 }
             };
-            mediaPlayer.setOnPreparedListener(preparedListener);
-            mediaPlayer.prepareAsync();
+
+            if(!mediaController.isCurrentSong(song)) {
+                mediaController.setAndPrepareSong(song, onPreparedListener);
+            }
+            else {
+                mediaController.startPauseSong();
+            }
 
 
             switch (v.getId()) {
@@ -114,7 +100,6 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
                     SongController.AddSong(this, song.getId());
                     break;
             }
-
 
              Log.d("Clicked", "onClick: " + song.getName());
         }

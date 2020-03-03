@@ -80,28 +80,13 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
             int position = getAdapterPosition();
             Song song = songsList.get(position);
 
-            MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(final MediaPlayer mp) {
-                    mediaController.startSong();
-                }
-            };
-
-            if(!mediaController.isCurrentSong(song)) {
-                mediaController.setAndPrepareSong(song, onPreparedListener);
-            }
-            else {
-                mediaController.startPauseSong();
-            }
-
-
             switch (v.getId()) {
                 case R.id.song_add_button:
                     SongController.AddSong(this, song.getId());
-                    break;
+                    return;
             }
 
-             Log.d("Clicked", "onClick: " + song.getName());
+            mediaController.prepareOrStartPause(song);
         }
 
         public void songAddedChangeIcon()

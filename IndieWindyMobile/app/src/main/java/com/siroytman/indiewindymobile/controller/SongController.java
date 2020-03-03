@@ -14,8 +14,7 @@ import java.util.Map;
 
 public class SongController {
 
-    public static void AddSong(final SearchRecyclerViewAdapter.ViewHolder viewHolder, int songId) {
-        // TODO refactor
+    public static void AddSong(final SearchRecyclerViewAdapter.ViewHolder viewHolder, final int songId) {
         ApiController apiController;
         try {
             apiController = ApiController.getInstance();
@@ -32,7 +31,7 @@ public class SongController {
         apiController.getJSONObjectResponse(url, new JSONObject(postParam), new VolleyCallbackJSONObject() {
             @Override
             public void onSuccessResponse(JSONObject result) {
-                Log.d("SongController", "Song added!");
+                Log.d("SongController", "Song added: " + songId);
                 viewHolder.songAddedChangeIcon();
             }
 

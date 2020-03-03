@@ -24,14 +24,42 @@ public class MediaController {
         return instance;
     }
 
+    public void prepareOrStartPause(Song song, MediaPlayer.OnPreparedListener onPreparedListener){
+        if(!isCurrentSong(song)) {
+            setAndPrepareSong(song, onPreparedListener);
+        }
+        else {
+            startPauseSong();
+        }
+    }
+
+    public void prepareOrStartPause(Song song){
+        if(!isCurrentSong(song)) {
+            setAndPrepareSong(song);
+        }
+        else {
+            startPauseSong();
+        }
+    }
+
     public void setAndPrepareSong(Song song, MediaPlayer.OnPreparedListener onPreparedListener){
-        // Rests & set song
+        // Reset & set song
         setDataSource(song);
 
         // Prepare song
-        mediaPlayer.setOnPreparedListener(onPreparedListener);
-        mediaPlayer.prepareAsync();
-        Log.d(TAG + "setAndPrepareSong", "Song preparing: " + currentSong.getName());
+        prepareSong(onPreparedListener);
+    }
+
+    public void setAndPrepareSong(Song song){
+        // Set default onPreparedListener
+        MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(final MediaPlayer mp) {
+                startSong();
+            }
+        };
+
+        setAndPrepareSong(song, onPreparedListener);
     }
 
     public void startPauseSong(){
@@ -57,7 +85,6 @@ public class MediaController {
         Log.d(TAG + "stopSong", "Song stopped:" + currentSong.getName());
     }
 
-
     public boolean isPlaying(){
         return mediaPlayer.isPlaying();
     }
@@ -70,6 +97,13 @@ public class MediaController {
 
     public boolean hasSong(){
         return currentSong != null;
+    }
+
+    private void prepareSong(MediaPlayer.OnPreparedListener onPreparedListener){
+        // Prepare song
+        mediaPlayer.setOnPreparedListener(onPreparedListener);
+        mediaPlayer.prepareAsync();
+        Log.d(TAG + "prepareSong", "Song preparing: " + currentSong.getName());
     }
 
     private void setDataSource(Song song) {
@@ -99,6 +133,7 @@ public class MediaController {
         if (mediaPlayer != null) {
             reset();
             mediaPlayer.release();
+            Log.d(TAG + "finalize", "Done");
         }
     }
 }

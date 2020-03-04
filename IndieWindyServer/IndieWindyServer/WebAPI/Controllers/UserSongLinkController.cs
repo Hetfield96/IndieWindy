@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using DatabaseAPI.Models;
 using DatabaseAPI.Services;
@@ -21,6 +22,13 @@ namespace WebAPI.Controllers
         public async Task<UserSongLink> AddNewItem([FromBody] UserSongLink item)
         {
             return await _userSongLinkService.AddNewItem(item);
+        }
+
+        [HttpGet]
+        [Route("isSongAdded/{userId}/{songId}")]
+        public async Task<Boolean> IsSongAdded(int userId, int songId)
+        {
+            return await _userSongLinkService.IsSongAdded(userId, songId);
         }
     }
 }

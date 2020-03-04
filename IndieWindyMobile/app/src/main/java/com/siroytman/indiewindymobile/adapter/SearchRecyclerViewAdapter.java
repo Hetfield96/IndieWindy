@@ -1,8 +1,6 @@
 package com.siroytman.indiewindymobile.adapter;
 
 import android.content.Context;
-import android.media.MediaPlayer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +46,9 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
         viewHolder.songName.setText(song.getName());
         viewHolder.artistName.setText(song.getArtist().getName());
+
+        // If song is already added
+        songController.IsSongAdded(song, viewHolder);
     }
 
 
@@ -78,7 +79,6 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
         @Override
         public void onClick(final View v) {
-
             int position = getAdapterPosition();
             Song song = songsList.get(position);
 
@@ -91,9 +91,14 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
             mediaController.prepareOrStartPause(song);
         }
 
-        public void songAddedChangeIcon()
+        public void songSetIconCheck()
         {
             songAddButton.setImageResource(R.drawable.ic_check);
+        }
+
+        public void songSetIconAdd()
+        {
+            songAddButton.setImageResource(R.drawable.ic_add);
         }
     }
 }

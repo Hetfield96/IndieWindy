@@ -1,6 +1,5 @@
 package com.siroytman.indiewindymobile.controller;
 
-import android.nfc.Tag;
 import android.util.Log;
 
 import com.android.volley.Request;

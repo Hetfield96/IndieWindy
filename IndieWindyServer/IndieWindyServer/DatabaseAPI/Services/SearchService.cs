@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DatabaseAPI.Models;
 
 namespace DatabaseAPI.Services
@@ -24,24 +25,24 @@ namespace DatabaseAPI.Services
             return name.IndexOf(query, StringComparison.OrdinalIgnoreCase) == 0;
         }
 
-        public List<Artist> SearchArtist(string query)
+        public async Task<List<Artist>> SearchArtist(string query)
         {
-            return _artistService.FindByName(query);
+            return await _artistService.FindByName(query);
         }
         
-        public List<Album> SearchAlbum(string query)
+        public async Task<List<Album>> SearchAlbum(string query)
         {
-            return _albumService.FindByName(query);
+            return await _albumService.FindByName(query);
         }
         
-        public List<Song> SearchSong(string query)
+        public async Task<List<Song>> SearchSong(string query)
         {
-            return _songService.FindByName(query);
+            return await _songService.FindByName(query);
         }
         
-        public List<Concert> SearchConcert(string query)
+        public async Task<List<Concert>> SearchConcert(string query)
         {
-            return _concertService.FindByName(query);
+            return await _concertService.FindByName(query);
         }
         
     }

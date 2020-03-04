@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DatabaseAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseAPI.Services
 {
@@ -8,9 +10,9 @@ namespace DatabaseAPI.Services
     {
         public ConcertService(IndieWindyDbContext indieWindyDb) : base(indieWindyDb) { }
         
-        public List<Concert> FindByName(string query)
+        public async Task<List<Concert>> FindByName(string query)
         {
-            var concerts = _indieWindyDb.Concert.AsEnumerable();
+            var concerts = await _indieWindyDb.Concert.ToListAsync();
             return concerts.Where(a => SearchService.StartsWith(a.Name, query)).ToList();
         }
     }

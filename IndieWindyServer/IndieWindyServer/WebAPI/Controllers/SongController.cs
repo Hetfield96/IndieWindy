@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DatabaseAPI.Models;
 using DatabaseAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,9 @@ namespace WebAPI.Controllers
 
         [HttpGet]
         [Route("find/{query}")]
-        public List<Song> FindByName(string query)
+        public async Task<List<Song>> FindByName(string query)
         {
-            var res = _songService.FindByName(query);
+            var res = await _songService.FindByName(query);
             return res;
         }
     }

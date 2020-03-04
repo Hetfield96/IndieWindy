@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DatabaseAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,12 +11,12 @@ namespace DatabaseAPI.Services
         public SongService(IndieWindyDbContext indieWindyDb) : base(indieWindyDb)
         { }
         
-        public List<Song> FindByName(string query)
+        public async Task<List<Song>> FindByName(string query)
         {
-            var songs = _indieWindyDb.Song
+            var songs = await _indieWindyDb.Song
                 .Include(s => s.Artist)
                 .Include(s => s.Album)
-                .AsEnumerable();
+                .ToListAsync();
             return songs.Where(s => SearchService.StartsWith(s.Name, query)).ToList();
         }
     }

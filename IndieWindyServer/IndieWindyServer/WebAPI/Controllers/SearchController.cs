@@ -15,15 +15,8 @@ namespace WebAPI.Controllers
         {
             _searchService = searchService;
         }
-
-        [HttpGet]
-        [Route("{query}")]
-        public List<Artist> GetByName(string query)
-        {
-            var res = _searchService.SearchArtist(query);
-            return res;
-        }
         
-        // TODO search by album, artist, concert and combine together...
+        
+        // TODO search by song, album, artist, concert and combine together...
     }
 }

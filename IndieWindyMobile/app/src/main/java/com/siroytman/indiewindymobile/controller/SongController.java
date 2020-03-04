@@ -13,16 +13,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SongController {
+    private static final String TAG = "SongController";
+    private ApiController apiController;
 
-    public static void AddSong(final SearchRecyclerViewAdapter.ViewHolder viewHolder, final int songId) {
-        ApiController apiController;
-        try {
-            apiController = ApiController.getInstance();
+    private static SongController instance;
+
+    private SongController() {
+        apiController = ApiController.getInstance();
+    }
+
+    public static synchronized SongController getInstance() {
+        if (instance == null) {
+            instance = new SongController();
         }
-        catch (Exception e)
-        {
-            return;
-        }
+        return instance;
+    }
+
+    public void AddSong(final SearchRecyclerViewAdapter.ViewHolder viewHolder, final int songId) {
         String url = "userSongLink/add";
 
         Map<String, Integer> postParam = new HashMap<>();
@@ -31,13 +38,13 @@ public class SongController {
         apiController.getJSONObjectResponse(url, new JSONObject(postParam), new VolleyCallbackJSONObject() {
             @Override
             public void onSuccessResponse(JSONObject result) {
-                Log.d("SongController", "Song added: " + songId);
+                Log.d(TAG, "Song added: " + songId);
                 viewHolder.songAddedChangeIcon();
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("SongController", "Error: Song not added!");
+                Log.d(TAG, "Error: Song not added: " + songId);
             }
         });
     }

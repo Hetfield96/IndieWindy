@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder> {
+    private SongController songController;
     private MediaController mediaController;
     private Context context;
     private List<Song> songsList;
@@ -29,6 +30,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         this.songsList = songsList;
 
         mediaController = MediaController.getInstance();
+        songController = SongController.getInstance();
     }
 
     @NonNull
@@ -82,7 +84,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
             switch (v.getId()) {
                 case R.id.song_add_button:
-                    SongController.AddSong(this, song.getId());
+                    songController.AddSong(this, song.getId());
                     return;
             }
 

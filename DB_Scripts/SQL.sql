@@ -9,6 +9,9 @@ select * from "UserAlbumLink";
 select * from "UserSongLink";
 select * from "UserConcertLink";
 
+delete from "UserSongLink"
+where "AppUserId" = 4;
+
 delete from "AppUser"
 where "Id" > 1;
 

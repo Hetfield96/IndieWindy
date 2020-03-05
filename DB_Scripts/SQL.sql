@@ -1,26 +1,25 @@
-select * from "AppUser";
-select * from "Artist";
-select * from "Album";
-select * from "Song";
+select * from app_user;
+select * from artist;
+select * from album;
+select * from song;
 
-select * from "UserArtistLink";
+select * from user_artist_link;
+select * from user_album_link;
+select * from user_song_link;
+select * from user_concert_link;
 
-select * from "UserAlbumLink";
-select * from "UserSongLink";
-select * from "UserConcertLink";
+delete from user_song_link
+where app_user_id = 4;
 
-delete from "UserSongLink"
-where "AppUserId" = 4;
+delete from app_user
+where id > 1;
 
-delete from "AppUser"
-where "Id" > 1;
-
-update "Song"
-set "SongUrl" = 'http://indie-windy.s3.eu-north-1.amazonaws.com/music/Pasosh/Pasosh-rossiya.mp3'
-where "Id" = 4;
+update song
+set song_url = 'http://indie-windy.s3.eu-north-1.amazonaws.com/music/Pasosh/Pasosh-rossiya.mp3'
+where id = 4;
 
 
-select * from "Song" as s
-left join "UserSongLink" as link
-on s."Id" = link."SongId" and link."AppUserId" = 4
-where s."Name" like 'К%';
+select * from song as s
+left join user_song_link as link
+on s.id= link.song_id and link.app_user_id = 4
+where s.name like 'К%';

@@ -6,6 +6,10 @@ namespace DatabaseAPI.Models
     [Table("user_song_link")]
     public class UserSongLink : BaseEntity
     {
+        public UserSongLink()
+        {
+        }
+
         public UserSongLink(int appUserId, int songId)
         {
             AppUserId = appUserId;
@@ -21,7 +25,7 @@ namespace DatabaseAPI.Models
         [Key]
         [Column("song_id", Order=2)]
         public int SongId { get; set; }
-        [ForeignKey("SongId")]
+        [ForeignKey("song_id")]
         public Song Song { get; set; }
     }
 }

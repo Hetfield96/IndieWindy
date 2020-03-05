@@ -32,7 +32,7 @@ namespace DatabaseAPI.Services
                 await _indieWindyDb.SaveChangesAsync();
                 return true;
             }
-            catch (DbUpdateConcurrencyException e)
+            catch (DbUpdateConcurrencyException)
             {
                 // No element was removed
                 return false;

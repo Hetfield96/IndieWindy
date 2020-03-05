@@ -1,15 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using DatabaseAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Query;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Npgsql;
-using WebAPI.Migrations;
 
 namespace DatabaseAPI.Services
 {
@@ -28,41 +23,23 @@ namespace DatabaseAPI.Services
             return songs.Where(s => SearchService.StartsWith(s.Name, query)).ToList();
         }
         
-        // TODO make dapper and do left join
-        public async Task<List<(Song s, int AppUserId)>> FindByNameWithAdded(string query, int userId)
+        public async Task<List<UserSongLink>> FindByNameWithAdded(string query, int userId)
         {
-            using(var connection = new NpgsqlConnection("Host=localhost;Username=;Password=;Database=TimeManagement"))
-            {
-                connection.Open();
-                var value = connection.Query("");
-                Console.WriteLine(value.First());
-            }
+            await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
             
-            throw new NotImplementedException();
+            var res = await con.QueryAsync<UserSongLink, Song, UserSongLink>(
+                @"select link.app_user_id, link.song_id, s.id, s.name, s.song_url, s.artist_id
+                          from user_song_link as link
+                          join song s on link.song_id = s.id
+                          where s.name like @name and link.app_user_id = @user",
+                (link, song) =>
+                {
+                    link.Song = song;
+                    return link;
+                },
+                new {@name = $"{query}%", @user = userId});
+            return res.ToList();
         }
-        
-        // TODO make dapper and do left join
-        // public async Task<List<(Song s, int AppUserId)>> FindByNameWithAdded(string query, int userId)
-        // {
-        //     
-            // var songs = await _indieWindyDb.Song
-            //     .Include(s => s.Artist)
-            //     .Include(s => s.Album)
-            //     .ToListAsync();
-            //
-            // // TODO change on where and like
-            // songs = songs.Where(s => SearchService.StartsWith(s.Name, query)).ToList();
-            //
-            // var added = songs
-            //     .Join(_indieWindyDb.UserSongLink,
-            //         s => s.Id,
-            //         l => l.SongId,
-            //         (s, l) => (s, l.AppUserId))
-            //     .Where(e => e.AppUserId == userId)
-            //     .ToList();
-            //
-            // return added;
-        // }
 
     }
 }

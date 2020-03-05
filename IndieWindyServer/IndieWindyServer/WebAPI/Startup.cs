@@ -1,5 +1,10 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using Dapper;
 using DatabaseAPI;
+using DatabaseAPI.Models;
 using DatabaseAPI.Services;
+using DatabaseAPI.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +43,9 @@ namespace WebAPI
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<IndieWindyDbContext>(opt =>
                 opt.UseNpgsql(Configuration.GetSection("DB")?["ConnectionStrings"]));
+            
+            // Dapper mapping configuration
+           DapperMappingConfiguration.Configure();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

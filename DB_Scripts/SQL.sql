@@ -22,4 +22,8 @@ where id = 4;
 select * from song as s
 left join user_song_link as link
 on s.id= link.song_id and link.app_user_id = 4
-where s.name like 'К%';
+where s.name like 'Л%';
+
+select * from user_song_link as link
+  right join song s on link.song_id = s.id
+  where s.name like 'Л%' and link.app_user_id = 4;

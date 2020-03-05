@@ -9,7 +9,12 @@ namespace DatabaseAPI
      */
     public class IndieWindyDbContext:DbContext
     {
-        public IndieWindyDbContext(DbContextOptions<IndieWindyDbContext> options):base(options) {  }
+        public static string ConnectionString;
+
+        public IndieWindyDbContext(DbContextOptions<IndieWindyDbContext> options) : base(options)
+        {
+            ConnectionString = Database.GetDbConnection()?.ConnectionString;
+        }
         
         public DbSet<AppUser> AppUser { get; set; }
         public DbSet<Artist> Artist { get; set; }

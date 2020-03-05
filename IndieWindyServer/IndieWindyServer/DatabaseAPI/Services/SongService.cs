@@ -30,8 +30,8 @@ namespace DatabaseAPI.Services
             var res = await con.QueryAsync<UserSongLink, Song, UserSongLink>(
                 @"select link.app_user_id, link.song_id, s.id, s.name, s.song_url, s.artist_id
                           from user_song_link as link
-                          join song s on link.song_id = s.id
-                          where s.name like @name and link.app_user_id = @user",
+                          right join song s on link.song_id = s.id and link.app_user_id = @user
+                          where s.name like @name",
                 (link, song) =>
                 {
                     link.Song = song;

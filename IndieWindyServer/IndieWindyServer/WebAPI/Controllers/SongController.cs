@@ -17,14 +17,11 @@ namespace WebAPI.Controllers
             _songService = songService;
         }
         
-        // TODO
         [HttpGet]
         [Route("findWithAdded/{query}/{userId}")]
         public async Task<List<UserSongLink>> FindByNameWithAdded(string query, int userId)
         {
-            query = "Л";
-            var res = await _songService.FindByNameWithAdded(query, userId);
-            return res;
+            return await _songService.FindByNameWithAdded(query, userId);
         }
 
         [HttpGet]

@@ -23,12 +23,13 @@ namespace WebAPI.Controllers
         {
             return await _songService.FindByNameWithAdded(query, userId);
         }
-
-        [HttpGet]
-        [Route("find/{query}")]
-        public async Task<List<Song>> FindByName(string query)
-        {
-            return await _songService.FindByName(query);
-        }
+        
+        // TODO remove
+        // [HttpGet]
+        // [Route("find/{query}")]
+        // public async Task<List<Song>> FindByName(string query)
+        // {
+        //     return await _songService.FindByName(query);
+        // }
     }
 }

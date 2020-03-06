@@ -3,7 +3,9 @@ package com.siroytman.indiewindymobile.api;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -63,6 +65,24 @@ public class ApiController {
             }
         });
 
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+
         volleyQueue.addToRequestQueue(request);
     }
 
@@ -80,6 +100,23 @@ public class ApiController {
             public void onErrorResponse(VolleyError e) {
                 callback.onErrorResponse(e);
                 Log.d("ApiController", "Error: " + e.toString());
+            }
+        });
+
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
             }
         });
 
@@ -102,6 +139,24 @@ public class ApiController {
             }
         });
 
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
         volleyQueue.addToRequestQueue(request);
     }
+
 }

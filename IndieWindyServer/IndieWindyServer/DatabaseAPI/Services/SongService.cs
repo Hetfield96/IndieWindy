@@ -32,7 +32,7 @@ namespace DatabaseAPI.Services
                           right join song s on link.song_id = s.id and link.app_user_id = @user
                           join artist a on s.artist_id = a.id
                           join album al on s.album_id = al.id
-                          where s.name like @name",
+                          where lower(s.name) like @name",
                 (link, song, artist, album) =>
                 {
                     song.Artist = artist;
@@ -40,7 +40,7 @@ namespace DatabaseAPI.Services
                     link.Song = song;
                     return link;
                 },
-                param: new {@name = $"{query}%", @user = userId});
+                param: new {@name = $"{query.ToLower()}%", @user = userId});
             return res.ToList();
         }
 

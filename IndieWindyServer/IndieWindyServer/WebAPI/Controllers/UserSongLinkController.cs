@@ -24,12 +24,13 @@ namespace WebAPI.Controllers
             return await _userSongLinkService.AddNewItem(item);
         }
 
-        [HttpGet]
-        [Route("isSongAdded/{userId}/{songId}")]
-        public async Task<Boolean> IsSongAdded(int userId, int songId)
-        {
-            return await _userSongLinkService.IsSongAdded(userId, songId);
-        }
+        // TODO remove
+        // [HttpGet]
+        // [Route("isSongAdded/{userId}/{songId}")]
+        // public async Task<Boolean> IsSongAdded(int userId, int songId)
+        // {
+        //     return await _userSongLinkService.IsSongAdded(userId, songId);
+        // }
         
         [HttpDelete]
         [Route("deleteAdded/{userId}/{songId}")]

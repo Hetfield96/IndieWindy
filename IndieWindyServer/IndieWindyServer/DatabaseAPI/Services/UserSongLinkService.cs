@@ -16,12 +16,11 @@ namespace DatabaseAPI.Services
         // }
         
         // TODO make it not through separate requests but through one
-        // Maybe return linkId here?
-        public async Task<Boolean> IsSongAdded(int userId, int songId)
-        {
-            return await _indieWindyDb.UserSongLink
-                .AnyAsync(l => l.AppUserId == userId && l.SongId == songId);
-        }
+        // public async Task<Boolean> IsSongAdded(int userId, int songId)
+        // {
+        //     return await _indieWindyDb.UserSongLink
+        //         .AnyAsync(l => l.AppUserId == userId && l.SongId == songId);
+        // }
 
         public async Task<Boolean> DeleteAdded(int userId, int songId)
         {
@@ -32,7 +31,7 @@ namespace DatabaseAPI.Services
                 await _indieWindyDb.SaveChangesAsync();
                 return true;
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException )
             {
                 // No element was removed
                 return false;

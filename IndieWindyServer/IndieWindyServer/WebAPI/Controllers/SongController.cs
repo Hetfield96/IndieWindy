@@ -28,8 +28,7 @@ namespace WebAPI.Controllers
         [Route("find/{query}")]
         public async Task<List<Song>> FindByName(string query)
         {
-            var res = await _songService.FindByName(query);
-            return res;
+            return await _songService.FindByName(query);
         }
     }
 }

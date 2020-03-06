@@ -19,7 +19,6 @@ namespace DatabaseAPI.Services
                 .Include(s => s.Artist)
                 .Include(s => s.Album)
                 .ToListAsync();
-            // TODO change on where and like - dapper
             return songs.Where(s => SearchService.StartsWith(s.Name, query)).ToList();
         }
         
@@ -27,17 +26,21 @@ namespace DatabaseAPI.Services
         {
             await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
             
-            var res = await con.QueryAsync<UserSongLink, Song, UserSongLink>(
-                @"select link.app_user_id, link.song_id, s.id, s.name, s.song_url, s.artist_id
+            var res = await con.QueryAsync<UserSongLink, Song, Artist, Album, UserSongLink>(
+                @"select link.*, s.*, a.*, al.*
                           from user_song_link as link
                           right join song s on link.song_id = s.id and link.app_user_id = @user
+                          join artist a on s.artist_id = a.id
+                          join album al on s.album_id = al.id
                           where s.name like @name",
-                (link, song) =>
+                (link, song, artist, album) =>
                 {
+                    song.Artist = artist;
+                    song.Album = album;
                     link.Song = song;
                     return link;
                 },
-                new {@name = $"{query}%", @user = userId});
+                param: new {@name = $"{query}%", @user = userId});
             return res.ToList();
         }
 

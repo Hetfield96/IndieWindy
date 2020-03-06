@@ -6,9 +6,7 @@ namespace DatabaseAPI.Models
     [Table("user_song_link")]
     public class UserSongLink : BaseEntity
     {
-        public UserSongLink()
-        {
-        }
+        public UserSongLink() {}
 
         public UserSongLink(int appUserId, int songId)
         {

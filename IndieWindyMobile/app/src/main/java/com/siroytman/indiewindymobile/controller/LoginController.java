@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginController {
+    public static final String TAG = "LoginController";
+
     private ApiController apiController;
     private SharedPrefsService sharedPrefsService;
 
@@ -80,21 +82,15 @@ public class LoginController {
         apiController.getJSONObjectResponse("appuser/register", new JSONObject(postParam), new VolleyCallbackJSONObject() {
             @Override
             public void onSuccessResponse(JSONObject result) {
-                try {
-                    AppController.user = AppUser.ParseAppUser(result);
-                    // Save to shared prefs
-                    sharedPrefsService.saveAppUser(AppController.user);
+                AppController.user = AppUser.ParseAppUser(result);
+                // Save to shared prefs
+                sharedPrefsService.saveAppUser(AppController.user);
 
-                    Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_LONG)
-                            .show();
-                    // Swap to next activity
-                    loginActivity.startActivity(new Intent(loginActivity, SearchActivity.class));
-                    loginActivity.finish();
-                }
-                catch (Exception e)
-                {
-                    Log.d("VolleyError", "Unable to parse response: " + e.getMessage());
-                }
+                Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_LONG)
+                        .show();
+                // Swap to next activity
+                loginActivity.startActivity(new Intent(loginActivity, SearchActivity.class));
+                loginActivity.finish();
             }
 
             @Override
@@ -118,10 +114,10 @@ public class LoginController {
             loginActivity.startActivity(new Intent(loginActivity, SearchActivity.class));
             loginActivity.finish();
 
-            Log.d("Login", "Login by shared prefs");
+            Log.d(TAG, "Login by shared prefs");
         }
         else{
-            Log.d("Login", "No shared prefs exists for login");
+            Log.d(TAG, "No shared prefs exists for login");
         }
     }
 }

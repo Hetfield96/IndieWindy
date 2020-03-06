@@ -8,8 +8,6 @@ import com.siroytman.indiewindymobile.adapter.SearchRecyclerViewAdapter;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;
-import com.siroytman.indiewindymobile.model.AppUser;
-import com.siroytman.indiewindymobile.model.Song;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 
 import org.json.JSONObject;
@@ -34,7 +32,7 @@ public class SongController {
         return instance;
     }
 
-    public void AddUserSongLink(final SearchRecyclerViewAdapter.ViewHolder viewHolder, final int songId) {
+    public void addUserSongLink(final SearchRecyclerViewAdapter.ViewHolder viewHolder, final int songId) {
         String url = "userSongLink/add";
 
         Map<String, Integer> postParam = new HashMap<>();
@@ -44,12 +42,31 @@ public class SongController {
             @Override
             public void onSuccessResponse(JSONObject result) {
                 Log.d(TAG, "UserSongLink added: " + songId);
-                viewHolder.songSetIconCheck();
+                viewHolder.songAdded(AppController.user.getId(), songId);
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error: Song not added: " + songId);
+            }
+        });
+    }
+
+    public void removeUserSongLink(final SearchRecyclerViewAdapter.ViewHolder viewHolder, final int songId) {
+        String url = "userSongLink/deleteAdded/" + AppController.user.getId() + "/" + songId;
+
+        apiController.getStringResponse(Request.Method.DELETE, url, new VolleyCallbackString() {
+            @Override
+            public void onSuccessResponse(String result) {
+                if(result.equals("true")) {
+                    viewHolder.songRemoved();
+                    Log.d(TAG, "UserSongLink removed: " + songId);
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error: " + error.getMessage());
             }
         });
     }

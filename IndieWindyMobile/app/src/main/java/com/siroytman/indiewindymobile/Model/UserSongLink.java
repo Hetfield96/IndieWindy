@@ -15,6 +15,7 @@ public class UserSongLink {
     private int appUserId;
     private int songId;
 
+
     // Possible
     private Song song;
 
@@ -62,6 +63,11 @@ public class UserSongLink {
         return (appUserId == 0 && songId == 0);
     }
 
+    public void makeEmpty(){
+        appUserId = 0;
+        songId = 0;
+    }
+
     public Song getSong() {
         return song;
     }
@@ -72,5 +78,13 @@ public class UserSongLink {
 
     public int getSongId() {
         return songId;
+    }
+
+    public void setAppUserId(int appUserId) {
+        this.appUserId = appUserId;
+    }
+
+    public void setSongId(int songId) {
+        this.songId = songId;
     }
 }

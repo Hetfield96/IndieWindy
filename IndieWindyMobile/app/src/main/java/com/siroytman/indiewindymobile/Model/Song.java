@@ -30,15 +30,16 @@ public class Song {
             return null;
         }
 
+        Artist artist = null;
         try {
-            Artist artist = Artist.ParseArtist(json.getJSONObject("artist"));
+            artist = Artist.ParseArtist(json.getJSONObject("artist"));
             song.artist = artist;
         } catch (JSONException e) {
             Log.d(TAG,"No artist");
         }
 
         try {
-            Album album = Album.Parse(json.getJSONObject("album"));
+            Album album = Album.Parse(json.getJSONObject("album"), artist);
             song.album = album;
         } catch (JSONException e) {
             Log.d(TAG,"No album");

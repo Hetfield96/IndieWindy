@@ -88,20 +88,36 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
             switch (v.getId()) {
                 case R.id.song_add_button:
-                    songController.AddUserSongLink(this, song.getId());
+                    if (link.isEmpty()) {
+                        songController.addUserSongLink(this, song.getId());
+                    } else{
+                        songController.removeUserSongLink(this, song.getId());
+                    }
                     return;
             }
 
             mediaController.prepareOrStartPause(song);
         }
 
-        public void songSetIconCheck()
-        {
+        public void songAdded(int userId, int songId){
+            UserSongLink item = linksList.get(getAdapterPosition());
+            item.setAppUserId(userId);
+            item.setSongId(songId);
+
+            songSetIconCheck();
+        }
+
+        public void songRemoved(){
+            linksList.get(getAdapterPosition()).makeEmpty();
+
+            songSetIconAdd();
+        }
+
+        private void songSetIconCheck() {
             songAddButton.setImageResource(R.drawable.ic_check);
         }
 
-        public void songSetIconAdd()
-        {
+        private void songSetIconAdd() {
             songAddButton.setImageResource(R.drawable.ic_add);
         }
     }

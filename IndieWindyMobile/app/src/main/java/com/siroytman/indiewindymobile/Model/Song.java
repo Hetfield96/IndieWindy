@@ -6,6 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Song {
+    public static final String TAG = "Song";
+
     // TODO do we need id?
     private int id;
     private String name;
@@ -16,26 +18,33 @@ public class Song {
 
     public Song() {}
 
-    public static Song ParseSong(JSONObject jsonObject) {
+    public static Song ParseSong(JSONObject json) {
+        Song song = new Song();
         try {
-            Song song = new Song();
-            song.setId(jsonObject.getInt("id"));
-            song.setName(jsonObject.getString("name"));
-            song.setSongUrl(jsonObject.getString("songUrl"));
-
-            Artist artist = Artist.ParseArtist(jsonObject.getJSONObject("artist"));
-            song.setArtist(artist);
-
-            Album album = Album.ParseAlbum(jsonObject.getJSONObject("album"), artist);
-            song.setAlbum(album);
-
-            return song;
-
+            song.id = json.getInt("id");
+            song.name = json.getString("name");
+            song.songUrl = json.getString("songUrl");
         } catch (JSONException e)
         {
-            Log.d("ParseSong", "Error: " + e.getMessage());
+            Log.d(TAG, "Can't parse song");
             return null;
         }
+
+        try {
+            Artist artist = Artist.ParseArtist(json.getJSONObject("artist"));
+            song.artist = artist;
+        } catch (JSONException e) {
+            Log.d(TAG,"No artist");
+        }
+
+        try {
+            Album album = Album.Parse(json.getJSONObject("album"));
+            song.album = album;
+        } catch (JSONException e) {
+            Log.d(TAG,"No album");
+        }
+
+        return song;
     }
 
 

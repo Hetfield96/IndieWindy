@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
             return await _songService.FindByNameWithAdded(query, userId);
         }
         
-        // TODO remove
+        // TODO not used now
         // [HttpGet]
         // [Route("find/{query}")]
         // public async Task<List<Song>> FindByName(string query)

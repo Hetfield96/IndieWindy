@@ -13,7 +13,8 @@ public class Album {
 
     public Album() { }
 
-    public static Album ParseAlbum(JSONObject jsonObject) {
+    // TODO refactor parsing
+    public static Album Parse(JSONObject jsonObject) {
         try {
             Album album = new Album();
             album.setId(jsonObject.getInt("id"));
@@ -30,24 +31,6 @@ public class Album {
             return null;
         }
     }
-
-    public static Album ParseAlbum(JSONObject jsonObject, Artist artist) {
-        try {
-            Album album = new Album();
-            album.setId(jsonObject.getInt("id"));
-            album.setName(jsonObject.getString("name"));
-            album.setImageUrl(jsonObject.getString("imageUrl"));
-
-            album.setArtist(artist);
-
-            return album;
-        } catch (JSONException e)
-        {
-            Log.d("ParseAlbum", "Error: " + e.getMessage());
-            return null;
-        }
-    }
-
 
     public int getId() {
         return id;

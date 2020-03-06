@@ -8,7 +8,9 @@ import com.siroytman.indiewindymobile.adapter.SearchRecyclerViewAdapter;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;
+import com.siroytman.indiewindymobile.model.AppUser;
 import com.siroytman.indiewindymobile.model.Song;
+import com.siroytman.indiewindymobile.model.UserSongLink;
 
 import org.json.JSONObject;
 
@@ -32,7 +34,7 @@ public class SongController {
         return instance;
     }
 
-    public void AddSong(final SearchRecyclerViewAdapter.ViewHolder viewHolder, final int songId) {
+    public void AddUserSongLink(final SearchRecyclerViewAdapter.ViewHolder viewHolder, final int songId) {
         String url = "userSongLink/add";
 
         Map<String, Integer> postParam = new HashMap<>();
@@ -41,7 +43,7 @@ public class SongController {
         apiController.getJSONObjectResponse(url, new JSONObject(postParam), new VolleyCallbackJSONObject() {
             @Override
             public void onSuccessResponse(JSONObject result) {
-                Log.d(TAG, "Song added: " + songId);
+                Log.d(TAG, "UserSongLink added: " + songId);
                 viewHolder.songSetIconCheck();
             }
 
@@ -52,23 +54,24 @@ public class SongController {
         });
     }
 
-    public void IsSongAdded(final Song song, final SearchRecyclerViewAdapter.ViewHolder viewHolder) {
-        String url = "userSongLink/isSongAdded/" + AppController.user.getId() + "/" + song.getId();
-
-        // Maybe move callback creation from controller to callers further
-        apiController.getStringResponse(Request.Method.GET, url, new VolleyCallbackString() {
-            @Override
-            public void onSuccessResponse(String result) {
-                if(result.equals("true")) {
-                    viewHolder.songSetIconCheck();
-                    Log.d(TAG, "songIsAdded: " + song.getName());
-                }
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error: " + error.getMessage());
-            }
-        });
-    }
+    // TODO not used
+//    public void IsSongAdded(final Song song, final SearchRecyclerViewAdapter.ViewHolder viewHolder) {
+//        String url = "userSongLink/isSongAdded/" + AppController.user.getId() + "/" + song.getId();
+//
+//        // Maybe move callback creation from controller to callers further
+//        apiController.getStringResponse(Request.Method.GET, url, new VolleyCallbackString() {
+//            @Override
+//            public void onSuccessResponse(String result) {
+//                if(result.equals("true")) {
+//                    viewHolder.songSetIconCheck();
+//                    Log.d(TAG, "songIsAdded: " + song.getName());
+//                }
+//            }
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d(TAG, "Error: " + error.getMessage());
+//            }
+//        });
+//    }
 }

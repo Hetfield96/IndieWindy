@@ -23,7 +23,7 @@ namespace DatabaseAPI.Models
         [Key]
         [Column("song_id", Order=2)]
         public int SongId { get; set; }
-        [ForeignKey("song_id")]
+        [ForeignKey("SongId")]
         public Song Song { get; set; }
     }
 }

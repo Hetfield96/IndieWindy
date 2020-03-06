@@ -11,11 +11,9 @@ import com.siroytman.indiewindymobile.activity.SearchActivity;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.ErrorHandler;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
-import com.siroytman.indiewindymobile.model.Song;
+import com.siroytman.indiewindymobile.model.UserSongLink;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -46,13 +44,14 @@ public class SearchController  {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
 
-            String url = "song/find/" + query;
+            String url = "song/findWithAdded/" + query + "/" + AppController.user.getId();
             apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
                 @Override
                 public void onSuccessResponse(JSONArray result) {
                     try {
                         Log.d("Search", "Songs found");
-                        searchActivity.SongsFoundUpdate(parseSongs(result));
+                        ArrayList<UserSongLink> links = UserSongLink.parseLinks(result);
+                        searchActivity.LinksViewUpdate(links);
                     }
                     catch (Exception e)
                     {
@@ -70,22 +69,23 @@ public class SearchController  {
         }
     }
 
-    private static ArrayList<Song> parseSongs(JSONArray songs)
-    {
-        ArrayList<Song> result = new ArrayList<>();
-        for(int i = 0; i < songs.length(); ++i)
-        {
-            try {
-                JSONObject jsonObject = songs.getJSONObject(i);
-                Song song = Song.ParseSong(jsonObject);
-                result.add(song);
-            }
-            catch (JSONException e)
-            {
-                Log.d("Search", "Error: " + e.getMessage());
-            }
-        }
-        return result;
-    }
+//    private static ArrayList<Song> parseSongs(JSONArray songs)
+//    {
+//        ArrayList<Song> result = new ArrayList<>();
+//        for(int i = 0; i < songs.length(); ++i)
+//        {
+//            try {
+//                JSONObject jsonObject = songs.getJSONObject(i);
+//                Song song = Song.ParseSong(jsonObject);
+//                result.add(song);
+//            }
+//            catch (JSONException e)
+//            {
+//                Log.d("Search", "Error: " + e.getMessage());
+//            }
+//        }
+//        return result;
+//    }
+
 
 }

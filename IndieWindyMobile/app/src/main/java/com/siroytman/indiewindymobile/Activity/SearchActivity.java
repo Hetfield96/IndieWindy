@@ -11,7 +11,7 @@ import android.widget.SearchView;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.adapter.SearchRecyclerViewAdapter;
 import com.siroytman.indiewindymobile.controller.SearchController;
-import com.siroytman.indiewindymobile.model.Song;
+import com.siroytman.indiewindymobile.model.UserSongLink;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class SearchActivity extends AppCompatActivity {
     SearchController searchController;
     private RecyclerView recyclerView;
     private SearchRecyclerViewAdapter searchRecyclerViewAdapter;
-    private ArrayList<Song> songsList;
+    private ArrayList<UserSongLink> linksList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +39,11 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public void SongsFoundUpdate(ArrayList<Song> songs)
+    public void LinksViewUpdate(ArrayList<UserSongLink> links)
     {
-        songsList = songs;
+        linksList = links;
         // Setup adapter
-        searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(SearchActivity.this, songsList);
+        searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(SearchActivity.this, linksList);
         recyclerView.setAdapter(searchRecyclerViewAdapter);
     }
 

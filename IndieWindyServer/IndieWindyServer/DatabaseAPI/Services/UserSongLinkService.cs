@@ -14,13 +14,6 @@ namespace DatabaseAPI.Services
         // {
         //     return await _indieWindyDb.Song
         // }
-        
-        // TODO make it not through separate requests but through one
-        // public async Task<Boolean> IsSongAdded(int userId, int songId)
-        // {
-        //     return await _indieWindyDb.UserSongLink
-        //         .AnyAsync(l => l.AppUserId == userId && l.SongId == songId);
-        // }
 
         public async Task<Boolean> DeleteAdded(int userId, int songId)
         {

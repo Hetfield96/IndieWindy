@@ -1,5 +1,5 @@
 package com.siroytman.indiewindymobile.model;
 
-public class UserArtistLinkSubscriptions {
+public class UserArtistLink {
     // TODO
 }

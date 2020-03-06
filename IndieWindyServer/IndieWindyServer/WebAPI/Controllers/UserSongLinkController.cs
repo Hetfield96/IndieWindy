@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
             return await _userSongLinkService.AddNewItem(item);
         }
 
-        // TODO remove
+        // TODO not used now
         // [HttpGet]
         // [Route("isSongAdded/{userId}/{songId}")]
         // public async Task<Boolean> IsSongAdded(int userId, int songId)

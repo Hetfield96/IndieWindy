@@ -11,6 +11,7 @@ import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.MediaController;
 import com.siroytman.indiewindymobile.controller.SongController;
 import com.siroytman.indiewindymobile.model.Song;
+import com.siroytman.indiewindymobile.model.UserSongLink;
 
 import java.util.List;
 
@@ -21,11 +22,11 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     private SongController songController;
     private MediaController mediaController;
     private Context context;
-    private List<Song> songsList;
+    private List<UserSongLink> linksList;
 
-    public SearchRecyclerViewAdapter(Context context, List<Song> songsList) {
+    public SearchRecyclerViewAdapter(Context context, List<UserSongLink> linksList) {
         this.context = context;
-        this.songsList = songsList;
+        this.linksList = linksList;
 
         mediaController = MediaController.getInstance();
         songController = SongController.getInstance();
@@ -42,19 +43,21 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        Song song = songsList.get(position); // each contact object inside of our list
+        UserSongLink link = linksList.get(position); // each contact object inside of our list
 
-        viewHolder.songName.setText(song.getName());
-        viewHolder.artistName.setText(song.getArtist().getName());
+        viewHolder.songName.setText(link.getSong().getName());
+        viewHolder.artistName.setText(link.getSong().getArtist().getName());
 
         // If song is already added
-        songController.IsSongAdded(song, viewHolder);
+        if(!link.isEmpty()){
+            viewHolder.songSetIconCheck();
+        }
     }
 
 
     @Override
     public int getItemCount() {
-        return songsList.size();
+        return linksList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -80,11 +83,12 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         @Override
         public void onClick(final View v) {
             int position = getAdapterPosition();
-            Song song = songsList.get(position);
+            UserSongLink link = linksList.get(position);
+            Song song = link.getSong();
 
             switch (v.getId()) {
                 case R.id.song_add_button:
-                    songController.AddSong(this, song.getId());
+                    songController.AddUserSongLink(this, song.getId());
                     return;
             }
 

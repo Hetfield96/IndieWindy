@@ -6,24 +6,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.widget.SearchView;
 
 import com.siroytman.indiewindymobile.R;
-import com.siroytman.indiewindymobile.adapter.SearchRecyclerViewAdapter;
+import com.siroytman.indiewindymobile.activity.fragments.UserSongLinkListFragment;
 import com.siroytman.indiewindymobile.controller.SearchController;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
 
 public class SearchActivity extends AppCompatActivity {
 
     SearchController searchController;
-    private RecyclerView recyclerView;
-    private SearchRecyclerViewAdapter searchRecyclerViewAdapter;
     private ArrayList<UserSongLink> linksList;
 
     @Override
@@ -33,18 +31,16 @@ public class SearchActivity extends AppCompatActivity {
 
         searchController = SearchController.getInstance(this);
         searchController.handleSearchIntent(getIntent());
-
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     public void LinksViewUpdate(ArrayList<UserSongLink> links)
     {
         linksList = links;
-        // Setup adapter
-        searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(SearchActivity.this, linksList);
-        recyclerView.setAdapter(searchRecyclerViewAdapter);
+
+        // Load list fragment
+        UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().add(R.id.myContainer, fragment).commit();
     }
 
     @Override

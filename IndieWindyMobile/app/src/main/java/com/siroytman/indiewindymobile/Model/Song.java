@@ -8,7 +8,6 @@ import org.json.JSONObject;
 public class Song {
     public static final String TAG = "Song";
 
-    // TODO do we need id?
     private int id;
     private String name;
     private String songUrl;

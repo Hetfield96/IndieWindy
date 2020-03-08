@@ -4,11 +4,11 @@ import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
-import com.siroytman.indiewindymobile.adapter.SearchRecyclerViewAdapter;
+import com.siroytman.indiewindymobile.adapter.UserSongLinkListAdapter;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;
-import com.siroytman.indiewindymobile.model.UserSongLink;
+import com.siroytman.indiewindymobile.model.Song;
 
 import org.json.JSONObject;
 
@@ -32,43 +32,45 @@ public class SongController {
         return instance;
     }
 
-    public void addUserSongLink(final SearchRecyclerViewAdapter.ViewHolder viewHolder, final int songId) {
+    public void addUserSongLink(final UserSongLinkListAdapter.ViewHolder viewHolder) {
         String url = "userSongLink/add";
+        final Song song = viewHolder.getSongLink().getSong();
 
         Map<String, Integer> postParam = new HashMap<>();
         postParam.put("AppUserId", AppController.user.getId());
-        postParam.put("SongId", songId);
+        postParam.put("SongId", song.getId());
         apiController.getJSONObjectResponse(url, new JSONObject(postParam), new VolleyCallbackJSONObject() {
             @Override
             public void onSuccessResponse(JSONObject result) {
-                Log.d(TAG, "UserSongLink added: " + songId);
-                viewHolder.songAdded(AppController.user.getId(), songId);
+                Log.d(TAG, "UserSongLink added: " + song.getName());
+                viewHolder.songAdded();
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error: Song not added: " + songId);
+                Log.d(TAG, "Error: Song not added: " + song.getName());
             }
         });
     }
 
-    public void removeUserSongLink(final SearchRecyclerViewAdapter.ViewHolder viewHolder, final int songId) {
-        String url = "userSongLink/deleteAdded/" + AppController.user.getId() + "/" + songId;
+        public void removeUserSongLink(final UserSongLinkListAdapter.ViewHolder viewHolder) {
+            final Song song = viewHolder.getSongLink().getSong();
+            String url = "userSongLink/delete/" + AppController.user.getId() + "/" + song.getId();
 
-        apiController.getStringResponse(Request.Method.DELETE, url, new VolleyCallbackString() {
-            @Override
-            public void onSuccessResponse(String result) {
-                if(result.equals("true")) {
-                    viewHolder.songRemoved();
-                    Log.d(TAG, "UserSongLink removed: " + songId);
+            apiController.getStringResponse(Request.Method.DELETE, url, new VolleyCallbackString() {
+                @Override
+                public void onSuccessResponse(String result) {
+                    if(result.equals("true")) {
+                        viewHolder.songRemoved();
+                        Log.d(TAG, "UserSongLink removed: " + song.getName());
+                    }
                 }
-            }
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error: " + error.getMessage());
-            }
-        });
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d(TAG, "UserSongLink not removed: " + error.getMessage());
+                }
+            });
     }
 
     // TODO not used

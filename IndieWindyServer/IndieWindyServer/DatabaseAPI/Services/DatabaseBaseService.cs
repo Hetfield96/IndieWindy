@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseAPI.Services
 {
@@ -27,12 +29,12 @@ namespace DatabaseAPI.Services
         /// Returns an item that was inserted in db
         /// </summary>
         /// <param name="item"></param>
-        /// <returns></returns>
+        /// <returns>null if no item was inserted</returns>
         public virtual async Task<T> AddNewItem(T item)
         {
             var itemInDb = await _indieWindyDb.AddAsync(item);
-            await SaveChangesAsync();
-            return itemInDb.Entity;
+            var success = await SaveChangesAsync();
+            return success ? itemInDb.Entity : null;
         }
 
         /// <summary>
@@ -68,8 +70,9 @@ namespace DatabaseAPI.Services
                 await _indieWindyDb.SaveChangesAsync();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Console.Error.WriteLine("SaveChangesAsync: error: " + e.Message);
                 return false;
             }
         }

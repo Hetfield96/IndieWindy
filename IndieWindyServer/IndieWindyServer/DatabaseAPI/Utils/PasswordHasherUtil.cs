@@ -29,10 +29,10 @@ namespace DatabaseAPI.Utils
         }
 
         // Verify a hash against a string.
-        public static bool VerifyMd5Hash(string input, string hash)
+        public static bool VerifyMd5Hash(string input, string hash, bool inputIsHashed = false)
         {
             // Hash the input.
-            var hashOfInput = GetMd5Hash(input);
+            var hashOfInput = inputIsHashed ? input : GetMd5Hash(input);
 
             // Create a StringComparer an compare the hashes.
             StringComparer comparer = StringComparer.OrdinalIgnoreCase;

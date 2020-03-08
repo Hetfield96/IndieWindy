@@ -16,14 +16,14 @@ public class AppUser {
     private AppUser() {
     }
 
-    public static AppUser ParseAppUser(JSONObject jsonObject) {
+    public static AppUser ParseAppUser(JSONObject json) {
         try {
             AppUser user = new AppUser();
-            user.setId(jsonObject.getInt("id"));
-            user.setName(jsonObject.getString("name"));
+            user.setId(json.getInt("id"));
+            user.setName(json.getString("name"));
+            user.setPassword(json.getString("password"));
 
             return user;
-
         } catch (JSONException e)
         {
             Log.d("ParseAppUser", "Error: " + e.getMessage());

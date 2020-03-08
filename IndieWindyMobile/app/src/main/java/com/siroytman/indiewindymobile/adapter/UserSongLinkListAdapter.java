@@ -27,12 +27,12 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
     private MediaController mediaController;
     private SongController songController;
     private Context context;
-    private List<UserSongLink> linksLinks;
+    private List<UserSongLink> linksList;
 
-    public UserSongLinkListAdapter(@NonNull Context context, int resource, @NonNull List<UserSongLink> linksLinks) {
-        super(context, resource, linksLinks);
+    public UserSongLinkListAdapter(@NonNull Context context, int resource, @NonNull List<UserSongLink> linksList) {
+        super(context, resource, linksList);
         this.context = context;
-        this.linksLinks = linksLinks;
+        this.linksList = linksList;
         songController = SongController.getInstance();
         mediaController = MediaController.getInstance();
     }
@@ -42,7 +42,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder viewHolder = null;
-        final UserSongLink songLink = linksLinks.get(position);
+        final UserSongLink songLink = linksList.get(position);
 
         if(convertView == null) {
 

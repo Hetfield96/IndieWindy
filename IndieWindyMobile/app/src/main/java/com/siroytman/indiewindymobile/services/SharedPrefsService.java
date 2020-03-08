@@ -28,8 +28,11 @@ public class SharedPrefsService {
         if (json.isEmpty()){
             return null;
         }
-        // TODO add validation from db
         return gson.fromJson(json, AppUser.class);
+    }
+
+    public void remove(){
+        preferences.edit().clear().apply();
     }
 
 }

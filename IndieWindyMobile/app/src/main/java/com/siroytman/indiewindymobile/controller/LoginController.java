@@ -41,10 +41,16 @@ public class LoginController {
     }
 
     public void login(String name, String password){
+        login(name, password, false);
+    }
+
+    private void login(String name, String password, Boolean passwordIsHashed){
+        String url = "appuser/login/" + passwordIsHashed;
+
         Map<String, String> postParam = new HashMap<>();
         postParam.put("Name", name);
         postParam.put("Password", password);
-        apiController.getJSONObjectResponse("appuser/login", new JSONObject(postParam), new VolleyCallbackJSONObject() {
+        apiController.getJSONObjectResponse(url, new JSONObject(postParam), new VolleyCallbackJSONObject() {
             @Override
             public void onSuccessResponse(JSONObject result) {
                 try {
@@ -76,10 +82,12 @@ public class LoginController {
     }
 
     public void register(String name, String password){
+        String url = "appuser/register";
+
         Map<String, String> postParam = new HashMap<>();
         postParam.put("Name", name);
         postParam.put("Password", password);
-        apiController.getJSONObjectResponse("appuser/register", new JSONObject(postParam), new VolleyCallbackJSONObject() {
+        apiController.getJSONObjectResponse(url, new JSONObject(postParam), new VolleyCallbackJSONObject() {
             @Override
             public void onSuccessResponse(JSONObject result) {
                 AppController.user = AppUser.ParseAppUser(result);
@@ -107,17 +115,16 @@ public class LoginController {
     public void loginFromSharedPrefs(){
         AppUser user = sharedPrefsService.getAppUser();
         if (user != null){
-            AppController.user = user;
-            Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_LONG)
-                    .show();
-            // Swap to next activity
-            loginActivity.startActivity(new Intent(loginActivity, SearchActivity.class));
-            loginActivity.finish();
+            login(user.getName(), user.getPassword(), true);
 
             Log.d(TAG, "Login by shared prefs");
         }
         else{
             Log.d(TAG, "No shared prefs exists for login");
         }
+    }
+
+    public void removeSharedPrefs(){
+        sharedPrefsService.remove();
     }
 }

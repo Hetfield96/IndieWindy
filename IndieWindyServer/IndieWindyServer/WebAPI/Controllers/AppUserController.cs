@@ -41,13 +41,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("login")]
-        public async Task<AppUser> Login([FromBody] AppUser loginUser)
+        [Route("login/{passwordIsHashed}")]
+        public async Task<AppUser> Login([FromBody] AppUser loginUser, bool passwordIsHashed)
         {
             var user = await _appUserService.FindByName(loginUser.Name);
             if (user == null)
                 return null;
-            var res = PasswordHasherService.VerifyMd5Hash(loginUser.Password, user.Password);
+            var res = PasswordHasherService.VerifyMd5Hash(loginUser.Password, user.Password, passwordIsHashed);
             return res ? user : null;
         }
     }

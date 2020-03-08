@@ -50,7 +50,7 @@ public class SearchFragment extends Fragment {
         // Load list fragment
         UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);
         FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().add(R.id.blank_fragment_container, fragment).commit();
+        fm.beginTransaction().add(R.id.fragment_search_container, fragment).commit();
     }
 
     @Override

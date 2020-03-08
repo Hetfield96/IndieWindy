@@ -1,4 +1,4 @@
-package com.siroytman.indiewindymobile.adapter;
+package com.siroytman.indiewindymobile.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;

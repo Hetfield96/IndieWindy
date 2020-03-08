@@ -5,8 +5,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
-import com.siroytman.indiewindymobile.activity.LoginActivity;
-import com.siroytman.indiewindymobile.activity.SearchActivity;
+import com.siroytman.indiewindymobile.ui.activity.LoginActivity;
+import com.siroytman.indiewindymobile.ui.activity.SearchActivity;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.ErrorHandler;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
@@ -81,6 +81,23 @@ public class LoginController {
         });
     }
 
+
+    public void loginFromSharedPrefs(){
+        AppUser user = sharedPrefsService.getAppUser();
+        if (user != null){
+            login(user.getName(), user.getPassword(), true);
+
+            Log.d(TAG, "Login by shared prefs");
+        }
+        else{
+            Log.d(TAG, "No shared prefs exists for login");
+        }
+    }
+
+    public void removeSharedPrefs(){
+        sharedPrefsService.remove();
+    }
+
     public void register(String name, String password){
         String url = "appuser/register";
 
@@ -110,21 +127,5 @@ public class LoginController {
                 }
             }
         });
-    }
-
-    public void loginFromSharedPrefs(){
-        AppUser user = sharedPrefsService.getAppUser();
-        if (user != null){
-            login(user.getName(), user.getPassword(), true);
-
-            Log.d(TAG, "Login by shared prefs");
-        }
-        else{
-            Log.d(TAG, "No shared prefs exists for login");
-        }
-    }
-
-    public void removeSharedPrefs(){
-        sharedPrefsService.remove();
     }
 }

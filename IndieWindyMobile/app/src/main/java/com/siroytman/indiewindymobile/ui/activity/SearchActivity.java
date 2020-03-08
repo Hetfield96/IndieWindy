@@ -1,4 +1,4 @@
-package com.siroytman.indiewindymobile.activity;
+package com.siroytman.indiewindymobile.ui.activity;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
 import android.widget.SearchView;
 
 import com.siroytman.indiewindymobile.R;
-import com.siroytman.indiewindymobile.activity.fragments.UserSongLinkListFragment;
+import com.siroytman.indiewindymobile.ui.fragments.UserSongLinkListFragment;
 import com.siroytman.indiewindymobile.controller.SearchController;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 

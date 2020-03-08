@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
-import com.siroytman.indiewindymobile.activity.SearchActivity;
+import com.siroytman.indiewindymobile.ui.activity.SearchActivity;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.ErrorHandler;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;

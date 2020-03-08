@@ -1,4 +1,4 @@
-package com.siroytman.indiewindymobile.activity;
+package com.siroytman.indiewindymobile.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;

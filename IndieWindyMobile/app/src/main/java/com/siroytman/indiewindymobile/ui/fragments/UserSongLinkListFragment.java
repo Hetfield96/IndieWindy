@@ -1,4 +1,4 @@
-package com.siroytman.indiewindymobile.activity.fragments;
+package com.siroytman.indiewindymobile.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.siroytman.indiewindymobile.R;
-import com.siroytman.indiewindymobile.adapter.UserSongLinkListAdapter;
+import com.siroytman.indiewindymobile.ui.adapter.UserSongLinkListAdapter;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 
 import java.util.List;

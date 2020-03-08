@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
-import com.siroytman.indiewindymobile.adapter.UserSongLinkListAdapter;
+import com.siroytman.indiewindymobile.ui.adapter.UserSongLinkListAdapter;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;

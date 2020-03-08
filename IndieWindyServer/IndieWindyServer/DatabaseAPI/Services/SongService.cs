@@ -37,6 +37,7 @@ namespace DatabaseAPI.Services
                 {
                     song.Artist = artist;
                     song.Album = album;
+                    album.Artist = artist;
                     link.Song = song;
                     return link;
                 },

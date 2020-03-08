@@ -3,6 +3,7 @@ package com.siroytman.indiewindymobile.ui.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -11,14 +12,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.controller.MediaController;
 import com.siroytman.indiewindymobile.controller.SongController;
+import com.siroytman.indiewindymobile.model.Album;
 import com.siroytman.indiewindymobile.model.Song;
 import com.siroytman.indiewindymobile.model.UserSongLink;
+import com.siroytman.indiewindymobile.ui.activity.AlbumActivity;
 
 import java.util.List;
 
@@ -57,7 +59,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             assert inflater != null;
             convertView = inflater.inflate(R.layout.song_list_item, null);
 
-            viewHolder = new ViewHolder(convertView, position, songLink);
+            viewHolder = new ViewHolder(convertView, songLink);
 
             convertView.setTag(viewHolder);
 
@@ -76,7 +78,6 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
     // Single element
     public class ViewHolder  implements View.OnClickListener {
         public static final String TAG = "UserSongLinkAdapter.VH";
-        private int position;
         private UserSongLink songLink;
 
         private TextView songNameView;
@@ -84,9 +85,8 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
         private ImageView songAddButton;
         private ImageView songOptionsButton;
 
-        public ViewHolder(View convertView, final int position, final UserSongLink songLink) {
+        public ViewHolder(View convertView, final UserSongLink songLink) {
             this.songLink = songLink;
-            this.position = position;
 
             songNameView = convertView.findViewById(R.id.song_name);
             songArtistNameView = convertView.findViewById(R.id.artist_name);
@@ -144,6 +144,11 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
                                     return true;
                                 case R.id.song_options_menu_album:
                                     Log.d(TAG, "to album of song: " + songLink.getSong().getName());
+                                    Intent intent = new Intent(context, AlbumActivity.class);
+                                    // TODO if we are already in this album page?
+                                    // TODO put artist?
+                                    intent.putExtra(Album.class.getSimpleName(), songLink.getSong().getAlbum());
+                                    context.startActivity(intent);
                                     return true;
                                 default:
                                     return false;

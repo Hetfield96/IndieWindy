@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 using DatabaseAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace DatabaseAPI.Services
 {
@@ -15,6 +17,28 @@ namespace DatabaseAPI.Services
         {
             var albums = await _indieWindyDb.Album.ToListAsync();
             return albums.Where(a => SearchService.StartsWith(a.Name, query)).ToList();
+        }
+
+        public async Task<List<UserSongLink>> GetSongs(int albumId, int userId)
+        {
+            await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
+            
+            var res = await con.QueryAsync<UserSongLink, Song, Artist, Album, UserSongLink>(
+                @"select * from user_song_link as link
+                        right join song s on link.song_id = s.id and link.app_user_id = @userId
+                        join artist a on s.artist_id = a.id
+                        join album al on s.album_id = al.id
+                        where s.album_id = @albumId",
+                (link, song, artist, album) =>
+                {
+                    album.Artist = artist;
+                    song.Album = album;
+                    song.Artist = artist;
+                    link.Song = song;
+                    return link;
+                },
+                param: new {albumId, userId});
+            return res.ToList();
         }
     }
 }

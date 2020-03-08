@@ -17,7 +17,6 @@ namespace WebAPI.Controllers
             _songService = songService;
         }
         
-        [HttpGet]
         [Route("findWithAdded/{query}/{userId}")]
         public async Task<List<UserSongLink>> FindByNameWithAdded(string query, int userId)
         {

@@ -44,7 +44,7 @@ public class SearchFragment extends Fragment {
         searchController = SearchController.getInstance(this);
     }
 
-    public void LinksViewUpdate(ArrayList<UserSongLink> links)
+    public void songFoundViewUpdate(ArrayList<UserSongLink> links)
     {
         // Load list fragment
         UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);

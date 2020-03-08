@@ -58,7 +58,7 @@ public class LoginController {
                     // Save to shared prefs
                     sharedPrefsService.saveAppUser(AppController.user);
 
-                    Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_LONG)
+                    Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_SHORT)
                             .show();
                     // Swap to next activity
                     loginActivity.startActivity(new Intent(loginActivity, NavigationActivity.class));

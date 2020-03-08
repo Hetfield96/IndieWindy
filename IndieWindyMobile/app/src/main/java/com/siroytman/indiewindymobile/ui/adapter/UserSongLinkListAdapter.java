@@ -1,14 +1,17 @@
 package com.siroytman.indiewindymobile.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
@@ -21,6 +24,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
+import androidx.appcompat.widget.PopupMenu;
 
 public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
     public static final String TAG = "UserSongLinkListAdapter";
@@ -95,6 +101,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
 
             convertView.setOnClickListener(this);
             songAddButton.setOnClickListener(this);
+            songOptionsButton.setOnClickListener(this);
         }
 
         @Override
@@ -105,7 +112,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
 
             switch (v.getId()) {
                 case R.id.song_add_button:
-                    Log.d(TAG, "onClick add button: " + song.getName());
+                    Log.d(TAG, "onClick song_add_button: " + song.getName());
 
                     if (songLink.isEmpty()) {
                         songController.addUserSongLink(this);
@@ -113,9 +120,46 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
                         songController.removeUserSongLink(this);
                     }
                     return;
+                case R.id.song_options_button:
+                    Log.d(TAG, "onClick song_options_button: " + song.getName());
+                    showPopupMenu(v);
+                    return;
+
             }
 
             mediaController.prepareOrStartPause(song);
+        }
+
+        @SuppressLint("RestrictedApi")
+        private void showPopupMenu(View v) {
+            PopupMenu menu = new PopupMenu(context, v);
+            menu.inflate(R.menu.popup_song_menu);
+
+            menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.song_options_menu_artist:
+                                    Log.d(TAG, "to artist of song: " + songLink.getSong().getName());
+                                    return true;
+                                case R.id.song_options_menu_album:
+                                    Log.d(TAG, "to album of song: " + songLink.getSong().getName());
+                                    return true;
+                                default:
+                                    return false;
+                            }
+                        }
+                    });
+
+            menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+                @Override
+                public void onDismiss(PopupMenu menu) {
+                }
+            });
+
+            MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) menu.getMenu(), v);
+            menuHelper.setForceShowIcon(true);
+            menuHelper.show();
         }
 
         public void songAdded(){

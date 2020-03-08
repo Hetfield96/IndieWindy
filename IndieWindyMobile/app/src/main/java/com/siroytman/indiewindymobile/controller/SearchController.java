@@ -12,6 +12,7 @@ import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.ErrorHandler;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
 import com.siroytman.indiewindymobile.model.UserSongLink;
+import com.siroytman.indiewindymobile.ui.fragments.SearchFragment;
 
 import org.json.JSONArray;
 
@@ -69,23 +70,29 @@ public class SearchController  {
         }
     }
 
-//    private static ArrayList<Song> parseSongs(JSONArray songs)
-//    {
-//        ArrayList<Song> result = new ArrayList<>();
-//        for(int i = 0; i < songs.length(); ++i)
-//        {
-//            try {
-//                JSONObject jsonObject = songs.getJSONObject(i);
-//                Song song = Song.ParseSong(jsonObject);
-//                result.add(song);
-//            }
-//            catch (JSONException e)
-//            {
-//                Log.d("Search", "Error: " + e.getMessage());
-//            }
-//        }
-//        return result;
-//    }
+    public static void SearchViaFragment(final SearchFragment searchFragment, String query){
+        ApiController apiController = ApiController.getInstance();
 
+        String url = "song/findWithAdded/" + query + "/" + AppController.user.getId();
+        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
+            @Override
+            public void onSuccessResponse(JSONArray result) {
+                try {
+                    Log.d("Search", "Songs found");
+                    ArrayList<UserSongLink> links = UserSongLink.parseLinks(result);
+                    searchFragment.LinksViewUpdate(links);
+                }
+                catch (Exception e)
+                {
+                    Log.d("Search", "Unable to parse response: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("SearchFragment", "Songs not found!");
+            }
+        });
+    }
 
 }

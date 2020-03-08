@@ -38,8 +38,6 @@ public class UserSongLinkListFragment extends ListFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.song_list_fragment, container, false);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_song_list, container, false);
     }
 }

@@ -1,13 +1,9 @@
 package com.siroytman.indiewindymobile.controller;
 
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
-import com.siroytman.indiewindymobile.ui.activity.SearchActivity;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.ErrorHandler;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
@@ -19,78 +15,44 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 
 public class SearchController  {
-
+    private static final String TAG = "SearchController";
+    private SearchFragment searchFragment;
     private ApiController apiController;
-    private SearchActivity searchActivity;
     private static SearchController instance;
 
-    private SearchController(SearchActivity searchActivity) {
-        this.searchActivity = searchActivity;
+    private SearchController(SearchFragment searchFragment) {
         apiController = ApiController.getInstance();
+        this.searchFragment = searchFragment;
     }
 
-    public static synchronized SearchController getInstance(SearchActivity searchActivity) {
+    public static synchronized SearchController getInstance(SearchFragment searchFragment) {
         if (instance == null) {
-            instance = new SearchController(searchActivity);
+            instance = new SearchController(searchFragment);
         }
-        // Always last search activity here - specific of search activity
-        instance.searchActivity = searchActivity;
         return instance;
     }
 
     // Search (by songs)
-    public void handleSearchIntent(Intent intent) {
-        final Context context = searchActivity.getApplicationContext();
-
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-
-            String url = "song/findWithAdded/" + query + "/" + AppController.user.getId();
-            apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
-                @Override
-                public void onSuccessResponse(JSONArray result) {
-                    try {
-                        Log.d("Search", "Songs found");
-                        ArrayList<UserSongLink> links = UserSongLink.parseLinks(result);
-                        searchActivity.LinksViewUpdate(links);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.d("Search", "Unable to parse response: " + e.getMessage());
-                    }
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if (!ErrorHandler.HandleError(context, error)) {
-                        Log.d("Search", "Songs not found!");
-                    }
-                }
-            });
-        }
-    }
-
-    public static void SearchViaFragment(final SearchFragment searchFragment, String query){
-        ApiController apiController = ApiController.getInstance();
-
+    public void search(String query){
         String url = "song/findWithAdded/" + query + "/" + AppController.user.getId();
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
             public void onSuccessResponse(JSONArray result) {
                 try {
-                    Log.d("Search", "Songs found");
+                    Log.d(TAG, "Songs found");
                     ArrayList<UserSongLink> links = UserSongLink.parseLinks(result);
                     searchFragment.LinksViewUpdate(links);
                 }
-                catch (Exception e)
-                {
-                    Log.d("Search", "Unable to parse response: " + e.getMessage());
+                catch (Exception e) {
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("SearchFragment", "Songs not found!");
+                if (!ErrorHandler.HandleError(searchFragment.getContext(), error)) {
+                    Log.d(TAG, "Songs not found!");
+                }
             }
         });
     }

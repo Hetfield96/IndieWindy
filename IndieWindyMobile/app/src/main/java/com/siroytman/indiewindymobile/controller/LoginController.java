@@ -5,14 +5,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
-import com.siroytman.indiewindymobile.ui.activity.LoginActivity;
-import com.siroytman.indiewindymobile.ui.activity.NavigationActivity;
-import com.siroytman.indiewindymobile.ui.activity.SearchActivity;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.ErrorHandler;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.model.AppUser;
 import com.siroytman.indiewindymobile.services.SharedPrefsService;
+import com.siroytman.indiewindymobile.ui.activity.LoginActivity;
+import com.siroytman.indiewindymobile.ui.activity.NavigationActivity;
 
 import org.json.JSONObject;
 
@@ -115,7 +114,7 @@ public class LoginController {
                 Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_LONG)
                         .show();
                 // Swap to next activity
-                loginActivity.startActivity(new Intent(loginActivity, SearchActivity.class));
+                loginActivity.startActivity(new Intent(loginActivity, NavigationActivity.class));
                 loginActivity.finish();
             }
 

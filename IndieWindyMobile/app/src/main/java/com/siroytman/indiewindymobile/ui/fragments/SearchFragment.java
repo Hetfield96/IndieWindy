@@ -3,13 +3,6 @@ package com.siroytman.indiewindymobile.ui.fragments;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.SearchController;
@@ -24,9 +18,14 @@ import com.siroytman.indiewindymobile.model.UserSongLink;
 
 import java.util.ArrayList;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 public class SearchFragment extends Fragment {
-    Context context;
-    private ArrayList<UserSongLink> linksList;
+    private static final String TAG = "SearchFragment";
+    private SearchController searchController;
 
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
@@ -41,16 +40,17 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        searchController = SearchController.getInstance(this);
     }
 
     public void LinksViewUpdate(ArrayList<UserSongLink> links)
     {
-        linksList = links;
-
         // Load list fragment
         UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);
+        // TODO deprecated
         FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().add(R.id.fragment_search_container, fragment).commit();
+        fm.beginTransaction().replace(R.id.fragment_search_container, fragment).commit();
     }
 
     @Override
@@ -65,18 +65,18 @@ public class SearchFragment extends Fragment {
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
 
-            final SearchFragment searchFragment = this;
             queryTextListener = new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    Log.d("onQueryTextChange", newText);
-
                     return true;
                 }
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    Log.d("onQueryTextSubmit", query);
-                    SearchController.SearchViaFragment(searchFragment, query);
+                    hideKeyboard();
+
+                    Log.d(TAG, "Query submit: " + query);
+                    searchController.search(query);
+
                     return true;
                 }
             };
@@ -84,23 +84,12 @@ public class SearchFragment extends Fragment {
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
+    
+    private void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager)
+                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                // Not implemented here
-                return false;
-            default:
-                break;
-        }
-        searchView.setOnQueryTextListener(queryTextListener);
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        this.context = context;
+        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

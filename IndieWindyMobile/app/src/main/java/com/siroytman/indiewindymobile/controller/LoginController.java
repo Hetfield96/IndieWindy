@@ -73,7 +73,7 @@ public class LoginController {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (!ErrorHandler.HandleError(loginActivity, error)) {
-                    Toast.makeText(loginActivity, "Incorrect login or password!" + error.getMessage(),
+                    Toast.makeText(loginActivity, "Incorrect login or password!",
                             Toast.LENGTH_LONG)
                             .show();
                 }

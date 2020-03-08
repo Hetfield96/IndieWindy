@@ -3,20 +3,11 @@ select * from artist;
 select * from album;
 select * from song;
 
+
 select * from user_artist_link;
 select * from user_album_link;
 select * from user_song_link;
 select * from user_concert_link;
-
-delete from user_song_link
-where app_user_id = 5;
-
-delete from app_user
-where id > 1;
-
-update song
-set song_url = 'http://indie-windy.s3.eu-north-1.amazonaws.com/music/Pasosh/Pasosh-rossiya.mp3'
-where id = 4;
 
 
 select * from song as s

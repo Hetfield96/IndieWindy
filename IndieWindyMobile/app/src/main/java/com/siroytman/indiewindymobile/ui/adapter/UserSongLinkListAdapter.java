@@ -148,7 +148,6 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
                                     if (!(context instanceof AlbumActivity)) {
                                         Log.d(TAG, "to album of song: " + songLink.getSong().getName());
                                         Intent intent = new Intent(context, AlbumActivity.class);
-                                        // TODO if we are already in this album page?
                                         intent.putExtra(Album.class.getSimpleName(), songLink.getSong().getAlbum());
                                         intent.putExtra(Artist.class.getSimpleName(), songLink.getSong().getArtist());
                                         context.startActivity(intent);

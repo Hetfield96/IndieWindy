@@ -1,26 +1,29 @@
 package com.siroytman.indiewindymobile.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.textservice.TextInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AlbumController;
 import com.siroytman.indiewindymobile.model.Album;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserSongLink;
+import com.siroytman.indiewindymobile.services.FragmentService;
 import com.siroytman.indiewindymobile.ui.fragments.UserSongLinkListFragment;
 
 import java.util.ArrayList;
 
-public class AlbumActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+
+public class AlbumActivity extends FragmentActivity {
     public static final String TAG = "AlbumActivity";
+
+    private static FragmentManager fragmentManager;
 
     private AlbumController albumController;
     private Album album;
@@ -34,16 +37,18 @@ public class AlbumActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
 
-        albumController = AlbumController.getInstance(this);
+        if(fragmentManager == null){
+            fragmentManager = getSupportFragmentManager();
+        }
 
-        // Get album
+        // Get album from bundle
         Bundle arguments = getIntent().getExtras();
         if(arguments != null) {
             album = arguments.getParcelable(Album.class.getSimpleName());
             Artist artist = arguments.getParcelable(Artist.class.getSimpleName());
             album.setArtist(artist);
         }
-        else{
+        else {
             Log.e(TAG, "Error: Arguments are null!");
         }
 
@@ -52,9 +57,11 @@ public class AlbumActivity extends AppCompatActivity {
         albumPhoto = findViewById(R.id.album_photo);
 
         albumName.setText(album.getName());
-        // TODO image
         albumArtistName.setText(album.getArtist().getName());
+        Glide.with(this).load(album.getImageUrl()).into(albumPhoto);
 
+
+        albumController = AlbumController.getInstance(this);
         albumController.getAlbumSongs(album);
     }
 
@@ -62,7 +69,6 @@ public class AlbumActivity extends AppCompatActivity {
     {
         // Load list fragment
         UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.album_song_list_container, fragment).commit();
+        FragmentService.replaceFragment(fragmentManager, R.id.album_song_list_container, fragment);
     }
 }

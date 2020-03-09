@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.SearchController;
 import com.siroytman.indiewindymobile.model.UserSongLink;
+import com.siroytman.indiewindymobile.services.FragmentService;
 
 import java.util.ArrayList;
 
@@ -49,8 +50,9 @@ public class SearchFragment extends Fragment {
         // Load list fragment
         UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);
         // TODO deprecated
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.fragment_search_container, fragment).commit();
+//        FragmentManager fm = getFragmentManager();
+//        fm.beginTransaction().replace(R.id.fragment_search_container, fragment).commit();
+        FragmentService.replaceFragment(this, R.id.fragment_search_container, fragment);
     }
 
     @Override

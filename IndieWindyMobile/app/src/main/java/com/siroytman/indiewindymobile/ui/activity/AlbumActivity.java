@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AlbumController;
 import com.siroytman.indiewindymobile.model.Album;
+import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.ui.fragments.UserSongLinkListFragment;
 
@@ -39,6 +40,8 @@ public class AlbumActivity extends AppCompatActivity {
         Bundle arguments = getIntent().getExtras();
         if(arguments != null) {
             album = arguments.getParcelable(Album.class.getSimpleName());
+            Artist artist = arguments.getParcelable(Artist.class.getSimpleName());
+            album.setArtist(artist);
         }
         else{
             Log.e(TAG, "Error: Arguments are null!");
@@ -49,9 +52,8 @@ public class AlbumActivity extends AppCompatActivity {
         albumPhoto = findViewById(R.id.album_photo);
 
         albumName.setText(album.getName());
-        // TODO artistName
         // TODO image
-//        albumArtistName.setText(album.getArtist().getName());
+        albumArtistName.setText(album.getArtist().getName());
 
         albumController.getAlbumSongs(album);
     }

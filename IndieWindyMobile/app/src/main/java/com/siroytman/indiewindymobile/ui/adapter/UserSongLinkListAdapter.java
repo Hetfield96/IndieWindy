@@ -18,6 +18,7 @@ import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.controller.MediaController;
 import com.siroytman.indiewindymobile.controller.SongController;
 import com.siroytman.indiewindymobile.model.Album;
+import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.Song;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.ui.activity.AlbumActivity;
@@ -143,13 +144,16 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
                                     Log.d(TAG, "to artist of song: " + songLink.getSong().getName());
                                     return true;
                                 case R.id.song_options_menu_album:
-                                    Log.d(TAG, "to album of song: " + songLink.getSong().getName());
-                                    Intent intent = new Intent(context, AlbumActivity.class);
-                                    // TODO if we are already in this album page?
-                                    // TODO put artist?
-                                    intent.putExtra(Album.class.getSimpleName(), songLink.getSong().getAlbum());
-                                    context.startActivity(intent);
-                                    return true;
+                                    // If not already in AlbumActivity
+                                    if (!(context instanceof AlbumActivity)) {
+                                        Log.d(TAG, "to album of song: " + songLink.getSong().getName());
+                                        Intent intent = new Intent(context, AlbumActivity.class);
+                                        // TODO if we are already in this album page?
+                                        intent.putExtra(Album.class.getSimpleName(), songLink.getSong().getAlbum());
+                                        intent.putExtra(Artist.class.getSimpleName(), songLink.getSong().getArtist());
+                                        context.startActivity(intent);
+                                        return true;
+                                    }
                                 default:
                                     return false;
                             }

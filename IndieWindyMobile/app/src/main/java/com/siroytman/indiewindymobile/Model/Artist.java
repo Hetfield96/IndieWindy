@@ -1,11 +1,13 @@
 package com.siroytman.indiewindymobile.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Artist {
+public class Artist implements Parcelable {
     private int id;
 
     private String name;
@@ -13,6 +15,7 @@ public class Artist {
     private String imageUrl;
 
     public Artist() { }
+
 
     public static Artist ParseArtist(JSONObject jsonObject) {
         try {
@@ -52,5 +55,36 @@ public class Artist {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+
+    protected Artist(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        imageUrl = in.readString();
+    }
+
+    public static final Creator<Artist> CREATOR = new Creator<Artist>() {
+        @Override
+        public Artist createFromParcel(Parcel in) {
+            return new Artist(in);
+        }
+
+        @Override
+        public Artist[] newArray(int size) {
+            return new Artist[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(imageUrl);
     }
 }

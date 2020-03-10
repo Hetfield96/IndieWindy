@@ -1,11 +1,13 @@
 package com.siroytman.indiewindymobile.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Song {
+public class Song implements Parcelable {
     public static final String TAG = "Song";
 
     private int id;
@@ -86,5 +88,39 @@ public class Song {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    protected Song(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        songUrl = in.readString();
+        artist = in.readParcelable(Artist.class.getClassLoader());
+        album = in.readParcelable(Album.class.getClassLoader());
+    }
+
+    public static final Creator<Song> CREATOR = new Creator<Song>() {
+        @Override
+        public Song createFromParcel(Parcel in) {
+            return new Song(in);
+        }
+
+        @Override
+        public Song[] newArray(int size) {
+            return new Song[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(songUrl);
+        dest.writeParcelable(artist, flags);
+        dest.writeParcelable(album, flags);
     }
 }

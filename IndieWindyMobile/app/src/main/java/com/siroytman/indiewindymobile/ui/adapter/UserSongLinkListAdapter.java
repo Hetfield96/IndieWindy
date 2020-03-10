@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.Player;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.controller.MediaController;
@@ -22,6 +23,7 @@ import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.Song;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.ui.activity.AlbumActivity;
+import com.siroytman.indiewindymobile.ui.activity.PlayerActivity;
 
 import java.util.List;
 
@@ -125,10 +127,14 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
                     Log.d(TAG, "onClick song_options_button: " + song.getName());
                     showPopupMenu(v);
                     return;
-
             }
 
-            mediaController.prepareOrStartPause(song);
+
+            Log.d(TAG, "to player of song: " + songLink.getSong().getName());
+            Intent intent = new Intent(context, PlayerActivity.class);
+            intent.putExtra(Song.class.getSimpleName(), songLink.getSong());
+            context.startActivity(intent);
+//            mediaController.prepareOrStartPause(song);
         }
 
         @SuppressLint("RestrictedApi")

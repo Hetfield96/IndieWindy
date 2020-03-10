@@ -12,6 +12,7 @@ import com.siroytman.indiewindymobile.model.AppUser;
 import com.siroytman.indiewindymobile.services.SharedPrefsService;
 import com.siroytman.indiewindymobile.ui.activity.LoginActivity;
 import com.siroytman.indiewindymobile.ui.activity.NavigationActivity;
+import com.siroytman.indiewindymobile.ui.activity.PlayerActivity;
 
 import org.json.JSONObject;
 

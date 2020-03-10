@@ -4,25 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.AlbumActivity">
+    tools:context=".ui.activity.ArtistActivity">
 
     <ImageView
-        android:id="@+id/album_photo"
-        android:src="@drawable/ic_album"
+        android:id="@+id/artist_photo"
+        android:src="@drawable/ic_artist"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:contentDescription="Album photo" />
+        android:contentDescription="Artist photo" />
 
     <TextView
-        android:id="@+id/album_name"
-        android:text="Album name"
+        android:id="@+id/artist_name"
+        android:text="Artist name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/album_photo"
+        android:layout_toEndOf="@id/artist_photo"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:textSize="22sp"
@@ -30,21 +30,21 @@
 
 
     <TextView
-        android:id="@+id/album_artist_name"
-        android:text="Artist name"
+        android:id="@+id/artist_description"
+        android:text="Artist description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/album_name"
-        android:layout_toEndOf="@id/album_photo"
+        android:layout_below="@id/artist_name"
+        android:layout_toEndOf="@id/artist_photo"
         android:textSize="17sp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="3dp"/>
 
     <ImageView
-        android:id="@+id/album_options_button"
+        android:id="@+id/artist_options_button"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_above="@+id/album_song_list_container"
+        android:layout_above="@+id/container"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="115dp"
         android:layout_marginEnd="20dp"
@@ -53,22 +53,22 @@
         android:src="@drawable/ic_options" />
 
     <ImageView
-        android:id="@+id/album_add_button"
+        android:id="@+id/artist_add_button"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_above="@+id/album_song_list_container"
+        android:layout_above="@+id/container"
         android:layout_marginTop="115dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="15dp"
-        android:layout_toLeftOf="@id/album_options_button"
+        android:layout_toLeftOf="@id/artist_options_button"
         android:contentDescription="Add button"
         android:src="@drawable/ic_add" />
 
     <FrameLayout
-        android:id="@+id/album_song_list_container"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/album_photo"
+        android:layout_below="@id/artist_photo"
         android:layout_marginTop="10dp"
         />
 

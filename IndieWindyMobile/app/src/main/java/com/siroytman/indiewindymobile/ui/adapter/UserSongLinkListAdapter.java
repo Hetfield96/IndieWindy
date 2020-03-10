@@ -23,6 +23,7 @@ import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.Song;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.ui.activity.AlbumActivity;
+import com.siroytman.indiewindymobile.ui.activity.ArtistActivity;
 import com.siroytman.indiewindymobile.ui.activity.PlayerActivity;
 
 import java.util.List;
@@ -147,7 +148,14 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.song_options_menu_artist:
-                                    Log.d(TAG, "to artist of song: " + songLink.getSong().getName());
+                                    // If not already in ArtistActivity
+                                    if (!(context instanceof ArtistActivity)) {
+                                        Log.d(TAG, "to artist of song: " + songLink.getSong().getName());
+                                        Intent intent = new Intent(context, ArtistActivity.class);
+                                        intent.putExtra(Artist.class.getSimpleName(), songLink.getSong().getArtist());
+                                        context.startActivity(intent);
+                                        return true;
+                                    }
                                     return true;
                                 case R.id.song_options_menu_album:
                                     // If not already in AlbumActivity

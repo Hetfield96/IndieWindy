@@ -7,12 +7,15 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Artist implements Parcelable {
+public class Artist implements Parcelable{
     private int id;
 
     private String name;
 
+    private String description;
+
     private String imageUrl;
+
 
     public Artist() { }
 
@@ -22,6 +25,7 @@ public class Artist implements Parcelable {
             Artist artist = new Artist();
             artist.setId(jsonObject.getInt("id"));
             artist.setName(jsonObject.getString("name"));
+            artist.setDescription(jsonObject.getString("description"));
             artist.setImageUrl(jsonObject.getString("imageUrl"));
 
             return artist;
@@ -57,10 +61,19 @@ public class Artist implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     protected Artist(Parcel in) {
         id = in.readInt();
         name = in.readString();
+        description = in.readString();
         imageUrl = in.readString();
     }
 
@@ -85,6 +98,7 @@ public class Artist implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(name);
+        dest.writeString(description);
         dest.writeString(imageUrl);
     }
 }

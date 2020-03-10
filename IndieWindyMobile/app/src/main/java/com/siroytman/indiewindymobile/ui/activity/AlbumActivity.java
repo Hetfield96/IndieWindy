@@ -16,7 +16,6 @@ import com.siroytman.indiewindymobile.ui.fragments.UserSongLinkListFragment;
 
 import java.util.ArrayList;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 

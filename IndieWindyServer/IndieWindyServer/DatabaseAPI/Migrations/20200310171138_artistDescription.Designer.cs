@@ -3,15 +3,17 @@ using System;
 using DatabaseAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(IndieWindyDbContext))]
-    partial class MyWebApiContextModelSnapshot : ModelSnapshot
+    [Migration("20200310171138_artistDescription")]
+    partial class artistDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

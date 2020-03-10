@@ -8,46 +8,46 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class UserSongLink {
-    public static final String TAG = "UserSongLink";
+public class UserAlbumLink {
+    public static final String TAG = "UserAlbumLink";
 
     // Required
     private int appUserId;
-    private int songId;
+    private int albumId;
 
     // Possible
-    private Song song;
+    private Album album;
 
-    public UserSongLink(){}
+    public UserAlbumLink(){}
 
-    public static UserSongLink Parse(JSONObject json){
-        UserSongLink link = new UserSongLink();
+    public static UserAlbumLink Parse(JSONObject json){
+        UserAlbumLink link = new UserAlbumLink();
 
         try {
             link.appUserId = json.getInt("appUserId");
-            link.songId = json.getInt("songId");
+            link.albumId = json.getInt("albumId");
         } catch (JSONException e) {
             Log.d(TAG, "Can't parse link");
             return null;
         }
 
         try {
-            link.song = Song.Parse(json.getJSONObject("song"));
+            link.album = Album.Parse(json.getJSONObject("album"));
         } catch (JSONException e) {
-            Log.d(TAG, "Can't parse song");
+            Log.d(TAG, "Can't parse album");
         }
 
         return link;
     }
 
-    public static ArrayList<UserSongLink> parseLinks(JSONArray links)
+    public static ArrayList<UserAlbumLink> parseLinks(JSONArray links)
     {
-        ArrayList<UserSongLink> result = new ArrayList<>();
+        ArrayList<UserAlbumLink> result = new ArrayList<>();
         for(int i = 0; i < links.length(); ++i)
         {
             try {
                 JSONObject jsonObject = links.getJSONObject(i);
-                UserSongLink link = Parse(jsonObject);
+                UserAlbumLink link = Parse(jsonObject);
                 result.add(link);
             }
             catch (JSONException e)
@@ -59,31 +59,31 @@ public class UserSongLink {
     }
 
     public boolean isEmpty(){
-        return (appUserId == 0 && songId == 0);
+        return (appUserId == 0 && albumId == 0);
     }
 
     public void makeEmpty(){
         appUserId = 0;
-        songId = 0;
+        albumId = 0;
     }
 
-    public Song getSong() {
-        return song;
+    public Album getAlbum() {
+        return album;
     }
 
     public int getAppUserId() {
         return appUserId;
     }
 
-    public int getSongId() {
-        return songId;
+    public int getAlbumId() {
+        return albumId;
     }
 
     public void setAppUserId(int appUserId) {
         this.appUserId = appUserId;
     }
 
-    public void setSongId(int songId) {
-        this.songId = songId;
+    public void setAlbumId(int albumId) {
+        this.albumId = albumId;
     }
 }

@@ -19,7 +19,7 @@ public class Song implements Parcelable {
 
     public Song() {}
 
-    public static Song ParseSong(JSONObject json) {
+    public static Song Parse(JSONObject json) {
         Song song = new Song();
         try {
             song.id = json.getInt("id");
@@ -31,16 +31,14 @@ public class Song implements Parcelable {
             return null;
         }
 
-        Artist artist = null;
         try {
-            artist = Artist.ParseArtist(json.getJSONObject("artist"));
-            song.artist = artist;
+            song.artist = Artist.ParseArtist(json.getJSONObject("artist"));
         } catch (JSONException e) {
             Log.d(TAG,"No artist");
         }
 
         try {
-            Album album = Album.Parse(json.getJSONObject("album"), artist);
+            Album album = Album.Parse(json.getJSONObject("album"), song.artist);
             song.album = album;
         } catch (JSONException e) {
             Log.d(TAG,"No album");

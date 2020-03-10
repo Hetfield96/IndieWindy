@@ -7,7 +7,7 @@
     tools:context=".ui.activity.ArtistActivity">
 
     <ImageView
-        android:id="@+id/artist_photo"
+        android:id="@+id/artist_activity__artist_photo"
         android:src="@drawable/ic_artist"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -18,11 +18,11 @@
         android:contentDescription="Artist photo" />
 
     <TextView
-        android:id="@+id/artist_name"
+        android:id="@+id/artist_activity__artist_name"
         android:text="Artist name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/artist_photo"
+        android:layout_toEndOf="@id/artist_activity__artist_photo"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:textSize="22sp"
@@ -30,18 +30,18 @@
 
 
     <TextView
-        android:id="@+id/artist_description"
+        android:id="@+id/artist_activity__artist_description"
         android:text="Artist description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/artist_name"
-        android:layout_toEndOf="@id/artist_photo"
+        android:layout_below="@id/artist_activity__artist_name"
+        android:layout_toEndOf="@id/artist_activity__artist_photo"
         android:textSize="17sp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="3dp"/>
 
     <ImageView
-        android:id="@+id/artist_options_button"
+        android:id="@+id/artist_activity__artist_options_button"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_above="@+id/container"
@@ -53,22 +53,22 @@
         android:src="@drawable/ic_options" />
 
     <ImageView
-        android:id="@+id/artist_add_button"
+        android:id="@+id/artist_activity__artist_add_button"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_above="@+id/container"
         android:layout_marginTop="115dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="15dp"
-        android:layout_toLeftOf="@id/artist_options_button"
+        android:layout_toLeftOf="@id/artist_activity__artist_options_button"
         android:contentDescription="Add button"
         android:src="@drawable/ic_add" />
 
     <FrameLayout
-        android:id="@+id/container"
+        android:id="@+id/artist_activity__albums_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/artist_photo"
+        android:layout_below="@id/artist_activity__artist_photo"
         android:layout_marginTop="10dp"
         />
 

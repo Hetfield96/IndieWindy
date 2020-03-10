@@ -10,9 +10,13 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 public class Album  implements Parcelable {
+    public static final String TAG = "Album";
+
+    // Required
     private int id;
     private String name;
     private String imageUrl;
+    // Possible
     private Artist artist;
 
     public Album() { }
@@ -49,21 +53,25 @@ public class Album  implements Parcelable {
 
     // TODO refactor
     public static Album Parse(JSONObject jsonObject) {
+        Album album = new Album();
         try {
-            Album album = new Album();
             album.setId(jsonObject.getInt("id"));
             album.setName(jsonObject.getString("name"));
             album.setImageUrl(jsonObject.getString("imageUrl"));
 
-            Artist artist = Artist.ParseArtist(jsonObject.getJSONObject("artist"));
-            album.setArtist(artist);
-
-            return album;
         } catch (JSONException e)
         {
-            Log.d("ParseAlbum", "Error: " + e.getMessage());
+            Log.d(TAG, "Error: " + e.getMessage());
             return null;
         }
+
+        try {
+            album.artist = Artist.ParseArtist(jsonObject.getJSONObject("artist"));
+        } catch (JSONException e) {
+            Log.d(TAG, "No artist");
+        }
+
+        return album;
     }
 
     public static Album Parse(JSONObject jsonObject, Artist artist) {
@@ -78,7 +86,7 @@ public class Album  implements Parcelable {
             return album;
         } catch (JSONException e)
         {
-            Log.d("ParseAlbum", "Error: " + e.getMessage());
+            Log.d(TAG, "Error: " + e.getMessage());
             return null;
         }
     }

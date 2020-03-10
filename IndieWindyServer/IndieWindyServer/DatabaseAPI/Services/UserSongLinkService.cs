@@ -10,11 +10,6 @@ namespace DatabaseAPI.Services
     {
         public UserSongLinkService(IndieWindyDbContext indieWindyDb) : base(indieWindyDb) { }
 
-        // private async Task<Song> GetSong(int userId, int songId)
-        // {
-        //     return await _indieWindyDb.Song
-        // }
-
         public async Task<Boolean> DeleteAdded(int userId, int songId)
         {
             try

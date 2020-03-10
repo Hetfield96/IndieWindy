@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using DatabaseAPI.Models;
 using DatabaseAPI.Services;
@@ -21,6 +22,13 @@ namespace WebAPI.Controllers
         public async Task<UserAlbumLink> AddNewItem([FromBody] UserAlbumLink item)
         {
             return await _userAlbumLinkService.AddNewItem(item);
+        }
+        
+        [HttpDelete]
+        [Route("delete/{userId}/{albumId}")]
+        public async Task<Boolean> DeleteAdded(int userId, int albumId)
+        {
+            return await _userAlbumLinkService.DeleteAdded(userId, albumId);
         }
     }
 }

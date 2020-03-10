@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DatabaseAPI.Models;
@@ -29,6 +30,13 @@ namespace WebAPI.Controllers
         public async Task<List<Artist>> FindByName(string query)
         {
             return await _artistService.FindByName(query);
+        }
+        
+        [HttpGet]
+        [Route("{userId}/{artistId}/albums")]
+        public async Task<List<UserAlbumLink>> GetAlbums(int userId, int artistId)
+        {
+            return await _artistService.GetAlbums(artistId, userId);
         }
     }
 }

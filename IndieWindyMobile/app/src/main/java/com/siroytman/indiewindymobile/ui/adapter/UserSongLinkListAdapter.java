@@ -13,11 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.exoplayer2.Player;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
-import com.siroytman.indiewindymobile.controller.MediaController;
 import com.siroytman.indiewindymobile.controller.SongController;
+import com.siroytman.indiewindymobile.interfaces.ILinkActions;
 import com.siroytman.indiewindymobile.model.Album;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.Song;
@@ -36,7 +35,6 @@ import androidx.appcompat.widget.PopupMenu;
 
 public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
     public static final String TAG = "UserSongLinkListAdapter";
-    private MediaController mediaController;
     private SongController songController;
     private Context context;
     private List<UserSongLink> linksList;
@@ -46,7 +44,6 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
         this.context = context;
         this.linksList = linksList;
         songController = SongController.getInstance();
-        mediaController = MediaController.getInstance();
     }
 
 
@@ -72,15 +69,12 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
-        viewHolder.songNameView.setText(songLink.getSong().getName());
-        viewHolder.songArtistNameView.setText(songLink.getSong().getArtist().getName());
-
         return convertView;
     }
 
 
     // Single element
-    public class ViewHolder  implements View.OnClickListener {
+    public class ViewHolder  implements View.OnClickListener, ILinkActions<Song> {
         public static final String TAG = "UserSongLinkAdapter.VH";
         private UserSongLink songLink;
 
@@ -93,9 +87,12 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             this.songLink = songLink;
 
             songNameView = convertView.findViewById(R.id.song_name);
-            songArtistNameView = convertView.findViewById(R.id.artist_name);
+            songArtistNameView = convertView.findViewById(R.id.artist_activity__artist_name);
             songAddButton = convertView.findViewById(R.id.song_add_button);
             songOptionsButton = convertView.findViewById(R.id.song_options_button);
+
+            songNameView.setText(songLink.getSong().getName());
+            songArtistNameView.setText(songLink.getSong().getArtist().getName());
 
             if(songLink.isEmpty()){
                 songSetIconAdd();
@@ -135,7 +132,6 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             Intent intent = new Intent(context, PlayerActivity.class);
             intent.putExtra(Song.class.getSimpleName(), songLink.getSong());
             context.startActivity(intent);
-//            mediaController.prepareOrStartPause(song);
         }
 
         @SuppressLint("RestrictedApi")
@@ -184,19 +180,6 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             menuHelper.show();
         }
 
-        public void songAdded(){
-            songLink.setAppUserId(AppController.user.getId());
-            songLink.setSongId(songLink.getSong().getId());
-
-            songSetIconCheck();
-        }
-
-        public void songRemoved(){
-            songLink.makeEmpty();
-
-            songSetIconAdd();
-        }
-
         private void songSetIconCheck() {
             songAddButton.setImageResource(R.drawable.ic_check);
         }
@@ -207,6 +190,26 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
 
         public UserSongLink getSongLink() {
             return songLink;
+        }
+
+        @Override
+        public Song getItem() {
+            return songLink.getSong();
+        }
+
+        @Override
+        public void removed() {
+            songLink.makeEmpty();
+
+            songSetIconAdd();
+        }
+
+        @Override
+        public void added() {
+            songLink.setAppUserId(AppController.user.getId());
+            songLink.setSongId(songLink.getSong().getId());
+
+            songSetIconCheck();
         }
     }
 }

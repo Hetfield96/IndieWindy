@@ -2,12 +2,14 @@ package com.siroytman.indiewindymobile.ui.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.ArtistController;
+import com.siroytman.indiewindymobile.interfaces.ILinkActions;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
 import com.siroytman.indiewindymobile.services.FragmentService;
@@ -18,19 +20,21 @@ import java.util.ArrayList;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-public class ArtistActivity extends AppCompatActivity {
+public class ArtistActivity extends AppCompatActivity implements ILinkActions<Artist> {
     public static final String TAG = "ArtistActivity";
 
     private ArtistController artistController;
     private Artist artist;
+    private Boolean linkExist = false;
 
     private static FragmentManager fragmentManager;
 
     private ImageView artistPhoto;
     private TextView artistName;
     private TextView artistDescription;
+    private ImageView artistAddButton;
+    private ImageView artistOptionsButton;
 
-    // TODO same as album
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +57,31 @@ public class ArtistActivity extends AppCompatActivity {
         artistPhoto = findViewById(R.id.artist_activity__artist_photo);
         artistName = findViewById(R.id.artist_activity__artist_name);
         artistDescription = findViewById(R.id.artist_activity__artist_description);
+        artistAddButton = findViewById(R.id.artist_activity__artist_add_button);
+        artistOptionsButton = findViewById(R.id.artist_activity__artist_options_button);
 
+        final ArtistActivity activity = this;
         artistName.setText(artist.getName());
         artistDescription.setText(artist.getDescription());
-        Glide.with(this).load(artist.getImageUrl()).into(artistPhoto);
+        Glide.with(activity).load(artist.getImageUrl()).into(artistPhoto);
 
-        artistController = ArtistController.getInstance(this);
+        artistController = ArtistController.getInstance(activity);
         artistController.getArtistAlbums(artist);
+        artistController.linkExist(activity);
+
+
+        artistAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (linkExist) {
+                    artistController.removeUserArtistLink(activity);
+                } else {
+                    artistController.addUserArtistLink(activity);
+                }
+            }
+        });
+
+        // TODO what is in options button?
     }
 
     public void albumsFoundViewUpdate(ArrayList<UserAlbumLink> links)
@@ -67,5 +89,30 @@ public class ArtistActivity extends AppCompatActivity {
         // Load list fragment
         UserAlbumLinkListFragment fragment = new UserAlbumLinkListFragment(links, artist);
         FragmentService.replaceFragment(fragmentManager, R.id.artist_activity__albums_container, fragment);
+    }
+
+    @Override
+    public Artist getItem() {
+        return artist;
+    }
+
+    @Override
+    public void removed() {
+        artistSetAddButtonIconAdd();
+        linkExist = false;
+    }
+
+    @Override
+    public void added() {
+        artistSetAddButtonIconCheck();
+        linkExist = true;
+    }
+
+    private void artistSetAddButtonIconCheck() {
+        artistAddButton.setImageResource(R.drawable.ic_check);
+    }
+
+    private void artistSetAddButtonIconAdd() {
+        artistAddButton.setImageResource(R.drawable.ic_add);
     }
 }

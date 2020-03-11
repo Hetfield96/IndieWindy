@@ -73,12 +73,11 @@ public class AlbumActivity extends FragmentActivity implements ILinkActions<Albu
         albumArtistName.setText(album.getArtist().getName());
         Glide.with(this).load(album.getImageUrl()).into(albumPhoto);
 
-
-        albumController = AlbumController.getInstance();
-        albumController.linkExist(this);
-        albumController.getAlbumSongs(this);
-
         final AlbumActivity activity = this;
+        albumController = AlbumController.getInstance();
+        albumController.linkExist(activity);
+        albumController.getAlbumSongs(activity);
+
         albumAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,21 +112,21 @@ public class AlbumActivity extends FragmentActivity implements ILinkActions<Albu
 
     @Override
     public void removed() {
-        albumSetIconAdd();
+        albumSetAddButtonIconAdd();
         linkExist = false;
     }
 
     @Override
     public void added() {
-        albumSetIconCheck();
+        albumSetAddButtonIconCheck();
         linkExist = true;
     }
 
-    private void albumSetIconCheck() {
+    private void albumSetAddButtonIconCheck() {
         albumAddButton.setImageResource(R.drawable.ic_check);
     }
 
-    private void albumSetIconAdd() {
+    private void albumSetAddButtonIconAdd() {
         albumAddButton.setImageResource(R.drawable.ic_add);
     }
 

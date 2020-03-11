@@ -7,14 +7,22 @@ import com.android.volley.VolleyError;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.ErrorHandler;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
+import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
+import com.siroytman.indiewindymobile.api.VolleyCallbackString;
+import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.model.Album;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
 import com.siroytman.indiewindymobile.model.UserSongLink;
+import com.siroytman.indiewindymobile.ui.activity.AlbumActivity;
 import com.siroytman.indiewindymobile.ui.activity.ArtistActivity;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ArtistController {
     private static final String TAG = "ArtistController";
@@ -55,6 +63,69 @@ public class ArtistController {
                 if (!ErrorHandler.HandleError(artistActivity, error)) {
                     Log.d(TAG, "Albums not found!");
                 }
+            }
+        });
+    }
+
+
+    public void linkExist(final ILinkActions<Artist> view){
+        final Artist artist = view.getItem();
+        String url = "userArtistLink/linkExist/" + AppController.user.getId() + "/" + artist.getId();
+
+        apiController.getStringResponse(Request.Method.GET, url, new VolleyCallbackString() {
+            @Override
+            public void onSuccessResponse(String result) {
+                if (result.equals("true")) {
+                    view.added();
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "linkExist error");
+            }
+        });
+    }
+
+
+    public void addUserArtistLink(final ILinkActions<Artist> view) {
+        String url = "userArtistLink/add";
+        final Artist artist = view.getItem();
+
+        Map<String, Integer> postParam = new HashMap<>();
+        postParam.put("AppUserId", AppController.user.getId());
+        postParam.put("ArtistId", artist.getId());
+        apiController.getJSONObjectResponse(url, new JSONObject(postParam), new VolleyCallbackJSONObject() {
+            @Override
+            public void onSuccessResponse(JSONObject result) {
+                Log.d(TAG, "UserArtistLink added: " + artist.getName());
+                view.added();
+            }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "UserArtistLink not added: " + artist.getName());
+            }
+        });
+    }
+
+    public void removeUserArtistLink(final ILinkActions<Artist> view) {
+        final Artist artist = view.getItem();
+        String url = "userArtistLink/delete/" + AppController.user.getId() + "/" + artist.getId();
+
+        apiController.getStringResponse(Request.Method.DELETE, url, new VolleyCallbackString() {
+            @Override
+            public void onSuccessResponse(String result) {
+                if(result.equals("true")) {
+                    view.removed();
+                    Log.d(TAG, "UserArtistLink removed: " + artist.getName());
+                } else {
+                    Log.d(TAG, "UserArtistLink not removed: " + artist.getName());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "UserArtistLink not removed: " + error.getMessage());
             }
         });
     }

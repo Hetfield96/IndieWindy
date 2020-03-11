@@ -63,23 +63,21 @@ public class AlbumController {
         });
     }
 
-    public void linkExist(final AlbumActivity albumActivity){
-        final Album album = albumActivity.getItem();
+    public void linkExist(final ILinkActions<Album> view){
+        final Album album = view.getItem();
         String url = "userAlbumLink/linkExist/" + AppController.user.getId() + "/" + album.getId();
 
         apiController.getStringResponse(Request.Method.GET, url, new VolleyCallbackString() {
             @Override
             public void onSuccessResponse(String result) {
                 if (result.equals("true")) {
-                    albumActivity.added();
+                    view.added();
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (!ErrorHandler.HandleError(albumActivity, error)) {
-                    Log.d(TAG, "linkExist error");
-                }
+                Log.d(TAG, "linkExist error");
             }
         });
     }

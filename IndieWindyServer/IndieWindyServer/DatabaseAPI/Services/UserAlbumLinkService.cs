@@ -25,7 +25,7 @@ namespace DatabaseAPI.Services
             }
         }
 
-        public async Task<Boolean> linkExist(int userId, int albumId)
+        public async Task<Boolean> LinkExist(int userId, int albumId)
         {
             return await _indieWindyDb.UserAlbumLink
                 .AnyAsync(l => l.AppUserId == userId && l.AlbumId == albumId);

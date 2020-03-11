@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
         [Route("linkExist/{userId}/{albumId}")]
         public async Task<Boolean> linkExist(int userId, int albumId)
         {
-            return await _userAlbumLinkService.linkExist(userId, albumId);
+            return await _userAlbumLinkService.LinkExist(userId, albumId);
         }
     }
 }

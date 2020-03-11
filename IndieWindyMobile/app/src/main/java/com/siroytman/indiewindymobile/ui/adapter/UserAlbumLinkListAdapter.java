@@ -1,12 +1,10 @@
 package com.siroytman.indiewindymobile.ui.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -22,15 +20,11 @@ import com.siroytman.indiewindymobile.model.Album;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
 import com.siroytman.indiewindymobile.ui.activity.AlbumActivity;
-import com.siroytman.indiewindymobile.ui.activity.ArtistActivity;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.view.menu.MenuPopupHelper;
-import androidx.appcompat.widget.PopupMenu;
 
 public class UserAlbumLinkListAdapter extends ArrayAdapter<UserAlbumLink> {
     public static final String TAG = "UserAlbumLinkListAdapter";
@@ -165,7 +159,7 @@ public class UserAlbumLinkListAdapter extends ArrayAdapter<UserAlbumLink> {
                     return;
                 case R.id.album_list_item__album_options_button:
                     Log.d(TAG, "onClick album_options_button: " + album.getName());
-                    showPopupMenu(v);
+                    AlbumActivity.showPopupMenu(getContext(), v, album);
                     return;
             }
 
@@ -177,53 +171,12 @@ public class UserAlbumLinkListAdapter extends ArrayAdapter<UserAlbumLink> {
             context.startActivity(intent);
         }
 
-        @SuppressLint("RestrictedApi")
-        private void showPopupMenu(View v) {
-            PopupMenu menu = new PopupMenu(context, v);
-            menu.inflate(R.menu.popup_album_menu);
-
-            menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.album_options_menu_artist:
-                            // If not already in ArtistActivity
-                            if (!(context instanceof ArtistActivity)) {
-                                Log.d(TAG, "to artist of album: " + albumLink.getAlbum().getName());
-                                Intent intent = new Intent(context, ArtistActivity.class);
-                                intent.putExtra(Artist.class.getSimpleName(), albumLink.getAlbum().getArtist());
-                                context.startActivity(intent);
-                                return true;
-                            }
-                            return true;
-                        default:
-                            return false;
-                    }
-                }
-            });
-
-            menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-                @Override
-                public void onDismiss(PopupMenu menu) {
-                }
-            });
-
-            MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) menu.getMenu(), v);
-            menuHelper.setForceShowIcon(true);
-            menuHelper.show();
-        }
-
-
         private void albumSetIconCheck() {
             albumAddButton.setImageResource(R.drawable.ic_check);
         }
 
         private void albumSetIconAdd() {
             albumAddButton.setImageResource(R.drawable.ic_add);
-        }
-
-        public UserAlbumLink getAlbumLink() {
-            return albumLink;
         }
 
         @Override

@@ -1,7 +1,11 @@
 package com.siroytman.indiewindymobile.ui.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +22,9 @@ import com.siroytman.indiewindymobile.ui.fragments.UserSongLinkListFragment;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -28,6 +35,7 @@ public class AlbumActivity extends FragmentActivity implements ILinkActions<Albu
 
     private AlbumController albumController;
     private Album album;
+    private Boolean linkExist = false;
 
     private ImageView albumPhoto;
     private TextView albumName;
@@ -65,25 +73,27 @@ public class AlbumActivity extends FragmentActivity implements ILinkActions<Albu
         albumArtistName.setText(album.getArtist().getName());
         Glide.with(this).load(album.getImageUrl()).into(albumPhoto);
 
-        // TODO set addButtonState - write methon on back to get link
-
 
         albumController = AlbumController.getInstance();
+        albumController.linkExist(this);
         albumController.getAlbumSongs(this);
 
         final AlbumActivity activity = this;
         albumAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO according to addButtonState
-                albumController.addUserAlbumLink(activity);
+                if (linkExist) {
+                    albumController.removeUserAlbumLink(activity);
+                } else {
+                    albumController.addUserAlbumLink(activity);
+                }
             }
         });
 
         albumOptionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
+                showPopupMenu(activity, v, album);
             }
         });
     }
@@ -104,11 +114,13 @@ public class AlbumActivity extends FragmentActivity implements ILinkActions<Albu
     @Override
     public void removed() {
         albumSetIconAdd();
+        linkExist = false;
     }
 
     @Override
     public void added() {
         albumSetIconCheck();
+        linkExist = true;
     }
 
     private void albumSetIconCheck() {
@@ -119,5 +131,39 @@ public class AlbumActivity extends FragmentActivity implements ILinkActions<Albu
         albumAddButton.setImageResource(R.drawable.ic_add);
     }
 
-    // TODO make showPopupMenu public here
+    @SuppressLint("RestrictedApi")
+    public static void showPopupMenu(final Context context, View v, final Album album) {
+        PopupMenu menu = new PopupMenu(context, v);
+        menu.inflate(R.menu.popup_album_menu);
+
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.album_options_menu_artist:
+                        // If not already in ArtistActivity
+                        if (!(context instanceof ArtistActivity)) {
+                            Log.d(TAG, "to artist of album: " + album.getName());
+                            Intent intent = new Intent(context, ArtistActivity.class);
+                            intent.putExtra(Artist.class.getSimpleName(), album.getArtist());
+                            context.startActivity(intent);
+                            return true;
+                        }
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+            }
+        });
+
+        MenuPopupHelper menuHelper = new MenuPopupHelper(context, (MenuBuilder) menu.getMenu(), v);
+        menuHelper.setForceShowIcon(true);
+        menuHelper.show();
+    }
 }

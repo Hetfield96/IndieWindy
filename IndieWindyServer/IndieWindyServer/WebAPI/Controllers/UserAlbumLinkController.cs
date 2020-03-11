@@ -30,5 +30,12 @@ namespace WebAPI.Controllers
         {
             return await _userAlbumLinkService.DeleteAdded(userId, albumId);
         }
+        
+        [HttpGet]
+        [Route("linkExist/{userId}/{albumId}")]
+        public async Task<Boolean> linkExist(int userId, int albumId)
+        {
+            return await _userAlbumLinkService.linkExist(userId, albumId);
+        }
     }
 }

@@ -24,5 +24,11 @@ namespace DatabaseAPI.Services
                 return false;
             }
         }
+
+        public async Task<Boolean> linkExist(int userId, int albumId)
+        {
+            return await _indieWindyDb.UserAlbumLink
+                .AnyAsync(l => l.AppUserId == userId && l.AlbumId == albumId);
+        }
     }
 }

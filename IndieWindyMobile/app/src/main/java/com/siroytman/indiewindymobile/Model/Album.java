@@ -51,7 +51,6 @@ public class Album  implements Parcelable {
         dest.writeString(imageUrl);
     }
 
-    // TODO refactor
     public static Album Parse(JSONObject jsonObject) {
         Album album = new Album();
         try {

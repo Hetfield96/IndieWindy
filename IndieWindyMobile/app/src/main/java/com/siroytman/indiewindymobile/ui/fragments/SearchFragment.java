@@ -49,9 +49,6 @@ public class SearchFragment extends Fragment {
     {
         // Load list fragment
         UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);
-        // TODO deprecated
-//        FragmentManager fm = getFragmentManager();
-//        fm.beginTransaction().replace(R.id.fragment_search_container, fragment).commit();
         FragmentService.replaceFragment(this, R.id.fragment_search_container, fragment);
     }
 

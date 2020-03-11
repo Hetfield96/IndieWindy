@@ -1,5 +1,6 @@
 package com.siroytman.indiewindymobile.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,16 +19,17 @@ import com.siroytman.indiewindymobile.ui.fragments.UserAlbumLinkListFragment;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
 public class ArtistActivity extends AppCompatActivity implements ILinkActions<Artist> {
     public static final String TAG = "ArtistActivity";
 
+
+    @SuppressLint("StaticFieldLeak")
+    private static ArtistActivity activity;
+
     private ArtistController artistController;
     private Artist artist;
     private Boolean linkExist = false;
-
-    private static FragmentManager fragmentManager;
 
     private ImageView artistPhoto;
     private TextView artistName;
@@ -41,9 +43,7 @@ public class ArtistActivity extends AppCompatActivity implements ILinkActions<Ar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
 
-        if(fragmentManager == null){
-            fragmentManager = getSupportFragmentManager();
-        }
+        activity = this;
 
         // Get artist from bundle
         Bundle arguments = getIntent().getExtras();
@@ -60,7 +60,6 @@ public class ArtistActivity extends AppCompatActivity implements ILinkActions<Ar
         artistAddButton = findViewById(R.id.artist_activity__artist_add_button);
         artistOptionsButton = findViewById(R.id.artist_activity__artist_options_button);
 
-        final ArtistActivity activity = this;
         artistName.setText(artist.getName());
         artistDescription.setText(artist.getDescription());
         Glide.with(activity).load(artist.getImageUrl()).into(artistPhoto);
@@ -88,7 +87,7 @@ public class ArtistActivity extends AppCompatActivity implements ILinkActions<Ar
     {
         // Load list fragment
         UserAlbumLinkListFragment fragment = new UserAlbumLinkListFragment(links, artist);
-        FragmentService.replaceFragment(fragmentManager, R.id.artist_activity__albums_container, fragment);
+        FragmentService.replaceFragment(activity, R.id.artist_activity__albums_container, fragment);
     }
 
     @Override

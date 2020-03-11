@@ -26,13 +26,13 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
 public class AlbumActivity extends FragmentActivity implements ILinkActions<Album> {
     public static final String TAG = "AlbumActivity";
 
-    private static FragmentManager fragmentManager;
-
+    @SuppressLint("StaticFieldLeak")
+    private static AlbumActivity activity;
+    
     private AlbumController albumController;
     private Album album;
     private Boolean linkExist = false;
@@ -48,9 +48,7 @@ public class AlbumActivity extends FragmentActivity implements ILinkActions<Albu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
 
-        if(fragmentManager == null){
-            fragmentManager = getSupportFragmentManager();
-        }
+        activity = this;
 
         // Get album from bundle
         Bundle arguments = getIntent().getExtras();
@@ -101,7 +99,7 @@ public class AlbumActivity extends FragmentActivity implements ILinkActions<Albu
     {
         // Load list fragment
         UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);
-        FragmentService.replaceFragment(fragmentManager, R.id.album_activity__album_song_list_container, fragment);
+        FragmentService.replaceFragment(activity, R.id.album_activity__album_song_list_container, fragment);
     }
 
 

@@ -64,8 +64,8 @@ public class ArtistActivity extends AppCompatActivity implements ILinkActions<Ar
         artistDescription.setText(artist.getDescription());
         Glide.with(activity).load(artist.getImageUrl()).into(artistPhoto);
 
-        artistController = ArtistController.getInstance(activity);
-        artistController.getArtistAlbums(artist);
+        artistController = ArtistController.getInstance();
+        artistController.getArtistAlbums(activity, artist);
         artistController.linkExist(activity);
 
 

@@ -2,6 +2,7 @@ package com.siroytman.indiewindymobile.services;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 public class FragmentService {
     public static void replaceFragment(FragmentActivity activity, int container, Fragment f){
@@ -10,6 +11,13 @@ public class FragmentService {
 
     public static void replaceFragment(Fragment fragment, int container, Fragment f){
         fragment.getChildFragmentManager().beginTransaction().replace(container, f).commit();
+    }
+
+    public static void clearFragment(Fragment parentFragment) {
+        FragmentManager fragmentManager = parentFragment.getChildFragmentManager();
+        for (Fragment frag : fragmentManager.getFragments()) {
+            fragmentManager.beginTransaction().remove(frag).commit();
+        }
     }
 
 }

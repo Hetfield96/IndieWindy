@@ -25,11 +25,10 @@ namespace WebAPI.Controllers
             return _artistService.GetAll();
         }
         
-        [HttpGet]
-        [Route("find/{query}")]
-        public async Task<List<Artist>> FindByName(string query)
+        [Route("find/{query}/{userId}")]
+        public async Task<List<UserArtistLink>> FindByName(string query, int userId)
         {
-            return await _artistService.FindByName(query);
+            return await _artistService.FindByName(query, userId);
         }
         
         [HttpGet]

@@ -36,7 +36,6 @@ namespace WebAPI
             services.AddScoped<UserAlbumLinkService>();
             services.AddScoped<UserSongLinkService>();
             services.AddScoped<UserConcertLinkService>();
-            services.AddScoped<SearchService>();
             
             services.AddControllers();
             

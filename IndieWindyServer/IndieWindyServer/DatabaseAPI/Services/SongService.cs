@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using DatabaseAPI.Models;
+using DatabaseAPI.Utils;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
@@ -19,10 +20,10 @@ namespace DatabaseAPI.Services
                 .Include(s => s.Artist)
                 .Include(s => s.Album)
                 .ToListAsync();
-            return songs.Where(s => SearchService.StartsWith(s.Name, query)).ToList();
+            return songs.Where(s => SearchUtil.StartsWith(s.Name, query)).ToList();
         }
         
-        public async Task<List<UserSongLink>> FindByNameWithAdded(string query, int userId)
+        public async Task<List<UserSongLink>> FindByName(string query, int userId)
         {
             await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
             

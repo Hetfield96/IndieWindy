@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using DatabaseAPI.Models;
+using DatabaseAPI.Utils;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
@@ -13,10 +14,24 @@ namespace DatabaseAPI.Services
         public AlbumService(IndieWindyDbContext indieWindyDb) : base(indieWindyDb)
         { }
         
-        public async Task<List<Album>> FindByName(string query)
+        public async Task<List<UserAlbumLink>> FindByName(string query, int userId)
         {
-            var albums = await _indieWindyDb.Album.ToListAsync();
-            return albums.Where(a => SearchService.StartsWith(a.Name, query)).ToList();
+            await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
+            
+            var res = await con.QueryAsync<UserAlbumLink, Album, Artist, UserAlbumLink>(
+                @"select link.*, al.*, a.*
+                        from user_album_link as link
+                        right join album al on link.album_id = al.id and link.app_user_id = @user
+                        join artist a on al.artist_id = a.id
+                        where lower(al.name) like @name",
+                (link, album, artist) =>
+                {
+                    album.Artist = artist;
+                    link.Album = album;
+                    return link;
+                },
+                param: new {@name = $"{query.ToLower()}%", @user = userId});
+            return res.ToList();
         }
 
         public async Task<List<UserSongLink>> GetSongs(int albumId, int userId)

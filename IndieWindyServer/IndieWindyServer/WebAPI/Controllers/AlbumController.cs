@@ -17,11 +17,10 @@ namespace WebAPI.Controllers
             _albumService = albumService;
         }
 
-        [HttpGet]
-        [Route("find/{query}")]
-        public async Task<List<Album>> FindByName(string query)
+        [Route("find/{query}/{userId}")]
+        public async Task<List<UserAlbumLink>> FindByName(string query, int userId)
         {
-            return await _albumService.FindByName(query);
+            return await _albumService.FindByName(query, userId);
         }
 
         [HttpGet]

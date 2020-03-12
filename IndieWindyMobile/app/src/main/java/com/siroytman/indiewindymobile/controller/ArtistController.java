@@ -27,23 +27,21 @@ import java.util.Map;
 public class ArtistController {
     private static final String TAG = "ArtistController";
 
-    private ArtistActivity artistActivity;
     private ApiController apiController;
     private static ArtistController instance;
 
-    private ArtistController(ArtistActivity artistActivity) {
+    private ArtistController() {
         apiController = ApiController.getInstance();
-        this.artistActivity = artistActivity;
     }
 
-    public static synchronized ArtistController getInstance(ArtistActivity artistActivity) {
+    public static synchronized ArtistController getInstance() {
         if (instance == null) {
-            instance = new ArtistController(artistActivity);
+            instance = new ArtistController();
         }
         return instance;
     }
 
-    public void getArtistAlbums(Artist artist){
+    public void getArtistAlbums(final ArtistActivity artistActivity, Artist artist){
         String url = "artist/" + AppController.user.getId() + "/" + artist.getId() + "/albums";
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override

@@ -32,7 +32,7 @@ public class Song implements Parcelable {
         }
 
         try {
-            song.artist = Artist.ParseArtist(json.getJSONObject("artist"));
+            song.artist = Artist.Parse(json.getJSONObject("artist"));
         } catch (JSONException e) {
             Log.d(TAG,"No artist");
         }

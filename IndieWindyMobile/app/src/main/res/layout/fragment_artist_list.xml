@@ -5,10 +5,10 @@
     android:layout_alignParentTop="true">
 
     <TextView
-        android:id="@+id/fragment_album_list__albums_text"
+        android:id="@+id/fragment_artist_list__title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Albums"
+        android:text="Artists"
         android:textSize="18dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -19,6 +19,6 @@
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/fragment_album_list__albums_text"/>
+        android:layout_below="@id/fragment_artist_list__title"/>
 
 </RelativeLayout>

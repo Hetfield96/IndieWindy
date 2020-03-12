@@ -7,8 +7,6 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
-
 public class Album  implements Parcelable {
     public static final String TAG = "Album";
 
@@ -65,7 +63,7 @@ public class Album  implements Parcelable {
         }
 
         try {
-            album.artist = Artist.ParseArtist(jsonObject.getJSONObject("artist"));
+            album.artist = Artist.Parse(jsonObject.getJSONObject("artist"));
         } catch (JSONException e) {
             Log.d(TAG, "No artist");
         }

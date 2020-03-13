@@ -17,11 +17,11 @@ namespace WebAPI.Controllers
             _concertService = concertService;
         }
 
-        [HttpGet]
-        [Route("find/{query}")]
-        public async Task<List<Concert>> FindByName(string query)
+        [Route("find/{query}/{userId}")]
+        public async Task<List<UserConcertLink>> FindByName(string query, int userId)
         {
-            return await _concertService.FindByName(query);
+            query = "б";
+            return await _concertService.FindByName(query, userId);
         }
     }
 }

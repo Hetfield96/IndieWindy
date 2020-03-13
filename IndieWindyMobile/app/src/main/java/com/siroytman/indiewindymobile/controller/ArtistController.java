@@ -10,11 +10,8 @@ import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;
 import com.siroytman.indiewindymobile.interfaces.ILinkActions;
-import com.siroytman.indiewindymobile.model.Album;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
-import com.siroytman.indiewindymobile.model.UserSongLink;
-import com.siroytman.indiewindymobile.ui.activity.AlbumActivity;
 import com.siroytman.indiewindymobile.ui.activity.ArtistActivity;
 
 import org.json.JSONArray;

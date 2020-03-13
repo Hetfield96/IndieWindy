@@ -14,12 +14,12 @@
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.siroytman.indiewindymobile.ui.fragments.SearchFragment"
-        android:label="@string/title_search"
+        android:label="@string/fragment_search_title"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.siroytman.indiewindymobile.ui.fragments.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.siroytman.indiewindymobile.ui.fragments.concert.ConcertFragment"
+        android:label="@string/fragment_concert_title"
+        tools:layout="@layout/fragment_concert" />
 </navigation>

@@ -34,49 +34,7 @@ public class SearchController  {
         return instance;
     }
 
-
-    public void search(final String query){
-        // Search songs
-        final Thread searchSongs = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                searchSongs(query);
-            }
-        });
-        searchSongs.start();
-
-        // Search artists
-        final Thread searchArtists = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    // When searchSongs is finished
-                    searchSongs.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                searchArtists(query);
-            }
-        });
-        searchArtists.start();
-
-        // Search albums
-        Thread searchAlbums = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    // When searchArtists is finished
-                    searchArtists.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                searchAlbums(query);
-            }
-        });
-        searchAlbums.start();
-    }
-
-    private void searchSongs(String query){
+    public void searchSongs(final String query){
         String url = "song/find/" + query + "/" + AppController.user.getId();
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
@@ -100,7 +58,7 @@ public class SearchController  {
         });
     }
 
-    private void searchAlbums(String query){
+    public void searchAlbums(String query){
         String url = "album/find/" + query + "/" + AppController.user.getId();
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
@@ -124,7 +82,7 @@ public class SearchController  {
         });
     }
 
-    private void searchArtists(String query){
+    public void searchArtists(String query){
         String url = "artist/find/" + query + "/" + AppController.user.getId();
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override

@@ -7,7 +7,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,10 +21,10 @@
 
             <ImageView
                 android:id="@+id/artist_list_item__artist_photo"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
                 android:src="@drawable/ic_artist" />
 
             <TextView
@@ -34,16 +34,15 @@
                 android:layout_toEndOf="@id/artist_list_item__artist_photo"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
                 android:paddingHorizontal="8dp"
-                android:paddingTop="8dp"
+                android:layout_centerInParent="true"
                 android:text="Artist Name"
                 android:textAppearance="@style/TextStyle" />
 
             <ImageView
                 android:id="@+id/artist_list_item__options_button"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_options"
@@ -52,7 +51,7 @@
             <ImageView
                 android:id="@+id/artist_list_item__add_button"
                 android:layout_toStartOf="@id/artist_list_item__options_button"
-                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_add"

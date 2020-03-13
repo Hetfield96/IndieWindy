@@ -19,7 +19,6 @@ import androidx.fragment.app.ListFragment;
 public class UserArtistLinkListFragment extends ListFragment {
     private List<UserArtistLink> artistLinks;
     private UserArtistLinkListAdapter adapter;
-    private Artist artist;
 
 
     public UserArtistLinkListFragment() {

@@ -21,11 +21,13 @@ import com.siroytman.indiewindymobile.services.FragmentService;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 
 public class SearchFragment extends Fragment {
     private static final String TAG = "SearchFragment";
@@ -34,6 +36,9 @@ public class SearchFragment extends Fragment {
     private SearchView searchView = null;
     // Containers busy state
     private LinkedHashMap<Integer, Boolean> containerBusy;
+
+    private String searchQuery;
+    private int N = 2;
 
 
     @Nullable
@@ -58,24 +63,14 @@ public class SearchFragment extends Fragment {
             int containerId = R.id.fragment_search__song_container;
             containerBusy.put(containerId, true);
 
+            List<UserSongLink> subLinks = links.subList(0, Math.min(N, links.size()));
             // Load list fragment
-            UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);
+            UserSongLinkListFragment fragment = new UserSongLinkListFragment(subLinks);
             FragmentService.replaceFragment(this, containerId, fragment);
         }
-    }
 
-    public void albumsFoundViewUpdate(ArrayList<UserAlbumLink> links)
-    {
-        if (links.size() > 0) {
-            Log.d(TAG, "Albums found");
-
-            int containerId = pickFirstEmptyContainer();
-            containerBusy.put(containerId, true);
-
-            // Load list fragment
-            UserAlbumLinkListFragment fragment = new UserAlbumLinkListFragment(links);
-            FragmentService.replaceFragment(this, containerId, fragment);
-        }
+        // When finished start next request
+        searchController.searchArtists(searchQuery);
     }
 
     public void artistsFoundViewUpdate(ArrayList<UserArtistLink> links)
@@ -86,8 +81,27 @@ public class SearchFragment extends Fragment {
             int containerId = pickFirstEmptyContainer();
             containerBusy.put(containerId, true);
 
+            List<UserArtistLink> subLinks = links.subList(0, Math.min(N, links.size()));
             // Load list fragment
-            UserArtistLinkListFragment fragment = new UserArtistLinkListFragment(links);
+            UserArtistLinkListFragment fragment = new UserArtistLinkListFragment(subLinks);
+            FragmentService.replaceFragment(this, containerId, fragment);
+        }
+
+        // When finished start next request
+        searchController.searchAlbums(searchQuery);
+    }
+
+    public void albumsFoundViewUpdate(ArrayList<UserAlbumLink> links)
+    {
+        if (links.size() > 0) {
+            Log.d(TAG, "Albums found");
+
+            int containerId = pickFirstEmptyContainer();
+            containerBusy.put(containerId, true);
+
+            List<UserAlbumLink> subLinks = links.subList(0, Math.min(N, links.size()));
+            // Load list fragment
+            UserAlbumLinkListFragment fragment = new UserAlbumLinkListFragment(subLinks);
             FragmentService.replaceFragment(this, containerId, fragment);
         }
     }
@@ -122,9 +136,10 @@ public class SearchFragment extends Fragment {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
+                    searchQuery = query;
                     hideKeyboard();
                     clearContainers();
-                    searchController.search(query);
+                    searchController.searchSongs(searchQuery);
                     return true;
                 }
             };

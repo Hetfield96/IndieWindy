@@ -21,4 +21,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/fragment_song_list__songs_text"/>
 
+    <Button
+        android:id="@+id/fragment_song_list__more"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:paddingEnd="4dp"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@android:id/list"
+        android:text="more" />
+
+
 </RelativeLayout>

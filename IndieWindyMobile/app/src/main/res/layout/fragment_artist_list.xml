@@ -22,7 +22,7 @@
         android:layout_below="@id/fragment_artist_list__title"/>
 
     <Button
-        android:id="@+id/fragment_song_list__more"
+        android:id="@+id/fragment_artist_list__more"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:paddingEnd="4dp"
         android:layout_width="100dp"

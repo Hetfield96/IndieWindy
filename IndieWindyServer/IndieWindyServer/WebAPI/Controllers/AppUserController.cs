@@ -20,12 +20,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public string Index()
-        {
-            return "Hello! This is AppUserController!";
-        }
-
-        [HttpGet]
         [Route("all")]
         public IEnumerable<AppUser> GetAll()
         {

@@ -9,22 +9,6 @@ namespace DatabaseAPI.Services
     {
         public UserAlbumLinkService(IndieWindyDbContext indieWindyDb) : base(indieWindyDb) { }
         
-        public async Task<Boolean> DeleteAdded(int userId, int albumId)
-        {
-            try
-            {
-                UserAlbumLink link = new UserAlbumLink(userId, albumId);
-                _indieWindyDb.UserAlbumLink.Remove(link);
-                await _indieWindyDb.SaveChangesAsync();
-                return true;
-            }
-            catch (DbUpdateConcurrencyException )
-            {
-                // No element was removed
-                return false;
-            }
-        }
-
         public async Task<Boolean> LinkExist(int userId, int albumId)
         {
             return await _indieWindyDb.UserAlbumLink

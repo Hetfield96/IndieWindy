@@ -26,9 +26,10 @@ namespace WebAPI.Controllers
         
         [HttpDelete]
         [Route("delete/{userId}/{concertId}")]
-        public async Task<Boolean> DeleteAdded(int userId, int concertId)
+        public async Task<Boolean> Delete(int userId, int concertId)
         {
-            return await _userConcertLinkService.DeleteAdded(userId, concertId);
+            UserConcertLink link = new UserConcertLink(userId, concertId);
+            return await _userConcertLinkService.DeleteItem(link);
         }
     }
 }

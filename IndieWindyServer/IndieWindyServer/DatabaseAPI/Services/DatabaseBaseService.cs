@@ -37,7 +37,20 @@ namespace DatabaseAPI.Services
             return success ? itemInDb.Entity : null;
         }
         
-        
+        public virtual async Task<Boolean> DeleteItem<T>(T item)
+        {
+            try
+            {
+                _indieWindyDb.Remove(item);
+                var success = await SaveChangesAsync();
+                return success;
+            }
+            catch (DbUpdateConcurrencyException )
+            {
+                // No element was removed
+                return false;
+            }
+        }
 
         /// <summary>
         /// Returns item found by it's identifier

@@ -30,5 +30,23 @@ namespace DatabaseAPI.Services
                 param: new {@name = $"{query.ToLower()}%", @user = userId});
             return res.ToList();
         }
+        
+        public async Task<List<UserConcertLink>> GetNearest(int userId)
+        {
+            await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
+            
+            var res = await con.QueryAsync<UserConcertLink, Concert, UserConcertLink>(
+                @"select link.*, c.*
+                        from user_concert_link as link
+                        right join concert c on link.concert_id = c.id and link.app_user_id = @user
+                        order by c.start_time",
+                (link, concert) =>
+                {
+                    link.Concert = concert;
+                    return link;
+                },
+                param: new {@user = userId});
+            return res.ToList();
+        }
     }
 }

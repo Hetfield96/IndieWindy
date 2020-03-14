@@ -108,11 +108,11 @@ public class UserConcertLinkListAdapter extends ArrayAdapter<UserConcertLink> {
             switch (v.getId()) {
                 case R.id.concert_list_item___add_button:
                     Log.d(TAG, "onClick concert_add_button: " + concert.getName());
-//                    if (concertLink.isEmpty()) {
-//                        concertController.addUserConcertLink(this);
-//                    } else{
-//                        concertController.removeUserConcertLink(this);
-//                    }
+                    if (concertLink.isEmpty()) {
+                        concertController.addUserConcertLink(this);
+                    } else{
+                        concertController.removeUserConcertLink(this);
+                    }
                     return;
                 case R.id.concert_list_item___options_button:
                     Log.d(TAG, "onClick concert_options_button: " + concert.getName());

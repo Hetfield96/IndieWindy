@@ -6,6 +6,16 @@ namespace DatabaseAPI.Models
     [Table("user_concert_link")]
     public class UserConcertLink : BaseEntity
     {
+        public UserConcertLink()
+        {
+        }
+
+        public UserConcertLink(int appUserId, int concertId)
+        {
+            AppUserId = appUserId;
+            ConcertId = concertId;
+        }
+
         [Key]
         [Column("app_user_id", Order=1)]
         public int AppUserId { get; set; }

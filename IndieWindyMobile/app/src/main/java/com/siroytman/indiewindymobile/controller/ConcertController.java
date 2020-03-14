@@ -5,15 +5,20 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.siroytman.indiewindymobile.api.ApiController;
-import com.siroytman.indiewindymobile.api.ErrorHandler;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
-import com.siroytman.indiewindymobile.model.UserArtistLink;
+import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
+import com.siroytman.indiewindymobile.api.VolleyCallbackString;
+import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.model.Concert;
 import com.siroytman.indiewindymobile.model.UserConcertLink;
 import com.siroytman.indiewindymobile.ui.fragments.concert.NearestConcertFragment;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConcertController {
     private static final String TAG = "ConcertController";
@@ -49,6 +54,70 @@ public class ConcertController {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Concert search: request not completed!");
+            }
+        });
+    }
+
+    public void getNearestConcerts(final NearestConcertFragment concertFragment){
+        String url = "concert/getNearest/" + AppController.user.getId();
+        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
+            @Override
+            public void onSuccessResponse(JSONArray result) {
+                try {
+                    Log.d(TAG, "Concert search: request completed");
+                    ArrayList<UserConcertLink> links = UserConcertLink.parseLinks(result);
+                    concertFragment.concertsFoundViewUpdate(links);
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Concert search: request not completed!");
+            }
+        });
+    }
+
+    public void addUserConcertLink(final ILinkActions<Concert> view) {
+        String url = "userConcertLink/add";
+        final Concert concert = view.getItem();
+
+        Map<String, Integer> postParam = new HashMap<>();
+        postParam.put("AppUserId", AppController.user.getId());
+        postParam.put("ConcertId", concert.getId());
+        apiController.getJSONObjectResponse(url, new JSONObject(postParam), new VolleyCallbackJSONObject() {
+            @Override
+            public void onSuccessResponse(JSONObject result) {
+                Log.d(TAG, "userConcertLink added: " + concert.getName());
+                view.added();
+            }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "userConcertLink not added: " + concert.getName());
+            }
+        });
+    }
+
+    public void removeUserConcertLink(final ILinkActions<Concert> view) {
+        final Concert concert = view.getItem();
+        String url = "userConcertLink/delete/" + AppController.user.getId() + "/" + concert.getId();
+
+        apiController.getStringResponse(Request.Method.DELETE, url, new VolleyCallbackString() {
+            @Override
+            public void onSuccessResponse(String result) {
+                if(result.equals("true")) {
+                    view.removed();
+                    Log.d(TAG, "userConcertLink removed: " + concert.getName());
+                } else {
+                    Log.d(TAG, "userConcertLink not removed: " + concert.getName());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "userConcertLink not removed: " + error.getMessage());
             }
         });
     }

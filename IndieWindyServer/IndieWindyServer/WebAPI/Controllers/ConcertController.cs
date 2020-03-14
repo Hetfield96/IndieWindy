@@ -20,8 +20,13 @@ namespace WebAPI.Controllers
         [Route("find/{query}/{userId}")]
         public async Task<List<UserConcertLink>> FindByName(string query, int userId)
         {
-            query = "б";
             return await _concertService.FindByName(query, userId);
+        }
+        
+        [Route("getNearest/{userId}")]
+        public async Task<List<UserConcertLink>> GetNearest(int userId)
+        {
+            return await _concertService.GetNearest(userId);
         }
     }
 }

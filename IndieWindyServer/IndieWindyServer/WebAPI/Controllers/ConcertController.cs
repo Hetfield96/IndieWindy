@@ -40,6 +40,13 @@ namespace WebAPI.Controllers
         }
         
         [HttpGet]
+        [Route("getSaved/{userId}")]
+        public async Task<List<UserConcertLink>> GetSaved(int userId)
+        {
+            return await _concertService.GetSaved(userId);
+        }
+        
+        [HttpGet]
         [Route("{userId}/{concertId}/artists")]
         public async Task<List<UserArtistLink>> GetArtists(int userId, int concertId)
         {

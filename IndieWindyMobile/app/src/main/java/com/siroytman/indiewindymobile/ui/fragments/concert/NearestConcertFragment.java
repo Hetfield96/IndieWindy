@@ -26,6 +26,10 @@ public class NearestConcertFragment extends Fragment {
         super.onCreate(savedInstanceState);
         concertController = ConcertController.getInstance();
 
+        getNearestConcerts();
+    }
+
+    public void getNearestConcerts() {
         concertController.getNearestConcerts(this);
     }
 

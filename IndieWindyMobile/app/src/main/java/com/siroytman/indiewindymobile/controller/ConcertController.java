@@ -14,6 +14,7 @@ import com.siroytman.indiewindymobile.model.UserArtistLink;
 import com.siroytman.indiewindymobile.model.UserConcertLink;
 import com.siroytman.indiewindymobile.ui.activity.ConcertActivity;
 import com.siroytman.indiewindymobile.ui.fragments.concert.NearestConcertFragment;
+import com.siroytman.indiewindymobile.ui.fragments.concert.SavedConcertFragment;
 import com.siroytman.indiewindymobile.ui.fragments.concert.SubscriptionConcertFragment;
 
 import org.json.JSONArray;
@@ -53,7 +54,6 @@ public class ConcertController {
                     Log.d(TAG, "Unable to parse response: " + e.getMessage());
                 }
             }
-
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Concert search: request not completed!");
@@ -75,7 +75,6 @@ public class ConcertController {
                     Log.d(TAG, "Unable to parse response: " + e.getMessage());
                 }
             }
-
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "getNearestConcerts: search request not completed!" + error.getMessage());
@@ -97,10 +96,30 @@ public class ConcertController {
                     Log.d(TAG, "Unable to parse response: " + e.getMessage());
                 }
             }
-
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "getSubscriptionConcerts: search request not completed!" + error.getMessage());
+            }
+        });
+    }
+
+    public void getSavedConcerts(final SavedConcertFragment concertFragment){
+        String url = "concert/getSaved/" + AppController.user.getId();
+        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
+            @Override
+            public void onSuccessResponse(JSONArray result) {
+                try {
+                    Log.d(TAG, "getSavedConcerts: search request completed");
+                    ArrayList<UserConcertLink> links = UserConcertLink.parseLinks(result);
+                    concertFragment.concertsFoundViewUpdate(links);
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
+                }
+            }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "getSavedConcerts: search request not completed!" + error.getMessage());
             }
         });
     }
@@ -119,7 +138,6 @@ public class ConcertController {
                     Log.d(TAG, "Unable to parse response: " + e.getMessage());
                 }
             }
-
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Artists search: request not completed!");

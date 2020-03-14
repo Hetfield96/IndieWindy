@@ -3,8 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using DatabaseAPI.Models;
-using DatabaseAPI.Utils;
-using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
 namespace DatabaseAPI.Services
@@ -35,11 +33,11 @@ namespace DatabaseAPI.Services
         {
             await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
             
+            // TODO where start_time > now()
             var res = await con.QueryAsync<UserConcertLink, Concert, UserConcertLink>(
                 @"select link.*, c.*
                         from user_concert_link as link
                         right join concert c on link.concert_id = c.id and link.app_user_id = @user
-                        where start_time > now()
                         order by c.start_time",
                 (link, concert) =>
                 {
@@ -58,11 +56,29 @@ namespace DatabaseAPI.Services
                 @"select link.*, c.*
                     from user_concert_link link
                     right join concert c on link.concert_id = c.id and app_user_id = @userId
-                    where concert_id in
+                    where c.id in
                     (select distinct concert_id from artist_concert_link
                     where artist_id in
                     (select artist_id from user_artist_link
                     where app_user_id = @userId));",
+                (link, concert) =>
+                {
+                    link.Concert = concert;
+                    return link;
+                },
+                param: new {userId});
+            return res.ToList();
+        }
+        
+        public async Task<List<UserConcertLink>> GetSaved(int userId)
+        {
+            await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
+            
+            var res = await con.QueryAsync<UserConcertLink, Concert, UserConcertLink>(
+                @"select link.*, c.*
+                    from user_concert_link link
+                    right join concert c on link.concert_id = c.id and app_user_id = @userId
+                    where link.app_user_id is not null;",
                 (link, concert) =>
                 {
                     link.Concert = concert;

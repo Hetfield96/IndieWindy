@@ -45,6 +45,19 @@ public class ConcertFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 Log.d(TAG, "Selected page position: " + position);
+                switch (position) {
+                    case 0:
+                        ConcertPagerAdapter.nearestConcertFragmentUpdate();
+                        break;
+                    case 1:
+                        ConcertPagerAdapter.subscriptionConcertFragmentUpdate();
+                        break;
+                    case 2:
+                        ConcertPagerAdapter.savedConcertFragmentUpdate();
+                        break;
+                    default:
+                        break;
+                }
             }
 
             // This method will be invoked when the current page is scrolled

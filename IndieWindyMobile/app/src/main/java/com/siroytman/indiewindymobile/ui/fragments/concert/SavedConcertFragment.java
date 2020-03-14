@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 import androidx.fragment.app.Fragment;
 
-public class SubscriptionConcertFragment extends Fragment {
-    public static final String TAG = "SubscrConcertFragment";
+public class SavedConcertFragment extends Fragment {
+    public static final String TAG = "SavedConcertFragment";
     private ConcertController concertController;
 
     // Store instance variables based on arguments passed
@@ -27,14 +27,14 @@ public class SubscriptionConcertFragment extends Fragment {
         concertController = ConcertController.getInstance();
     }
 
-    public void getSubscriptionConcerts() {
-        concertController.getSubscriptionConcerts(this);
+    public void getSavedConcerts() {
+        concertController.getSavedConcerts(this);
     }
 
     // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_concert_subscription, container, false);
+        return inflater.inflate(R.layout.fragment_concert_saved, container, false);
     }
 
     public void concertsFoundViewUpdate(ArrayList<UserConcertLink> links)
@@ -44,7 +44,7 @@ public class SubscriptionConcertFragment extends Fragment {
 
             // Load list fragment
             UserConcertLinkListFragment fragment = new UserConcertLinkListFragment(links);
-            FragmentService.replaceFragment(this, R.id.fragment_concert_subscription__container, fragment);
+            FragmentService.replaceFragment(this, R.id.fragment_concert_saved__container, fragment);
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.siroytman.indiewindymobile.ui.adapter;
 
 import com.siroytman.indiewindymobile.ui.fragments.concert.NearestConcertFragment;
-import com.siroytman.indiewindymobile.ui.fragments.concert.SecondFragment;
+import com.siroytman.indiewindymobile.ui.fragments.concert.SavedConcertFragment;
 import com.siroytman.indiewindymobile.ui.fragments.concert.SubscriptionConcertFragment;
 
 import androidx.fragment.app.Fragment;
@@ -10,9 +10,24 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class ConcertPagerAdapter extends FragmentPagerAdapter {
     private static int NUM_ITEMS = 3;
+    private static NearestConcertFragment nearestConcertFragment;
+    private static SubscriptionConcertFragment subscriptionConcertFragment;
+    private static SavedConcertFragment savedConcertFragment;
 
     public ConcertPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
+    }
+
+    public static void nearestConcertFragmentUpdate() {
+        nearestConcertFragment.getNearestConcerts();
+    }
+
+    public static void subscriptionConcertFragmentUpdate() {
+        subscriptionConcertFragment.getSubscriptionConcerts();
+    }
+
+    public static void savedConcertFragmentUpdate() {
+        savedConcertFragment.getSavedConcerts();
     }
 
     // Returns total number of pages
@@ -26,11 +41,14 @@ public class ConcertPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: // Fragment # 0 - This will show FirstFragments
-                return new NearestConcertFragment();
+                nearestConcertFragment = new NearestConcertFragment();
+                return nearestConcertFragment;
             case 1: // Fragment # 0 - This will show FirstFragment different title
-                return new SubscriptionConcertFragment();
+                subscriptionConcertFragment = new SubscriptionConcertFragment();
+                return subscriptionConcertFragment;
             case 2: // Fragment # 1 - This will show SecondFragment
-                return SecondFragment.newInstance(2, "Page # 3");
+                savedConcertFragment = new SavedConcertFragment();
+                return savedConcertFragment;
             default:
                 return null;
         }

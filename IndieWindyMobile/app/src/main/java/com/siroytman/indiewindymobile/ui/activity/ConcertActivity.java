@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.siroytman.indiewindymobile.R;
+import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.controller.ConcertController;
 import com.siroytman.indiewindymobile.interfaces.ILinkActions;
 import com.siroytman.indiewindymobile.model.Concert;
@@ -99,11 +100,16 @@ public class ConcertActivity extends AppCompatActivity implements ILinkActions<C
     @Override
     public void removed() {
         concertSetAddButtonIconAdd();
+
+        concertLink.makeEmpty();
     }
 
     @Override
     public void added() {
         concertSetAddButtonIconCheck();
+
+        concertLink.setAppUserId(AppController.user.getId());
+        concertLink.setConcertId(concertLink.getConcert().getId());
     }
 
     private void concertSetAddButtonIconCheck() {

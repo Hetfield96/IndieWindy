@@ -31,6 +31,14 @@ namespace WebAPI.Controllers
             return await _concertService.GetNearest(userId);
         }
 
+        // Returns UserConcertLinks for concerts where subscribed artists participate
+        [HttpGet]
+        [Route("getBySubscription/{userId}")]
+        public async Task<List<UserConcertLink>> GetBySubscription(int userId)
+        {
+            return await _concertService.GetBySubscription(userId);
+        }
+        
         [HttpGet]
         [Route("{userId}/{concertId}/artists")]
         public async Task<List<UserArtistLink>> GetArtists(int userId, int concertId)

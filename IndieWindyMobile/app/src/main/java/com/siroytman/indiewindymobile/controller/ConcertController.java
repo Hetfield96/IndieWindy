@@ -14,6 +14,7 @@ import com.siroytman.indiewindymobile.model.UserArtistLink;
 import com.siroytman.indiewindymobile.model.UserConcertLink;
 import com.siroytman.indiewindymobile.ui.activity.ConcertActivity;
 import com.siroytman.indiewindymobile.ui.fragments.concert.NearestConcertFragment;
+import com.siroytman.indiewindymobile.ui.fragments.concert.SubscriptionConcertFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -66,7 +67,7 @@ public class ConcertController {
             @Override
             public void onSuccessResponse(JSONArray result) {
                 try {
-                    Log.d(TAG, "Concert search: request completed");
+                    Log.d(TAG, "getNearestConcerts: search request completed");
                     ArrayList<UserConcertLink> links = UserConcertLink.parseLinks(result);
                     concertFragment.concertsFoundViewUpdate(links);
                 }
@@ -77,7 +78,29 @@ public class ConcertController {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Concert search: request not completed!");
+                Log.d(TAG, "getNearestConcerts: search request not completed!" + error.getMessage());
+            }
+        });
+    }
+
+    public void getSubscriptionConcerts(final SubscriptionConcertFragment concertFragment){
+        String url = "concert/getBySubscription/" + AppController.user.getId();
+        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
+            @Override
+            public void onSuccessResponse(JSONArray result) {
+                try {
+                    Log.d(TAG, "getSubscriptionConcerts: search request completed");
+                    ArrayList<UserConcertLink> links = UserConcertLink.parseLinks(result);
+                    concertFragment.concertsFoundViewUpdate(links);
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "getSubscriptionConcerts: search request not completed!" + error.getMessage());
             }
         });
     }

@@ -35,6 +35,7 @@ namespace DatabaseAPI.Services
         {
             await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
             
+            // TODO date >= now
             var res = await con.QueryAsync<UserConcertLink, Concert, UserConcertLink>(
                 @"select link.*, c.*
                         from user_concert_link as link
@@ -46,6 +47,28 @@ namespace DatabaseAPI.Services
                     return link;
                 },
                 param: new {@user = userId});
+            return res.ToList();
+        }
+        
+        public async Task<List<UserConcertLink>> GetBySubscription(int userId)
+        {
+            await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
+            
+            var res = await con.QueryAsync<UserConcertLink, Concert, UserConcertLink>(
+                @"select link.*, c.*
+                    from user_concert_link link
+                    right join concert c on link.concert_id = c.id and app_user_id = @userId
+                    where concert_id in
+                    (select distinct concert_id from artist_concert_link
+                    where artist_id in
+                    (select artist_id from user_artist_link
+                    where app_user_id = @userId));",
+                (link, concert) =>
+                {
+                    link.Concert = concert;
+                    return link;
+                },
+                param: new {userId});
             return res.ToList();
         }
 

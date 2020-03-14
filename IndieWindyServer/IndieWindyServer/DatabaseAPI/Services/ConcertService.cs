@@ -35,11 +35,11 @@ namespace DatabaseAPI.Services
         {
             await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
             
-            // TODO date >= now
             var res = await con.QueryAsync<UserConcertLink, Concert, UserConcertLink>(
                 @"select link.*, c.*
                         from user_concert_link as link
                         right join concert c on link.concert_id = c.id and link.app_user_id = @user
+                        where start_time > now()
                         order by c.start_time",
                 (link, concert) =>
                 {

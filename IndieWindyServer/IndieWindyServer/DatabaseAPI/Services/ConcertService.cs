@@ -48,5 +48,25 @@ namespace DatabaseAPI.Services
                 param: new {@user = userId});
             return res.ToList();
         }
+
+        public async Task<List<UserArtistLink>> GetArtists(int userId, int concertId)
+        {
+            await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
+            
+            var res = await con.QueryAsync<UserArtistLink, Artist, UserArtistLink>(
+                @"select link.*, a.*
+                    from user_artist_link link
+                    right join artist_concert_link acl 
+                    on link.artist_id = acl.artist_id and link.app_user_id = @userId
+                    join artist a on acl.artist_id = a.id
+                    where acl.concert_id = @concertId;",
+                (link, artist) =>
+                {
+                    link.Artist = artist;
+                    return link;
+                },
+                param: new {userId, concertId});
+            return res.ToList();
+        }
     }
 }

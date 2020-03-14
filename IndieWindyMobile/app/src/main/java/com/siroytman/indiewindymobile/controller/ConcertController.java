@@ -10,7 +10,9 @@ import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;
 import com.siroytman.indiewindymobile.interfaces.ILinkActions;
 import com.siroytman.indiewindymobile.model.Concert;
+import com.siroytman.indiewindymobile.model.UserArtistLink;
 import com.siroytman.indiewindymobile.model.UserConcertLink;
+import com.siroytman.indiewindymobile.ui.activity.ConcertActivity;
 import com.siroytman.indiewindymobile.ui.fragments.concert.NearestConcertFragment;
 
 import org.json.JSONArray;
@@ -76,6 +78,28 @@ public class ConcertController {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Concert search: request not completed!");
+            }
+        });
+    }
+
+    public void getArtists(final ConcertActivity concertActivity, final int concertId){
+        String url = "concert/" + AppController.user.getId() + "/" + concertId + "/artists";
+        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
+            @Override
+            public void onSuccessResponse(JSONArray result) {
+                try {
+                    Log.d(TAG, "Artists search: request completed");
+                    ArrayList<UserArtistLink> links = UserArtistLink.parseLinks(result);
+                    concertActivity.artistsFoundViewUpdate(links);
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Artists search: request not completed!");
             }
         });
     }

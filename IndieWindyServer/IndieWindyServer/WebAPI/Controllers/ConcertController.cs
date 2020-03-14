@@ -17,16 +17,25 @@ namespace WebAPI.Controllers
             _concertService = concertService;
         }
 
+        [HttpGet]
         [Route("find/{query}/{userId}")]
         public async Task<List<UserConcertLink>> FindByName(string query, int userId)
         {
             return await _concertService.FindByName(query, userId);
         }
         
+        [HttpGet]
         [Route("getNearest/{userId}")]
         public async Task<List<UserConcertLink>> GetNearest(int userId)
         {
             return await _concertService.GetNearest(userId);
+        }
+
+        [HttpGet]
+        [Route("{userId}/{concertId}/artists")]
+        public async Task<List<UserArtistLink>> GetArtists(int userId, int concertId)
+        {
+            return await _concertService.GetArtists(userId, concertId);
         }
     }
 }

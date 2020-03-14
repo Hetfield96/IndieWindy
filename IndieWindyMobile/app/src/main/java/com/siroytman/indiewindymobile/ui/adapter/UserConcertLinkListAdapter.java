@@ -123,7 +123,7 @@ public class UserConcertLinkListAdapter extends ArrayAdapter<UserConcertLink> {
 
             Log.d(TAG, "to page of concert: " + concert.getName());
             Intent intent = new Intent(context, ConcertActivity.class);
-            intent.putExtra(Concert.class.getSimpleName(), concert);
+            intent.putExtra(UserConcertLink.class.getSimpleName(), concertLink);
             context.startActivity(intent);
         }
 

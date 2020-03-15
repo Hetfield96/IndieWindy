@@ -39,19 +39,21 @@ namespace WebAPI
             services.AddScoped<UserConcertLinkService>();
             
             services.AddControllers();
-            
+
+            String connectionString;
             // Use SQL Database if in Azure, otherwise, use SQLite
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
-                services.AddDbContext<IndieWindyDbContext>(options =>
-                    options.UseNpgsql(Configuration.GetConnectionString("AzureDbConnection")));
+                connectionString = Configuration.GetSection("DB")?["AzureConnectionString"];
             }
             else
             {
-                services.AddEntityFrameworkNpgsql()
-                    .AddDbContext<IndieWindyDbContext>(opt =>
-                        opt.UseNpgsql(Configuration.GetSection("DB")?["ConnectionStrings"]));
+                connectionString = Configuration.GetSection("DB")?["LocalConnectionString"];
             }
+            
+            services.AddEntityFrameworkNpgsql()
+                .AddDbContext<IndieWindyDbContext>(opt =>
+                    opt.UseNpgsql(connectionString));
 
             // Automatically perform database migration
             services.BuildServiceProvider().GetService<IndieWindyDbContext>().Database.Migrate();

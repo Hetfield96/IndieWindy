@@ -1,9 +1,8 @@
 package com.siroytman.indiewindymobile.api;
 
-import android.content.Context;
 import android.util.Log;
 
-import com.android.volley.Request;
+import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
@@ -15,6 +14,9 @@ import com.siroytman.indiewindymobile.controller.AppController;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ApiController {
     /**
@@ -52,7 +54,7 @@ public class ApiController {
      */
     public void getStringResponse(int method, String apiUrl, final VolleyCallbackString callback) {
         StringRequest request = new StringRequest(method,
-                AppController.getContext().getString(R.string.server_url) + "/" + apiUrl,
+                AppController.getContext().getString(R.string.azure_server_url) + "/" + apiUrl,
         new Response.Listener <String> () {
             @Override
             public void onResponse(String response) {
@@ -81,14 +83,12 @@ public class ApiController {
 
             }
         });
-
-
         volleyQueue.addToRequestQueue(request);
     }
 
 
     public void getJSONObjectResponse(String apiUrl, JSONObject json, final VolleyCallbackJSONObject callback) {
-        JsonObjectRequest request = new JsonObjectRequest(AppController.getContext().getString(R.string.server_url) + "/" + apiUrl,
+        JsonObjectRequest request = new JsonObjectRequest(AppController.getContext().getString(R.string.azure_server_url) + "/" + apiUrl,
                 json,
                 new Response.Listener<JSONObject> () {
                     @Override
@@ -124,7 +124,7 @@ public class ApiController {
     }
 
     public void getJSONArrayResponse(int method, String apiUrl, JSONArray json, final VolleyCallbackJSONArray callback) {
-        JsonArrayRequest request = new JsonArrayRequest(method, AppController.getContext().getString(R.string.server_url) + "/" + apiUrl,
+        JsonArrayRequest request = new JsonArrayRequest(method, AppController.getContext().getString(R.string.azure_server_url) + "/" + apiUrl,
                 json,
                 new Response.Listener<JSONArray> () {
                     @Override

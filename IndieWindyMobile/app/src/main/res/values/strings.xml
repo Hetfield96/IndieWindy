@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">IndieWindyMobile</string>
+
+    <string name="azure_server_url">http://indiewindy.azurewebsites.net</string>
     <string name="server_url">https://10.0.2.2:5001</string>
     <string name="server_host">10.0.2.2</string>
 

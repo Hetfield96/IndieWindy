@@ -3,9 +3,11 @@ package com.siroytman.indiewindymobile.api;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 
@@ -36,8 +38,10 @@ class VolleyQueue {
         // lazy initialize the request queue, the queue instance will be
         // created when it is accessed for the first time
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(context,
-                    new HurlStack(null, SSLSocketFactoryProvider.getSocketFactory(context)));
+            mRequestQueue = Volley.newRequestQueue(context);
+            // For https connection
+//            mRequestQueue = Volley.newRequestQueue(context,
+//                    new HurlStack(null, SSLSocketFactoryProvider.getSocketFactory(context)));
         }
 
         return mRequestQueue;

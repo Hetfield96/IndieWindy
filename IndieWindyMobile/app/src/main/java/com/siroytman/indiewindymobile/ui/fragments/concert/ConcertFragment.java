@@ -13,7 +13,6 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.ConcertController;
-import com.siroytman.indiewindymobile.model.Concert;
 import com.siroytman.indiewindymobile.ui.adapter.ConcertPagerAdapter;
 
 import androidx.annotation.Nullable;

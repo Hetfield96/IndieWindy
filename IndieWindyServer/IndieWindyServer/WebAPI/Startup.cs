@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Dapper;
@@ -39,9 +40,21 @@ namespace WebAPI
             
             services.AddControllers();
             
-            services.AddEntityFrameworkNpgsql()
-                .AddDbContext<IndieWindyDbContext>(opt =>
-                opt.UseNpgsql(Configuration.GetSection("DB")?["ConnectionStrings"]));
+            // Use SQL Database if in Azure, otherwise, use SQLite
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            {
+                services.AddDbContext<IndieWindyDbContext>(options =>
+                    options.UseNpgsql(Configuration.GetConnectionString("AzureDbConnection")));
+            }
+            else
+            {
+                services.AddEntityFrameworkNpgsql()
+                    .AddDbContext<IndieWindyDbContext>(opt =>
+                        opt.UseNpgsql(Configuration.GetSection("DB")?["ConnectionStrings"]));
+            }
+
+            // Automatically perform database migration
+            services.BuildServiceProvider().GetService<IndieWindyDbContext>().Database.Migrate();
             
             // Dapper mapping configuration
            DapperMappingConfiguration.Configure();

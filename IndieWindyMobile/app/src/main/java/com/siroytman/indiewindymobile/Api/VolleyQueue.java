@@ -38,10 +38,14 @@ class VolleyQueue {
         // lazy initialize the request queue, the queue instance will be
         // created when it is accessed for the first time
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(context);
-            // For https connection
-//            mRequestQueue = Volley.newRequestQueue(context,
-//                    new HurlStack(null, SSLSocketFactoryProvider.getSocketFactory(context)));
+            if (ApiController.azure) {
+                // Http connection with Azure
+                mRequestQueue = Volley.newRequestQueue(context);
+            } else {
+                // Https connection with localhost
+                mRequestQueue = Volley.newRequestQueue(context,
+                        new HurlStack(null, SSLSocketFactoryProvider.getSocketFactory(context)));
+            }
         }
 
         return mRequestQueue;

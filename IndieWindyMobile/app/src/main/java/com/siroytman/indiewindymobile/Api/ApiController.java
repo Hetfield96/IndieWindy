@@ -19,6 +19,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ApiController {
+
+    public static final Boolean azure;
+    public static final String serverUrl;
+
+    static {
+        azure = false;
+        int serverUrlId = azure ? R.string.azure_server_url : R.string.server_url;
+        serverUrl = AppController.getContext().getString(serverUrlId);
+    }
+    
     /**
      * Volley queue for executing requests to server
      */
@@ -54,7 +64,7 @@ public class ApiController {
      */
     public void getStringResponse(int method, String apiUrl, final VolleyCallbackString callback) {
         StringRequest request = new StringRequest(method,
-                AppController.getContext().getString(R.string.azure_server_url) + "/" + apiUrl,
+                serverUrl + "/" + apiUrl,
         new Response.Listener <String> () {
             @Override
             public void onResponse(String response) {
@@ -88,7 +98,7 @@ public class ApiController {
 
 
     public void getJSONObjectResponse(String apiUrl, JSONObject json, final VolleyCallbackJSONObject callback) {
-        JsonObjectRequest request = new JsonObjectRequest(AppController.getContext().getString(R.string.azure_server_url) + "/" + apiUrl,
+        JsonObjectRequest request = new JsonObjectRequest(serverUrl + "/" + apiUrl,
                 json,
                 new Response.Listener<JSONObject> () {
                     @Override
@@ -124,7 +134,7 @@ public class ApiController {
     }
 
     public void getJSONArrayResponse(int method, String apiUrl, JSONArray json, final VolleyCallbackJSONArray callback) {
-        JsonArrayRequest request = new JsonArrayRequest(method, AppController.getContext().getString(R.string.azure_server_url) + "/" + apiUrl,
+        JsonArrayRequest request = new JsonArrayRequest(method, serverUrl + "/" + apiUrl,
                 json,
                 new Response.Listener<JSONArray> () {
                     @Override

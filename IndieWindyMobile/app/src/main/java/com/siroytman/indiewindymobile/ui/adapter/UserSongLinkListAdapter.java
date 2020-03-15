@@ -43,9 +43,8 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
         super(context, resource, linksList);
         this.context = context;
         this.linksList = linksList;
-        songController = SongController.getInstance();
+        this.songController = SongController.getInstance();
     }
-
 
     @NonNull
     @Override
@@ -76,12 +75,14 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
     // Single element
     public class ViewHolder implements View.OnClickListener, ILinkActions<Song> {
         public static final String TAG = "UserSongLinkAdapter.VH";
+
         private UserSongLink songLink;
 
         private TextView songNameView;
         private TextView songArtistNameView;
         private ImageView songAddButton;
         private ImageView songOptionsButton;
+
 
         public ViewHolder(View convertView, final UserSongLink songLink) {
             this.songLink = songLink;

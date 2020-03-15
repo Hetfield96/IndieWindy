@@ -13,6 +13,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.siroytman.indiewindymobile.R;
+import com.siroytman.indiewindymobile.controller.AlbumController;
+import com.siroytman.indiewindymobile.controller.ArtistController;
+import com.siroytman.indiewindymobile.controller.SongController;
 import com.siroytman.indiewindymobile.ui.adapter.PersonalPagerAdapter;
 
 import androidx.annotation.Nullable;
@@ -27,6 +30,10 @@ public class PersonalFragment extends Fragment {
     private SearchView searchView = null;
     private FragmentStatePagerAdapter adapterViewPager;
     private ViewPager pager;
+
+    private SongController songController;
+    private ArtistController artistController;
+    private AlbumController albumController;
 
     private int currentPage = 0;
 
@@ -53,6 +60,7 @@ public class PersonalFragment extends Fragment {
                 currentPage = position;
                 switch (position) {
                     case 0:
+                        songController.searchSongsLinked(SongsPersonalFragment.getInstance());
                         break;
                     case 1:
                         break;
@@ -84,6 +92,10 @@ public class PersonalFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        songController = SongController.getInstance();
+        artistController = ArtistController.getInstance();
+        albumController = AlbumController.getInstance();
     }
 
     @Override
@@ -109,6 +121,7 @@ public class PersonalFragment extends Fragment {
                     hideKeyboard();
                     switch (currentPage) {
                         case 0:
+                            SongController.getInstance().searchSongsLinked(SongsPersonalFragment.getInstance(), query);
                             return true;
                         case 1:
                             return true;

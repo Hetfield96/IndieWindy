@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.ui.adapter.UserSongLinkListAdapter;
@@ -22,13 +23,19 @@ public class UserSongLinkListFragment extends ListFragment {
 
     List<UserSongLink> songLinks;
     private UserSongLinkListAdapter adapter;
+    private Boolean rawList;
 
 
     public UserSongLinkListFragment() {
     }
 
     public UserSongLinkListFragment(List<UserSongLink> songLinks) {
+        this(songLinks, false);
+    }
+
+    public UserSongLinkListFragment(List<UserSongLink> songLinks, Boolean rawList) {
         this.songLinks = songLinks;
+        this.rawList = rawList;
     }
 
     @Override
@@ -44,14 +51,21 @@ public class UserSongLinkListFragment extends ListFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_song_list, container, false);
 
-        // TODO open fragment with full list
         Button songMoreButton = view.findViewById(R.id.fragment_song_list__more);
-        songMoreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "more button clicked");
-            }
-        });
+        if (rawList) {
+            songMoreButton.setVisibility(View.GONE);
+            TextView songTitleView = view.findViewById(R.id.fragment_song_list__songs_title);
+            songTitleView.setVisibility(View.GONE);
+        }
+        else {
+            // TODO open fragment with full list
+            songMoreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "more button clicked");
+                }
+            });
+        }
 
         return view;
     }

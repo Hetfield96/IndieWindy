@@ -53,7 +53,7 @@ public class SongsPersonalFragment extends Fragment implements ISearchableSong {
             Log.d(TAG, "Songs found");
 
             // Load list fragment
-            UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);
+            UserSongLinkListFragment fragment = new UserSongLinkListFragment(links, true);
             FragmentService.replaceFragment(this, R.id.fragment_personal_songs__container, fragment);
         } else {
             FragmentService.clearFragment(this);

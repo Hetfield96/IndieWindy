@@ -2,7 +2,9 @@ package com.siroytman.indiewindymobile.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.siroytman.indiewindymobile.R;
@@ -16,6 +18,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText nameText;
     private EditText passwordText;
+    private ProgressBar progressBar;
+    private Button loginButton;
+    private Button registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +30,27 @@ public class LoginActivity extends AppCompatActivity {
 
         nameText = findViewById(R.id.nameText);
         passwordText = findViewById(R.id.passwordText);
+        progressBar = findViewById(R.id.loading_progress_bar);
+        loginButton = findViewById(R.id.loginButton);
+        registerButton = findViewById(R.id.registerButton);
 
         loginController.loginFromSharedPrefs();
+    }
+
+    public void startLoadingProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+        passwordText.setEnabled(false);
+        nameText.setEnabled(false);
+        loginButton.setEnabled(false);
+        registerButton.setEnabled(false);
+    }
+
+    public void stopLoadingProgressBar() {
+        progressBar.setVisibility(View.INVISIBLE);
+        passwordText.setEnabled(true);
+        nameText.setEnabled(true);
+        loginButton.setEnabled(true);
+        registerButton.setEnabled(true);
     }
 
     // Authorization

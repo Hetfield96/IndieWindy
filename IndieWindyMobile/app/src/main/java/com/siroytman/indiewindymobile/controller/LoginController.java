@@ -59,6 +59,7 @@ public class LoginController {
                     // Save to shared prefs
                     sharedPrefsService.saveAppUser(AppController.user);
 
+                    loginActivity.stopLoadingProgressBar();
                     Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_SHORT)
                             .show();
                     // Swap to next activity
@@ -67,12 +68,14 @@ public class LoginController {
                 }
                 catch (Exception e)
                 {
+                    loginActivity.stopLoadingProgressBar();
                     Log.d("VolleyError", "Unable to parse response: " + e.getMessage());
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                loginActivity.stopLoadingProgressBar();
                 if (!ErrorHandler.HandleError(loginActivity, error)) {
                     Toast.makeText(loginActivity, "Incorrect login or password!",
                             Toast.LENGTH_LONG)
@@ -86,6 +89,7 @@ public class LoginController {
     public void loginFromSharedPrefs(){
         AppUser user = sharedPrefsService.getAppUser();
         if (user != null){
+            loginActivity.startLoadingProgressBar();
             login(user.getName(), user.getPassword(), true);
 
             Log.d(TAG, "Login by shared prefs");

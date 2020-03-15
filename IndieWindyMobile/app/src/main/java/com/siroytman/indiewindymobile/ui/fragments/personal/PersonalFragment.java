@@ -53,7 +53,6 @@ public class PersonalFragment extends Fragment {
 
         // Attach the page change listener inside the activity
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
             // This method will be invoked when a new page becomes selected.
             @Override
             public void onPageSelected(int position) {
@@ -62,9 +61,13 @@ public class PersonalFragment extends Fragment {
                     case 0:
                         songController.searchSongsLinked(SongsPersonalFragment.getInstance());
                         break;
+//                    case 1:
+//                        break;
                     case 1:
+                        artistController.searchArtistsLinked(ArtistsPersonalFragment.getInstance());
                         break;
                     case 2:
+                        albumController.searchAlbumsLinked(AlbumsPersonalFragment.getInstance());
                         break;
                     default:
                         break;
@@ -121,11 +124,15 @@ public class PersonalFragment extends Fragment {
                     hideKeyboard();
                     switch (currentPage) {
                         case 0:
-                            SongController.getInstance().searchSongsLinked(SongsPersonalFragment.getInstance(), query);
+                            songController.searchSongsLinked(SongsPersonalFragment.getInstance(), query);
                             return true;
+//                        case 1:
+//                            return true;
                         case 1:
+                            artistController.searchArtistsLinked(ArtistsPersonalFragment.getInstance(), query);
                             return true;
                         case 2:
+                            albumController.searchAlbumsLinked(AlbumsPersonalFragment.getInstance(), query);
                             return true;
                         default:
                             return false;

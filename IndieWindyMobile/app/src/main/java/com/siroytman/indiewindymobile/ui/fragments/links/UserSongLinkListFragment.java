@@ -54,7 +54,7 @@ public class UserSongLinkListFragment extends ListFragment {
         Button songMoreButton = view.findViewById(R.id.fragment_song_list__more);
         if (rawList) {
             songMoreButton.setVisibility(View.GONE);
-            TextView songTitleView = view.findViewById(R.id.fragment_song_list__songs_title);
+            TextView songTitleView = view.findViewById(R.id.fragment_song_list__title);
             songTitleView.setVisibility(View.GONE);
         }
         else {

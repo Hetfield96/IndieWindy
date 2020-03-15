@@ -18,7 +18,7 @@ import com.siroytman.indiewindymobile.model.Album;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.services.FragmentService;
-import com.siroytman.indiewindymobile.ui.fragments.UserSongLinkListFragment;
+import com.siroytman.indiewindymobile.ui.fragments.links.UserSongLinkListFragment;
 
 import java.util.ArrayList;
 

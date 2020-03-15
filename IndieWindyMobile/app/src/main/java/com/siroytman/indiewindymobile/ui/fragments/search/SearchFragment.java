@@ -1,4 +1,4 @@
-package com.siroytman.indiewindymobile.ui.fragments;
+package com.siroytman.indiewindymobile.ui.fragments.search;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -18,6 +18,9 @@ import com.siroytman.indiewindymobile.model.UserAlbumLink;
 import com.siroytman.indiewindymobile.model.UserArtistLink;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.services.FragmentService;
+import com.siroytman.indiewindymobile.ui.fragments.links.UserAlbumLinkListFragment;
+import com.siroytman.indiewindymobile.ui.fragments.links.UserArtistLinkListFragment;
+import com.siroytman.indiewindymobile.ui.fragments.links.UserSongLinkListFragment;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -27,7 +30,6 @@ import java.util.Map;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
 
 public class SearchFragment extends Fragment {
     private static final String TAG = "SearchFragment";

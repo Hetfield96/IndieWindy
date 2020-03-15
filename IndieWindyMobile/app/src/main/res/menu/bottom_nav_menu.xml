@@ -12,8 +12,13 @@
         android:title="@string/fragment_search_title" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_concert"
         android:icon="@drawable/ic_concert"
         android:title="@string/fragment_concert_title" />
+
+    <item
+        android:id="@+id/navigation_personal"
+        android:icon="@drawable/ic_artist"
+        android:title="@string/fragment_personal_title" />
 
 </menu>

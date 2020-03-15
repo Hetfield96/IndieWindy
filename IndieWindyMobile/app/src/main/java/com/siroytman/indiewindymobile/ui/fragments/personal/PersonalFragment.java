@@ -1,4 +1,4 @@
-package com.siroytman.indiewindymobile.ui.fragments.concert;
+package com.siroytman.indiewindymobile.ui.fragments.personal;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.siroytman.indiewindymobile.R;
-import com.siroytman.indiewindymobile.controller.ConcertController;
+import com.siroytman.indiewindymobile.controller.PersonalController;
 import com.siroytman.indiewindymobile.ui.adapter.ConcertPagerAdapter;
+import com.siroytman.indiewindymobile.ui.adapter.PersonalPagerAdapter;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
@@ -21,13 +22,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-public class ConcertFragment extends Fragment {
-    private static final String TAG = "ConcertFragment";
+public class PersonalFragment extends Fragment {
+    private static final String TAG = "PersonalFragment";
 
-    private ConcertController concertController;
     private SearchView searchView = null;
     private FragmentPagerAdapter adapterViewPager;
-    private ViewPager vpPager;
+    private ViewPager pager;
+    private PersonalController personalController;
 
     private int currentPage = 0;
 
@@ -35,14 +36,14 @@ public class ConcertFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_concert, container, false);
+        View view = inflater.inflate(R.layout.fragment_personal, container, false);
 
-        vpPager = view.findViewById(R.id.concert_vp_pager);
-        adapterViewPager = new ConcertPagerAdapter(getChildFragmentManager());
-        vpPager.setAdapter(adapterViewPager);
+        pager = view.findViewById(R.id.personal_vp_pager);
+        adapterViewPager = new PersonalPagerAdapter(getChildFragmentManager());
+        pager.setAdapter(adapterViewPager);
 
         // Attach the page change listener inside the activity
-        vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             // This method will be invoked when a new page becomes selected.
             @Override
@@ -50,13 +51,10 @@ public class ConcertFragment extends Fragment {
                 currentPage = position;
                 switch (position) {
                     case 0:
-                        ConcertPagerAdapter.nearestConcertFragmentUpdate();
                         break;
                     case 1:
-                        ConcertPagerAdapter.subscriptionConcertFragmentUpdate();
                         break;
                     case 2:
-                        ConcertPagerAdapter.savedConcertFragmentUpdate();
                         break;
                     default:
                         break;
@@ -84,8 +82,6 @@ public class ConcertFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        concertController = ConcertController.getInstance();
     }
 
     @Override
@@ -111,13 +107,10 @@ public class ConcertFragment extends Fragment {
                     hideKeyboard();
                     switch (currentPage) {
                         case 0:
-                            concertController.getNearestConcerts(ConcertPagerAdapter.getNearestConcertFragment(), query);
                             return true;
                         case 1:
-                            concertController.getSubscriptionConcerts(ConcertPagerAdapter.getSubscriptionConcertFragment(), query);
                             return true;
                         case 2:
-                            concertController.getSavedConcerts(ConcertPagerAdapter.getSavedConcertFragment(), query);
                             return true;
                         default:
                             return false;

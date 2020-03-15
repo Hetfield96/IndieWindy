@@ -5,12 +5,12 @@
     android:orientation="vertical">
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/concert_vp_pager"
+        android:id="@+id/personal_vp_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.viewpager.widget.PagerTabStrip
-            android:id="@+id/concert_pager_header"
+            android:id="@+id/personal_pager_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"

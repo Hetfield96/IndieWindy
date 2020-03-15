@@ -9,4 +9,5 @@
     <string name="title_home">Home</string>
     <string name="fragment_search_title">Search</string>
     <string name="fragment_concert_title">Concerts</string>
+    <string name="fragment_personal_title">My page</string>
 </resources>

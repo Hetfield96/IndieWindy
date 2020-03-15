@@ -10,7 +10,7 @@ import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
 import com.siroytman.indiewindymobile.model.UserArtistLink;
 import com.siroytman.indiewindymobile.model.UserSongLink;
-import com.siroytman.indiewindymobile.ui.fragments.SearchFragment;
+import com.siroytman.indiewindymobile.ui.fragments.search.SearchFragment;
 
 import org.json.JSONArray;
 

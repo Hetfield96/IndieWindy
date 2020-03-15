@@ -13,13 +13,19 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.siroytman.indiewindymobile.ui.fragments.SearchFragment"
+        android:name="com.siroytman.indiewindymobile.ui.fragments.search.SearchFragment"
         android:label="@string/fragment_search_title"
         tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_concert"
         android:name="com.siroytman.indiewindymobile.ui.fragments.concert.ConcertFragment"
         android:label="@string/fragment_concert_title"
         tools:layout="@layout/fragment_concert" />
+
+    <fragment
+        android:id="@+id/navigation_personal"
+        android:name="com.siroytman.indiewindymobile.ui.fragments.personal.PersonalFragment"
+        android:label="@string/fragment_personal_title"
+        tools:layout="@layout/fragment_personal" />
 </navigation>

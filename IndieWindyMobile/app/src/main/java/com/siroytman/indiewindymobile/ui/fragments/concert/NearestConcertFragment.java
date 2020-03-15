@@ -10,7 +10,7 @@ import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.ConcertController;
 import com.siroytman.indiewindymobile.model.UserConcertLink;
 import com.siroytman.indiewindymobile.services.FragmentService;
-import com.siroytman.indiewindymobile.ui.fragments.UserConcertLinkListFragment;
+import com.siroytman.indiewindymobile.ui.fragments.links.UserConcertLinkListFragment;
 
 import java.util.ArrayList;
 

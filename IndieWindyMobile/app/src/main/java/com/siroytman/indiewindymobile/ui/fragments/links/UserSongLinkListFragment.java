@@ -1,4 +1,4 @@
-package com.siroytman.indiewindymobile.ui.fragments;
+package com.siroytman.indiewindymobile.ui.fragments.links;
 
 import android.os.Bundle;
 import android.util.Log;

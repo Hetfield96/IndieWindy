@@ -41,6 +41,7 @@ public class PersonalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_personal, container, false);
 
         pager = view.findViewById(R.id.personal_vp_pager);
+        pager.setOffscreenPageLimit(PersonalPagerAdapter.NUM_ITEMS);
         adapterViewPager = new PersonalPagerAdapter(getChildFragmentManager());
         pager.setAdapter(adapterViewPager);
 

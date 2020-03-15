@@ -1,5 +1,8 @@
 package com.siroytman.indiewindymobile.ui.adapter;
 
+import android.os.Parcelable;
+import android.util.Log;
+
 import com.siroytman.indiewindymobile.ui.fragments.concert.NearestConcertFragment;
 import com.siroytman.indiewindymobile.ui.fragments.concert.SavedConcertFragment;
 import com.siroytman.indiewindymobile.ui.fragments.concert.SubscriptionConcertFragment;
@@ -10,26 +13,10 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class ConcertPagerAdapter extends FragmentStatePagerAdapter {
     public static final String TAG = "ConcertPagerAdapter";
-    private static int NUM_ITEMS = 3;
-    private static NearestConcertFragment nearestConcertFragment;
-    private static SubscriptionConcertFragment subscriptionConcertFragment;
-    private static SavedConcertFragment savedConcertFragment;
+    public static int NUM_ITEMS = 3;
 
     public ConcertPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
-    }
-
-
-    public static void nearestConcertFragmentUpdate() {
-        nearestConcertFragment.getNearestConcerts();
-    }
-
-    public static void subscriptionConcertFragmentUpdate() {
-        subscriptionConcertFragment.getSubscriptionConcerts();
-    }
-
-    public static void savedConcertFragmentUpdate() {
-        savedConcertFragment.getSavedConcerts();
     }
 
     // Returns total number of pages
@@ -41,16 +28,14 @@ public class ConcertPagerAdapter extends FragmentStatePagerAdapter {
     // Returns the fragment to display for that page
     @Override
     public Fragment getItem(int position) {
+        Log.d(TAG, "Position = " + position);
         switch (position) {
-            case 0: // Fragment # 0 - This will show FirstFragments
-                nearestConcertFragment = new NearestConcertFragment();
-                return nearestConcertFragment;
-            case 1: // Fragment # 0 - This will show FirstFragment different title
-                subscriptionConcertFragment = new SubscriptionConcertFragment();
-                return subscriptionConcertFragment;
-            case 2: // Fragment # 1 - This will show SecondFragment
-                savedConcertFragment = new SavedConcertFragment();
-                return savedConcertFragment;
+            case 0:
+                return NearestConcertFragment.getInstance();
+            case 1:
+                return SubscriptionConcertFragment.getInstance();
+            case 2:
+                return SavedConcertFragment.getInstance();
             default:
                 return null;
         }
@@ -70,15 +55,9 @@ public class ConcertPagerAdapter extends FragmentStatePagerAdapter {
         return "Page " + position;
     }
 
-    public static NearestConcertFragment getNearestConcertFragment() {
-        return nearestConcertFragment;
+    @Override
+    public void restoreState(Parcelable state, ClassLoader loader) {
+        //Do NOTHING;
     }
 
-    public static SubscriptionConcertFragment getSubscriptionConcertFragment() {
-        return subscriptionConcertFragment;
-    }
-
-    public static SavedConcertFragment getSavedConcertFragment() {
-        return savedConcertFragment;
-    }
 }

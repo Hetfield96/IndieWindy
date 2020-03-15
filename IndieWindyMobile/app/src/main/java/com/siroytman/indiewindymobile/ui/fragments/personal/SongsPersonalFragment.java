@@ -6,11 +6,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.siroytman.indiewindymobile.R;
+import com.siroytman.indiewindymobile.ui.fragments.concert.NearestConcertFragment;
 
 import androidx.fragment.app.Fragment;
 
 public class SongsPersonalFragment extends Fragment {
     public static final String TAG = "SongsPersonalFragment";
+    private static SongsPersonalFragment instance;
+
+    private SongsPersonalFragment() {
+    }
+
+    public static synchronized SongsPersonalFragment getInstance() {
+        if (instance == null) {
+            instance = new SongsPersonalFragment();
+        }
+        return instance;
+    }
 
     // Store instance variables based on arguments passed
     @Override

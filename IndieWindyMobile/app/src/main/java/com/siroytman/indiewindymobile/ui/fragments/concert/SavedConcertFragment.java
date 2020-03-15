@@ -18,17 +18,21 @@ import androidx.fragment.app.Fragment;
 
 public class SavedConcertFragment extends Fragment {
     public static final String TAG = "SavedConcertFragment";
-    private ConcertController concertController;
+    private static SavedConcertFragment instance;
 
+    private SavedConcertFragment() {
+    }
+
+    public static synchronized SavedConcertFragment getInstance() {
+        if (instance == null) {
+            instance = new SavedConcertFragment();
+        }
+        return instance;
+    }
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        concertController = ConcertController.getInstance();
-    }
-
-    public void getSavedConcerts() {
-        concertController.getSavedConcerts(this);
     }
 
     // Inflate the view for the fragment based on layout XML
@@ -39,7 +43,7 @@ public class SavedConcertFragment extends Fragment {
 
     public void concertsFoundViewUpdate(ArrayList<UserConcertLink> links)
     {
-        if (links.size() > 0) {
+        if (links != null && links.size() > 0) {
             Log.d(TAG, "Concerts found");
 
             // Load list fragment

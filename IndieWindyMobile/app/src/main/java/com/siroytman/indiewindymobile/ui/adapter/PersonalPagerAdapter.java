@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class PersonalPagerAdapter extends FragmentStatePagerAdapter {
     public static final String TAG = "PersonalPagerAdapter";
-    private static int NUM_ITEMS = 2;
+    public static int NUM_ITEMS = 2;
     private static SongsPersonalFragment songsPersonalFragment;
 //    private static SubscriptionConcertFragment subscriptionConcertFragment;
 //    private static SavedConcertFragment savedConcertFragment;

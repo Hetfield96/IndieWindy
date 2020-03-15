@@ -29,6 +29,7 @@ public class ConcertController {
     private ApiController apiController;
     private static ConcertController instance;
 
+
     private ConcertController() {
         apiController = ApiController.getInstance();
     }
@@ -61,11 +62,12 @@ public class ConcertController {
         });
     }
 
-    public void getNearestConcerts(final NearestConcertFragment concertFragment) {
-        getNearestConcerts(concertFragment, "null");
+    public void getNearestConcerts() {
+        NearestConcertFragment.getInstance();
+        getNearestConcerts("null");
     }
 
-    public void getNearestConcerts(final NearestConcertFragment concertFragment, String query){
+    public void getNearestConcerts(String query){
         String url = "concert/getNearest/" + AppController.user.getId() + "/" + query;
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
@@ -73,7 +75,7 @@ public class ConcertController {
                 try {
                     Log.d(TAG, "getNearestConcerts: search request completed");
                     ArrayList<UserConcertLink> links = UserConcertLink.parseLinks(result);
-                    concertFragment.concertsFoundViewUpdate(links);
+                    NearestConcertFragment.getInstance().concertsFoundViewUpdate(links);
                 }
                 catch (Exception e) {
                     Log.d(TAG, "Unable to parse response: " + e.getMessage());
@@ -86,11 +88,11 @@ public class ConcertController {
         });
     }
 
-    public void getSubscriptionConcerts(final SubscriptionConcertFragment concertFragment) {
-        getSubscriptionConcerts(concertFragment, "null");
+    public void getSubscriptionConcerts() {
+        getSubscriptionConcerts("null");
     }
 
-    public void getSubscriptionConcerts(final SubscriptionConcertFragment concertFragment, String query){
+    public void getSubscriptionConcerts(String query){
         String url = "concert/getBySubscription/" + AppController.user.getId() + "/" + query;
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
@@ -98,7 +100,7 @@ public class ConcertController {
                 try {
                     Log.d(TAG, "getSubscriptionConcerts: search request completed");
                     ArrayList<UserConcertLink> links = UserConcertLink.parseLinks(result);
-                    concertFragment.concertsFoundViewUpdate(links);
+                    SubscriptionConcertFragment.getInstance().concertsFoundViewUpdate(links);
                 }
                 catch (Exception e) {
                     Log.d(TAG, "Unable to parse response: " + e.getMessage());
@@ -111,11 +113,11 @@ public class ConcertController {
         });
     }
 
-    public void getSavedConcerts(final SavedConcertFragment concertFragment) {
-        getSavedConcerts(concertFragment, "null");
+    public void getSavedConcerts() {
+        getSavedConcerts("null");
     }
 
-    public void getSavedConcerts(final SavedConcertFragment concertFragment, String query){
+    public void getSavedConcerts(String query){
         String url = "concert/getSaved/" + AppController.user.getId() + "/" + query;
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
@@ -123,7 +125,7 @@ public class ConcertController {
                 try {
                     Log.d(TAG, "getSavedConcerts: search request completed");
                     ArrayList<UserConcertLink> links = UserConcertLink.parseLinks(result);
-                    concertFragment.concertsFoundViewUpdate(links);
+                    SavedConcertFragment.getInstance().concertsFoundViewUpdate(links);
                 }
                 catch (Exception e) {
                     Log.d(TAG, "Unable to parse response: " + e.getMessage());

@@ -39,9 +39,9 @@ public class ConcertFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_concert, container, false);
 
         pager = view.findViewById(R.id.concert_vp_pager);
+        pager.setOffscreenPageLimit(ConcertPagerAdapter.NUM_ITEMS);
         adapterViewPager = new ConcertPagerAdapter(getChildFragmentManager());
         pager.setAdapter(adapterViewPager);
-
         TabLayout tabLayout = view.findViewById(R.id.concert_tab_layout);
         tabLayout.setupWithViewPager(pager);
 
@@ -54,13 +54,13 @@ public class ConcertFragment extends Fragment {
                 currentPage = position;
                 switch (position) {
                     case 0:
-                        ConcertPagerAdapter.nearestConcertFragmentUpdate();
+                        concertController.getNearestConcerts();
                         break;
                     case 1:
-                        ConcertPagerAdapter.subscriptionConcertFragmentUpdate();
+                        concertController.getSubscriptionConcerts();
                         break;
                     case 2:
-                        ConcertPagerAdapter.savedConcertFragmentUpdate();
+                        concertController.getSavedConcerts();
                         break;
                     default:
                         break;
@@ -115,13 +115,13 @@ public class ConcertFragment extends Fragment {
                     hideKeyboard();
                     switch (currentPage) {
                         case 0:
-                            concertController.getNearestConcerts(ConcertPagerAdapter.getNearestConcertFragment(), query);
+                            concertController.getNearestConcerts(query);
                             return true;
                         case 1:
-                            concertController.getSubscriptionConcerts(ConcertPagerAdapter.getSubscriptionConcertFragment(), query);
+                            concertController.getSubscriptionConcerts(query);
                             return true;
                         case 2:
-                            concertController.getSavedConcerts(ConcertPagerAdapter.getSavedConcertFragment(), query);
+                            concertController.getSavedConcerts(query);
                             return true;
                         default:
                             return false;

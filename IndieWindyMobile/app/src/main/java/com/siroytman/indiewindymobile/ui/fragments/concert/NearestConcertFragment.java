@@ -19,6 +19,17 @@ import androidx.fragment.app.Fragment;
 public class NearestConcertFragment extends Fragment {
     public static final String TAG = "NearestConcertFragment";
     private ConcertController concertController;
+    private static NearestConcertFragment instance;
+
+    private NearestConcertFragment() {
+    }
+
+    public static synchronized NearestConcertFragment getInstance() {
+        if (instance == null) {
+            instance = new NearestConcertFragment();
+        }
+        return instance;
+    }
 
     // Store instance variables based on arguments passed
     @Override
@@ -26,11 +37,7 @@ public class NearestConcertFragment extends Fragment {
         super.onCreate(savedInstanceState);
         concertController = ConcertController.getInstance();
 
-        getNearestConcerts();
-    }
-
-    public void getNearestConcerts() {
-        concertController.getNearestConcerts(this);
+        concertController.getNearestConcerts();
     }
 
     // Inflate the view for the fragment based on layout XML
@@ -41,7 +48,7 @@ public class NearestConcertFragment extends Fragment {
 
     public void concertsFoundViewUpdate(ArrayList<UserConcertLink> links)
     {
-        if (links.size() > 0) {
+        if (links != null && links.size() > 0) {
             Log.d(TAG, "Concerts found");
 
             // Load list fragment

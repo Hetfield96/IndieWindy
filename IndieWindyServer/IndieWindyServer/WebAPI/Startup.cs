@@ -40,17 +40,11 @@ namespace WebAPI
             
             services.AddControllers();
 
-            String connectionString;
-            // Use SQL Database if in Azure, otherwise, use SQLite
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
-            {
-                connectionString = Configuration.GetSection("DB")?["AzureConnectionString"];
-            }
-            else
-            {
-                connectionString = Configuration.GetSection("DB")?["LocalConnectionString"];
-            }
-            
+            // Azure db in production, local db otherwise
+            String connectionString = Configuration.GetConnectionString(
+                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Production") ?
+                    "AzureConnection" : "LocalConnection");
+
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<IndieWindyDbContext>(opt =>
                     opt.UseNpgsql(connectionString));

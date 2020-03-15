@@ -8,27 +8,11 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class PersonalPagerAdapter extends FragmentStatePagerAdapter {
     public static final String TAG = "PersonalPagerAdapter";
-    public static int NUM_ITEMS = 2;
-    private static SongsPersonalFragment songsPersonalFragment;
-//    private static SubscriptionConcertFragment subscriptionConcertFragment;
-//    private static SavedConcertFragment savedConcertFragment;
+    public static int NUM_ITEMS = 1;
 
     public PersonalPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
-
-
-//    public static void nearestConcertFragmentUpdate() {
-//        songsPersonalFragment.getNearestConcerts();
-//    }
-//
-//    public static void subscriptionConcertFragmentUpdate() {
-//        subscriptionConcertFragment.getSubscriptionConcerts();
-//    }
-//
-//    public static void savedConcertFragmentUpdate() {
-//        savedConcertFragment.getSavedConcerts();
-//    }
 
     // Returns total number of pages
     @Override
@@ -41,16 +25,10 @@ public class PersonalPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                songsPersonalFragment = new SongsPersonalFragment();
-                return songsPersonalFragment;
+                return SongsPersonalFragment.getInstance();
             case 1:
-                songsPersonalFragment = new SongsPersonalFragment();
-                return songsPersonalFragment;
-//                subscriptionConcertFragment = new SubscriptionConcertFragment();
-//                return subscriptionConcertFragment;
+//                return SongsPersonalFragment.getInstance();
             case 2:
-//                savedConcertFragment = new SavedConcertFragment();
-//                return savedConcertFragment;
             default:
                 return null;
         }
@@ -68,21 +46,8 @@ public class PersonalPagerAdapter extends FragmentStatePagerAdapter {
                 return "Artists";
             case 3:
                 return "Albums";
-            case 4:
-                return "Concerts";
         }
         return "Page " + position;
     }
 
-    public static SongsPersonalFragment getSongsPersonalFragment() {
-        return songsPersonalFragment;
-    }
-
-//    public static SubscriptionConcertFragment getSubscriptionConcertFragment() {
-//        return subscriptionConcertFragment;
-//    }
-//
-//    public static SavedConcertFragment getSavedConcertFragment() {
-//        return savedConcertFragment;
-//    }
 }

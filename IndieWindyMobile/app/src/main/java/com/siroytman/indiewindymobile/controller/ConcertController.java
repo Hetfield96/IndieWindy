@@ -41,29 +41,7 @@ public class ConcertController {
         return instance;
     }
 
-    public void searchConcerts(final NearestConcertFragment concertFragment, String query){
-        String url = "concert/find/" + query + "/" + AppController.user.getId();
-        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
-            @Override
-            public void onSuccessResponse(JSONArray result) {
-                try {
-                    Log.d(TAG, "Concert search: request completed");
-                    ArrayList<UserConcertLink> links = UserConcertLink.parseLinks(result);
-                    concertFragment.concertsFoundViewUpdate(links);
-                }
-                catch (Exception e) {
-                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
-                }
-            }
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Concert search: request not completed!");
-            }
-        });
-    }
-
     public void getNearestConcerts() {
-        NearestConcertFragment.getInstance();
         getNearestConcerts("null");
     }
 

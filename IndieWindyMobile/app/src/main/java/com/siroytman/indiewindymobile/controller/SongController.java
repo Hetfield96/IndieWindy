@@ -4,14 +4,19 @@ import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
+import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
 import com.siroytman.indiewindymobile.interfaces.ILinkActions;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;
+import com.siroytman.indiewindymobile.interfaces.ISearchableSong;
 import com.siroytman.indiewindymobile.model.Song;
+import com.siroytman.indiewindymobile.model.UserSongLink;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +35,54 @@ public class SongController {
             instance = new SongController();
         }
         return instance;
+    }
+
+    public void searchSongs(final ISearchableSong view, final String query){
+        String url = "song/find/" + query + "/" + AppController.user.getId();
+        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
+            @Override
+            public void onSuccessResponse(JSONArray result) {
+                try {
+                    Log.d(TAG, "Songs search: request completed");
+                    ArrayList<UserSongLink> links = UserSongLink.parseLinks(result);
+                    view.songsFoundViewUpdate(links);
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Songs search: request not completed!");
+            }
+        });
+    }
+
+    public void searchSongsLinked(final ISearchableSong view) {
+        searchSongsLinked(view, "null");
+    }
+
+    public void searchSongsLinked(final ISearchableSong view, final String query){
+        String url = "song/findLinked/" + query + "/" + AppController.user.getId();
+        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
+            @Override
+            public void onSuccessResponse(JSONArray result) {
+                try {
+                    Log.d(TAG, "Songs search: request completed");
+                    ArrayList<UserSongLink> links = UserSongLink.parseLinks(result);
+                    view.songsFoundViewUpdate(links);
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Songs search: request not completed!");
+            }
+        });
     }
 
     public void addUserSongLink(final ILinkActions<Song> view) {

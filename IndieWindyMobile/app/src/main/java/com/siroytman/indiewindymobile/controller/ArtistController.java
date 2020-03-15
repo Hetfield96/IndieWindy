@@ -10,8 +10,10 @@ import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;
 import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ISearchableArtist;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
+import com.siroytman.indiewindymobile.model.UserArtistLink;
 import com.siroytman.indiewindymobile.ui.activity.ArtistActivity;
 
 import org.json.JSONArray;
@@ -38,6 +40,54 @@ public class ArtistController {
         return instance;
     }
 
+    public void searchArtists(final ISearchableArtist view, String query){
+        String url = "artist/find/" + query + "/" + AppController.user.getId();
+        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
+            @Override
+            public void onSuccessResponse(JSONArray result) {
+                try {
+                    Log.d(TAG, "Artists search: request completed");
+                    ArrayList<UserArtistLink> links = UserArtistLink.parseLinks(result);
+                    view.artistsFoundViewUpdate(links);
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Artists search: request not completed!");
+            }
+        });
+    }
+
+    public void searchArtistsLinked(final ISearchableArtist view) {
+        searchArtistsLinked(view, "null");
+    }
+
+    public void searchArtistsLinked(final ISearchableArtist view, String query){
+        String url = "artist/findLinked/" + query + "/" + AppController.user.getId();
+        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
+            @Override
+            public void onSuccessResponse(JSONArray result) {
+                try {
+                    Log.d(TAG, "Artists search: request completed");
+                    ArrayList<UserArtistLink> links = UserArtistLink.parseLinks(result);
+                    view.artistsFoundViewUpdate(links);
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Artists search: request not completed!");
+            }
+        });
+    }
+
     public void getArtistAlbums(final ArtistActivity artistActivity, Artist artist){
         String url = "artist/" + AppController.user.getId() + "/" + artist.getId() + "/albums";
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
@@ -61,7 +111,6 @@ public class ArtistController {
             }
         });
     }
-
 
     public void linkExist(final ILinkActions<Artist> view){
         final Artist artist = view.getItem();

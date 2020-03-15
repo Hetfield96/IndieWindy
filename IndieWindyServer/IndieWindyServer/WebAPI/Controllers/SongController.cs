@@ -22,5 +22,12 @@ namespace WebAPI.Controllers
         {
             return await _songService.FindByName(query, userId);
         }
+        
+        [Route("findLinked/{query}/{userId}")]
+        public async Task<List<UserSongLink>> FindByNameLinked(string query, int userId)
+        {
+            query = query.Equals("null") ? "" : query;
+            return await _songService.FindByNameLinked(query, userId);
+        }
     }
 }

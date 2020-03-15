@@ -14,6 +14,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.SearchController;
+import com.siroytman.indiewindymobile.interfaces.ISearchableAlbum;
+import com.siroytman.indiewindymobile.interfaces.ISearchableArtist;
+import com.siroytman.indiewindymobile.interfaces.ISearchableSong;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
 import com.siroytman.indiewindymobile.model.UserArtistLink;
 import com.siroytman.indiewindymobile.model.UserSongLink;
@@ -31,7 +34,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements
+        ISearchableSong, ISearchableArtist, ISearchableAlbum {
     private static final String TAG = "SearchFragment";
     private SearchController searchController;
 
@@ -54,11 +58,11 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        searchController = SearchController.getInstance(this);
+        searchController = SearchController.getInstance();
     }
 
-    public void songsFoundViewUpdate(ArrayList<UserSongLink> links)
-    {
+    @Override
+    public void songsFoundViewUpdate(ArrayList<UserSongLink> links) {
         if (links.size() > 0) {
             Log.d(TAG, "Songs found");
 
@@ -72,11 +76,11 @@ public class SearchFragment extends Fragment {
         }
 
         // When finished start next request
-        searchController.searchArtists(searchQuery);
+        searchController.searchArtists(SearchFragment.this, searchQuery);
     }
 
-    public void artistsFoundViewUpdate(ArrayList<UserArtistLink> links)
-    {
+    @Override
+    public void artistsFoundViewUpdate(ArrayList<UserArtistLink> links) {
         if (links.size() > 0) {
             Log.d(TAG, "Artists found");
 
@@ -90,11 +94,11 @@ public class SearchFragment extends Fragment {
         }
 
         // When finished start next request
-        searchController.searchAlbums(searchQuery);
+        searchController.searchAlbums(SearchFragment.this, searchQuery);
     }
 
-    public void albumsFoundViewUpdate(ArrayList<UserAlbumLink> links)
-    {
+    @Override
+    public void albumsFoundViewUpdate(ArrayList<UserAlbumLink> links) {
         if (links.size() > 0) {
             Log.d(TAG, "Albums found");
 
@@ -141,7 +145,7 @@ public class SearchFragment extends Fragment {
                     searchQuery = query;
                     hideKeyboard();
                     clearContainers();
-                    searchController.searchSongs(searchQuery);
+                    searchController.searchSongs(SearchFragment.this, searchQuery);
                     return true;
                 }
             };
@@ -167,4 +171,5 @@ public class SearchFragment extends Fragment {
 
         FragmentService.clearFragment(this);
     }
+
 }

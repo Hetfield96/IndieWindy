@@ -1,109 +1,36 @@
 package com.siroytman.indiewindymobile.controller;
 
-import android.util.Log;
-
-import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.siroytman.indiewindymobile.api.ApiController;
-import com.siroytman.indiewindymobile.api.ErrorHandler;
-import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
-import com.siroytman.indiewindymobile.model.UserAlbumLink;
-import com.siroytman.indiewindymobile.model.UserArtistLink;
-import com.siroytman.indiewindymobile.model.UserSongLink;
-import com.siroytman.indiewindymobile.ui.fragments.search.SearchFragment;
-
-import org.json.JSONArray;
-
-import java.util.ArrayList;
+import com.siroytman.indiewindymobile.interfaces.ISearchableAlbum;
+import com.siroytman.indiewindymobile.interfaces.ISearchableArtist;
+import com.siroytman.indiewindymobile.interfaces.ISearchableSong;
 
 public class SearchController  {
     private static final String TAG = "SearchController";
-    private SearchFragment searchFragment;
     private ApiController apiController;
     private static SearchController instance;
 
-    private SearchController(SearchFragment searchFragment) {
+    private SearchController() {
         apiController = ApiController.getInstance();
-        this.searchFragment = searchFragment;
     }
 
-    public static synchronized SearchController getInstance(SearchFragment searchFragment) {
+    public static synchronized SearchController getInstance() {
         if (instance == null) {
-            instance = new SearchController(searchFragment);
+            instance = new SearchController();
         }
         return instance;
     }
 
-    public void searchSongs(final String query){
-        String url = "song/find/" + query + "/" + AppController.user.getId();
-        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
-            @Override
-            public void onSuccessResponse(JSONArray result) {
-                try {
-                    Log.d(TAG, "Songs search: request completed");
-                    ArrayList<UserSongLink> links = UserSongLink.parseLinks(result);
-                    searchFragment.songsFoundViewUpdate(links);
-                }
-                catch (Exception e) {
-                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
-                }
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (!ErrorHandler.HandleError(searchFragment.getContext(), error)) {
-                    Log.d(TAG, "Songs search: request not completed!");
-                }
-            }
-        });
+    public void searchSongs(final ISearchableSong view, final String query){
+        SongController.getInstance().searchSongs(view, query);
     }
 
-    public void searchAlbums(String query){
-        String url = "album/find/" + query + "/" + AppController.user.getId();
-        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
-            @Override
-            public void onSuccessResponse(JSONArray result) {
-                try {
-                    Log.d(TAG, "Albums search: request completed");
-                    ArrayList<UserAlbumLink> links = UserAlbumLink.parseLinks(result);
-                    searchFragment.albumsFoundViewUpdate(links);
-                }
-                catch (Exception e) {
-                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
-                }
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (!ErrorHandler.HandleError(searchFragment.getContext(), error)) {
-                    Log.d(TAG, "Albums search: request not completed!");
-                }
-            }
-        });
+    public void searchArtists(final ISearchableArtist view, String query){
+        ArtistController.getInstance().searchArtists(view, query);
     }
 
-    public void searchArtists(String query){
-        String url = "artist/find/" + query + "/" + AppController.user.getId();
-        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
-            @Override
-            public void onSuccessResponse(JSONArray result) {
-                try {
-                    Log.d(TAG, "Artists search: request completed");
-                    ArrayList<UserArtistLink> links = UserArtistLink.parseLinks(result);
-                    searchFragment.artistsFoundViewUpdate(links);
-                }
-                catch (Exception e) {
-                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
-                }
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (!ErrorHandler.HandleError(searchFragment.getContext(), error)) {
-                    Log.d(TAG, "Artists search: request not completed!");
-                }
-            }
-        });
+    public void searchAlbums(final ISearchableAlbum view, String query){
+        AlbumController.getInstance().searchAlbums(view, query);
     }
 
 }

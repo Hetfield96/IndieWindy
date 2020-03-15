@@ -12,14 +12,15 @@ namespace WebAPI.Controllers
     {
         private readonly ArtistService _artistService;
 
-        public string Index()
-        {
-            return "This is ArtistController";
-        }
-        
         public ArtistController(ArtistService artistService)
         {
             _artistService = artistService;
+        }
+        
+        [HttpGet]
+        public string Index()
+        {
+            return "This is ArtistController";
         }
 
         [HttpGet]
@@ -33,6 +34,13 @@ namespace WebAPI.Controllers
         public async Task<List<UserArtistLink>> FindByName(string query, int userId)
         {
             return await _artistService.FindByName(query, userId);
+        }
+        
+        [Route("findLinked/{query}/{userId}")]
+        public async Task<List<UserArtistLink>> FindByNameLinked(string query, int userId)
+        {
+            query = query.Equals("null") ? "" : query;
+            return await _artistService.FindByNameLinked(query, userId);
         }
         
         [HttpGet]

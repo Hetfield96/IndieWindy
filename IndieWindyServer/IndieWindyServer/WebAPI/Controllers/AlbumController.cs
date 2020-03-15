@@ -23,6 +23,13 @@ namespace WebAPI.Controllers
             return await _albumService.FindByName(query, userId);
         }
 
+        [Route("find/{query}/{userId}")]
+        public async Task<List<UserAlbumLink>> FindByNameLinked(string query, int userId)
+        {
+            query = query.Equals("null") ? "" : query;
+            return await _albumService.FindByNameLinked(query, userId);
+        }
+        
         [HttpGet]
         [Route("{userId}/{albumId}/songs")]
         public async Task<List<UserSongLink>> GetSongs(int userId, int albumId)

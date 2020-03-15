@@ -13,14 +13,11 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.siroytman.indiewindymobile.R;
-import com.siroytman.indiewindymobile.controller.PersonalController;
-import com.siroytman.indiewindymobile.ui.adapter.ConcertPagerAdapter;
 import com.siroytman.indiewindymobile.ui.adapter.PersonalPagerAdapter;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -30,7 +27,6 @@ public class PersonalFragment extends Fragment {
     private SearchView searchView = null;
     private FragmentStatePagerAdapter adapterViewPager;
     private ViewPager pager;
-    private PersonalController personalController;
 
     private int currentPage = 0;
 

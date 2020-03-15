@@ -74,7 +74,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
 
 
     // Single element
-    public class ViewHolder  implements View.OnClickListener, ILinkActions<Song> {
+    public class ViewHolder implements View.OnClickListener, ILinkActions<Song> {
         public static final String TAG = "UserSongLinkAdapter.VH";
         private UserSongLink songLink;
 

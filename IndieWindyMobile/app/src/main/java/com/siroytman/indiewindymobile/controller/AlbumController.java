@@ -10,7 +10,9 @@ import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;
 import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ISearchableAlbum;
 import com.siroytman.indiewindymobile.model.Album;
+import com.siroytman.indiewindymobile.model.UserAlbumLink;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.ui.activity.AlbumActivity;
 
@@ -36,6 +38,54 @@ public class AlbumController {
             instance = new AlbumController();
         }
         return instance;
+    }
+
+    public void searchAlbums(final ISearchableAlbum view, String query){
+        String url = "album/find/" + query + "/" + AppController.user.getId();
+        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
+            @Override
+            public void onSuccessResponse(JSONArray result) {
+                try {
+                    Log.d(TAG, "Albums search: request completed");
+                    ArrayList<UserAlbumLink> links = UserAlbumLink.parseLinks(result);
+                    view.albumsFoundViewUpdate(links);
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Albums search: request not completed!");
+            }
+        });
+    }
+
+    public void searchAlbumsLinked(final ISearchableAlbum view) {
+        searchAlbums(view, "null");
+    }
+
+    public void searchAlbumsLinked(final ISearchableAlbum view, String query){
+        String url = "album/findLinked/" + query + "/" + AppController.user.getId();
+        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
+            @Override
+            public void onSuccessResponse(JSONArray result) {
+                try {
+                    Log.d(TAG, "Albums search: request completed");
+                    ArrayList<UserAlbumLink> links = UserAlbumLink.parseLinks(result);
+                    view.albumsFoundViewUpdate(links);
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Albums search: request not completed!");
+            }
+        });
     }
 
     public void getAlbumSongs(final AlbumActivity albumActivity) {

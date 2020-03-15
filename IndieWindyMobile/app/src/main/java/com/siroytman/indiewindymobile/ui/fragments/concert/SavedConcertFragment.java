@@ -43,7 +43,7 @@ public class SavedConcertFragment extends Fragment {
 
     public void concertsFoundViewUpdate(ArrayList<UserConcertLink> links)
     {
-        if (links != null && links.size() > 0) {
+        if (links.size() > 0) {
             Log.d(TAG, "Concerts found");
 
             // Load list fragment

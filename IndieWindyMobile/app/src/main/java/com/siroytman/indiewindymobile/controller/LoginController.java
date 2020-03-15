@@ -84,7 +84,6 @@ public class LoginController {
         });
     }
 
-
     public void loginFromSharedPrefs(){
         AppUser user = sharedPrefsService.getAppUser();
         if (user != null){

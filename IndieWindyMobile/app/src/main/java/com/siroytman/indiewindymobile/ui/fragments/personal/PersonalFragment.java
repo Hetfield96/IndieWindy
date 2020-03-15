@@ -2,6 +2,7 @@ package com.siroytman.indiewindymobile.ui.fragments.personal;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AlbumController;
 import com.siroytman.indiewindymobile.controller.ArtistController;
 import com.siroytman.indiewindymobile.controller.SongController;
+import com.siroytman.indiewindymobile.ui.activity.SettingsActivity;
 import com.siroytman.indiewindymobile.ui.adapter.PersonalPagerAdapter;
 
 import androidx.annotation.Nullable;
@@ -105,7 +107,6 @@ public class PersonalFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.personal_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.personal_search);
-        MenuItem settingsItem = menu.findItem(R.id.personal_settings);
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
         if (searchItem != null) {
@@ -142,6 +143,16 @@ public class PersonalFragment extends Fragment {
             };
             searchView.setOnQueryTextListener(queryTextListener);
         }
+
+        MenuItem settingsItem = menu.findItem(R.id.personal_settings);
+        settingsItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                startActivity(new Intent(getContext(), SettingsActivity.class));
+                return true;
+            }
+        });
+
         super.onCreateOptionsMenu(menu, inflater);
     }
     

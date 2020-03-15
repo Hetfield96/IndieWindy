@@ -29,62 +29,62 @@ namespace DatabaseAPI.Services
             return res.ToList();
         }
         
-        public async Task<List<UserConcertLink>> GetNearest(int userId)
+        public async Task<List<UserConcertLink>> GetNearest(int userId, string query)
         {
             await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
             
-            // TODO where start_time > now()
             var res = await con.QueryAsync<UserConcertLink, Concert, UserConcertLink>(
                 @"select link.*, c.*
                         from user_concert_link as link
                         right join concert c on link.concert_id = c.id and link.app_user_id = @user
+                        where start_time > now() and lower(c.name) like @name 
                         order by c.start_time",
                 (link, concert) =>
                 {
                     link.Concert = concert;
                     return link;
                 },
-                param: new {@user = userId});
+                param: new {@name = $"{query.ToLower()}%", @user = userId});
             return res.ToList();
         }
         
-        public async Task<List<UserConcertLink>> GetBySubscription(int userId)
+        public async Task<List<UserConcertLink>> GetBySubscription(int userId, string query)
         {
             await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
             
             var res = await con.QueryAsync<UserConcertLink, Concert, UserConcertLink>(
                 @"select link.*, c.*
                     from user_concert_link link
-                    right join concert c on link.concert_id = c.id and app_user_id = @userId
-                    where c.id in
+                    right join concert c on link.concert_id = c.id and app_user_id = @user
+                    where lower(c.name) like @name and c.id in
                     (select distinct concert_id from artist_concert_link
                     where artist_id in
                     (select artist_id from user_artist_link
-                    where app_user_id = @userId));",
+                    where app_user_id = @user));",
                 (link, concert) =>
                 {
                     link.Concert = concert;
                     return link;
                 },
-                param: new {userId});
+                param: new {@name = $"{query.ToLower()}%", @user = userId});
             return res.ToList();
         }
         
-        public async Task<List<UserConcertLink>> GetSaved(int userId)
+        public async Task<List<UserConcertLink>> GetSaved(int userId, string query)
         {
             await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
             
             var res = await con.QueryAsync<UserConcertLink, Concert, UserConcertLink>(
                 @"select link.*, c.*
                     from user_concert_link link
-                    right join concert c on link.concert_id = c.id and app_user_id = @userId
-                    where link.app_user_id is not null;",
+                    right join concert c on link.concert_id = c.id and app_user_id = @user
+                    where link.app_user_id is not null and lower(c.name) like @name ;",
                 (link, concert) =>
                 {
                     link.Concert = concert;
                     return link;
                 },
-                param: new {userId});
+                param: new {@name = $"{query.ToLower()}%", @user = userId});
             return res.ToList();
         }
 
@@ -96,15 +96,15 @@ namespace DatabaseAPI.Services
                 @"select link.*, a.*
                     from user_artist_link link
                     right join artist_concert_link acl 
-                    on link.artist_id = acl.artist_id and link.app_user_id = @userId
+                    on link.artist_id = acl.artist_id and link.app_user_id = @user
                     join artist a on acl.artist_id = a.id
-                    where acl.concert_id = @concertId;",
+                    where acl.concert_id = @concert;",
                 (link, artist) =>
                 {
                     link.Artist = artist;
                     return link;
                 },
-                param: new {userId, concertId});
+                param: new {@user = userId, @concert = concertId});
             return res.ToList();
         }
     }

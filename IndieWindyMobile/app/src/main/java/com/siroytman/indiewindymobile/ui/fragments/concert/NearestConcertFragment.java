@@ -47,6 +47,8 @@ public class NearestConcertFragment extends Fragment {
             // Load list fragment
             UserConcertLinkListFragment fragment = new UserConcertLinkListFragment(links);
             FragmentService.replaceFragment(this, R.id.fragment_concert_nearest__container, fragment);
+        } else {
+            FragmentService.clearFragment(this);
         }
     }
 }

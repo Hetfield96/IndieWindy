@@ -61,8 +61,12 @@ public class ConcertController {
         });
     }
 
-    public void getNearestConcerts(final NearestConcertFragment concertFragment){
-        String url = "concert/getNearest/" + AppController.user.getId();
+    public void getNearestConcerts(final NearestConcertFragment concertFragment) {
+        getNearestConcerts(concertFragment, "null");
+    }
+
+    public void getNearestConcerts(final NearestConcertFragment concertFragment, String query){
+        String url = "concert/getNearest/" + AppController.user.getId() + "/" + query;
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
             public void onSuccessResponse(JSONArray result) {
@@ -82,8 +86,12 @@ public class ConcertController {
         });
     }
 
-    public void getSubscriptionConcerts(final SubscriptionConcertFragment concertFragment){
-        String url = "concert/getBySubscription/" + AppController.user.getId();
+    public void getSubscriptionConcerts(final SubscriptionConcertFragment concertFragment) {
+        getSubscriptionConcerts(concertFragment, "null");
+    }
+
+    public void getSubscriptionConcerts(final SubscriptionConcertFragment concertFragment, String query){
+        String url = "concert/getBySubscription/" + AppController.user.getId() + "/" + query;
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
             public void onSuccessResponse(JSONArray result) {
@@ -103,8 +111,12 @@ public class ConcertController {
         });
     }
 
-    public void getSavedConcerts(final SavedConcertFragment concertFragment){
-        String url = "concert/getSaved/" + AppController.user.getId();
+    public void getSavedConcerts(final SavedConcertFragment concertFragment) {
+        getSavedConcerts(concertFragment, "null");
+    }
+
+    public void getSavedConcerts(final SavedConcertFragment concertFragment, String query){
+        String url = "concert/getSaved/" + AppController.user.getId() + "/" + query;
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
             public void onSuccessResponse(JSONArray result) {

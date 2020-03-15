@@ -59,7 +59,6 @@ public class LoginController {
                     // Save to shared prefs
                     sharedPrefsService.saveAppUser(AppController.user);
 
-                    loginActivity.stopLoadingProgressBar();
                     Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_SHORT)
                             .show();
                     // Swap to next activity

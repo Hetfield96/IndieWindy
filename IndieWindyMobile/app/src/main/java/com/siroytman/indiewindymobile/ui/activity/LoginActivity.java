@@ -38,19 +38,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void startLoadingProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
         passwordText.setEnabled(false);
         nameText.setEnabled(false);
         loginButton.setEnabled(false);
         registerButton.setEnabled(false);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     public void stopLoadingProgressBar() {
-        progressBar.setVisibility(View.INVISIBLE);
         passwordText.setEnabled(true);
         nameText.setEnabled(true);
         loginButton.setEnabled(true);
         registerButton.setEnabled(true);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     // Authorization

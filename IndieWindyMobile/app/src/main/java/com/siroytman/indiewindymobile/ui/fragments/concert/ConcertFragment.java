@@ -3,7 +3,6 @@ package com.siroytman.indiewindymobile.ui.fragments.concert;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +12,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.siroytman.indiewindymobile.R;
+import com.siroytman.indiewindymobile.controller.ConcertController;
+import com.siroytman.indiewindymobile.model.Concert;
 import com.siroytman.indiewindymobile.ui.adapter.ConcertPagerAdapter;
 
 import androidx.annotation.Nullable;
@@ -24,9 +25,12 @@ import androidx.viewpager.widget.ViewPager;
 public class ConcertFragment extends Fragment {
     private static final String TAG = "ConcertFragment";
 
+    private ConcertController concertController;
     private SearchView searchView = null;
     private FragmentPagerAdapter adapterViewPager;
     private ViewPager vpPager;
+
+    private int currentPage = 0;
 
 
     @Nullable
@@ -44,7 +48,7 @@ public class ConcertFragment extends Fragment {
             // This method will be invoked when a new page becomes selected.
             @Override
             public void onPageSelected(int position) {
-                Log.d(TAG, "Selected page position: " + position);
+                currentPage = position;
                 switch (position) {
                     case 0:
                         ConcertPagerAdapter.nearestConcertFragmentUpdate();
@@ -81,6 +85,8 @@ public class ConcertFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        concertController = ConcertController.getInstance();
     }
 
     @Override
@@ -104,9 +110,19 @@ public class ConcertFragment extends Fragment {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     hideKeyboard();
-                    // TODO search concerts
-//                    searchController.searchSongs(query);
-                    return true;
+                    switch (currentPage) {
+                        case 0:
+                            concertController.getNearestConcerts(ConcertPagerAdapter.getNearestConcertFragment(), query);
+                            return true;
+                        case 1:
+                            concertController.getSubscriptionConcerts(ConcertPagerAdapter.getSubscriptionConcertFragment(), query);
+                            return true;
+                        case 2:
+                            concertController.getSavedConcerts(ConcertPagerAdapter.getSavedConcertFragment(), query);
+                            return true;
+                        default:
+                            return false;
+                    }
                 }
             };
             searchView.setOnQueryTextListener(queryTextListener);

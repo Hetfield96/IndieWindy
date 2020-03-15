@@ -45,6 +45,8 @@ public class SavedConcertFragment extends Fragment {
             // Load list fragment
             UserConcertLinkListFragment fragment = new UserConcertLinkListFragment(links);
             FragmentService.replaceFragment(this, R.id.fragment_concert_saved__container, fragment);
+        } else {
+            FragmentService.clearFragment(this);
         }
     }
 }

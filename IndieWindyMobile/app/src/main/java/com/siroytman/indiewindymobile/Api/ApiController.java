@@ -24,7 +24,7 @@ public class ApiController {
     public static final String serverUrl;
 
     static {
-        azure = false;
+        azure = true;
         int serverUrlId = azure ? R.string.azure_server_url : R.string.server_url;
         serverUrl = AppController.getContext().getString(serverUrlId);
     }

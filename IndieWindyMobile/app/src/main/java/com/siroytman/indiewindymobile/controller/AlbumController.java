@@ -63,7 +63,7 @@ public class AlbumController {
     }
 
     public void searchAlbumsLinked(final ISearchableAlbum view) {
-        searchAlbums(view, "null");
+        searchAlbumsLinked(view, "null");
     }
 
     public void searchAlbumsLinked(final ISearchableAlbum view, String query){

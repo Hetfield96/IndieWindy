@@ -34,8 +34,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
-public class SearchFragment extends Fragment implements
-        ISearchableSong, ISearchableArtist, ISearchableAlbum {
+public class SearchFragment extends Fragment
+        implements ISearchableSong, ISearchableArtist, ISearchableAlbum {
+
     private static final String TAG = "SearchFragment";
     private SearchController searchController;
 

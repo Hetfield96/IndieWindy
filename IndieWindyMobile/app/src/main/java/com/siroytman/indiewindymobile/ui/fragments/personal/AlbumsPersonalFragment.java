@@ -24,7 +24,6 @@ public class AlbumsPersonalFragment extends Fragment implements ISearchableAlbum
 
     private AlbumsPersonalFragment() {
         albumController = AlbumController.getInstance();
-        albumController.searchAlbumsLinked(this);
     }
 
     public static synchronized AlbumsPersonalFragment getInstance() {

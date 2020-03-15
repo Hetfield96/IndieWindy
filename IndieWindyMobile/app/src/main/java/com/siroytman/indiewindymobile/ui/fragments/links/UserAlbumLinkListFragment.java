@@ -42,6 +42,7 @@ public class UserAlbumLinkListFragment extends ListFragment {
     public UserAlbumLinkListFragment(List<UserAlbumLink> albumLinks, Artist artist) {
         this.albumLinks = albumLinks;
         this.artist = artist;
+        this.rawList = false;
     }
 
     @Override

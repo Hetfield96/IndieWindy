@@ -24,7 +24,6 @@ public class ArtistsPersonalFragment extends Fragment implements ISearchableArti
 
     private ArtistsPersonalFragment() {
         artistController = ArtistController.getInstance();
-        artistController.searchArtistsLinked(this);
     }
 
     public static synchronized ArtistsPersonalFragment getInstance() {

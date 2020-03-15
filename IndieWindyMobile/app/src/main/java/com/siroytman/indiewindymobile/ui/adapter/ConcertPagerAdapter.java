@@ -1,16 +1,14 @@
 package com.siroytman.indiewindymobile.ui.adapter;
 
-import android.util.Log;
-
 import com.siroytman.indiewindymobile.ui.fragments.concert.NearestConcertFragment;
 import com.siroytman.indiewindymobile.ui.fragments.concert.SavedConcertFragment;
 import com.siroytman.indiewindymobile.ui.fragments.concert.SubscriptionConcertFragment;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
-public class ConcertPagerAdapter extends FragmentPagerAdapter {
+public class ConcertPagerAdapter extends FragmentStatePagerAdapter {
     public static final String TAG = "ConcertPagerAdapter";
     private static int NUM_ITEMS = 3;
     private static NearestConcertFragment nearestConcertFragment;
@@ -65,7 +63,7 @@ public class ConcertPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return "Nearest";
             case 1:
-                return "By subscription";
+                return "Subscriptions";
             case 2:
                 return "Saved";
         }

@@ -4,11 +4,11 @@ import com.siroytman.indiewindymobile.ui.fragments.personal.SongsPersonalFragmen
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
-public class PersonalPagerAdapter extends FragmentPagerAdapter {
+public class PersonalPagerAdapter extends FragmentStatePagerAdapter {
     public static final String TAG = "PersonalPagerAdapter";
-    private static int NUM_ITEMS = 1;
+    private static int NUM_ITEMS = 2;
     private static SongsPersonalFragment songsPersonalFragment;
 //    private static SubscriptionConcertFragment subscriptionConcertFragment;
 //    private static SavedConcertFragment savedConcertFragment;
@@ -40,13 +40,15 @@ public class PersonalPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: // Fragment # 0 - This will show FirstFragments
+            case 0:
                 songsPersonalFragment = new SongsPersonalFragment();
                 return songsPersonalFragment;
-            case 1: // Fragment # 0 - This will show FirstFragment different title
+            case 1:
+                songsPersonalFragment = new SongsPersonalFragment();
+                return songsPersonalFragment;
 //                subscriptionConcertFragment = new SubscriptionConcertFragment();
 //                return subscriptionConcertFragment;
-            case 2: // Fragment # 1 - This will show SecondFragment
+            case 2:
 //                savedConcertFragment = new SavedConcertFragment();
 //                return savedConcertFragment;
             default:

@@ -1,9 +1,5 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using Dapper;
 using DatabaseAPI;
-using DatabaseAPI.Models;
 using DatabaseAPI.Services;
 using DatabaseAPI.Utils;
 using Microsoft.AspNetCore.Builder;

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.ConcertController;
 import com.siroytman.indiewindymobile.ui.adapter.ConcertPagerAdapter;
@@ -18,7 +19,7 @@ import com.siroytman.indiewindymobile.ui.adapter.ConcertPagerAdapter;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 public class ConcertFragment extends Fragment {
@@ -26,8 +27,8 @@ public class ConcertFragment extends Fragment {
 
     private ConcertController concertController;
     private SearchView searchView = null;
-    private FragmentPagerAdapter adapterViewPager;
-    private ViewPager vpPager;
+    private FragmentStatePagerAdapter adapterViewPager;
+    private ViewPager pager;
 
     private int currentPage = 0;
 
@@ -37,12 +38,15 @@ public class ConcertFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_concert, container, false);
 
-        vpPager = view.findViewById(R.id.concert_vp_pager);
+        pager = view.findViewById(R.id.concert_vp_pager);
         adapterViewPager = new ConcertPagerAdapter(getChildFragmentManager());
-        vpPager.setAdapter(adapterViewPager);
+        pager.setAdapter(adapterViewPager);
+
+        TabLayout tabLayout = view.findViewById(R.id.concert_tab_layout);
+        tabLayout.setupWithViewPager(pager);
 
         // Attach the page change listener inside the activity
-        vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             // This method will be invoked when a new page becomes selected.
             @Override

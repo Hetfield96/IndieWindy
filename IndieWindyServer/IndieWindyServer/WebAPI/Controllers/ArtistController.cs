@@ -12,6 +12,11 @@ namespace WebAPI.Controllers
     {
         private readonly ArtistService _artistService;
 
+        public string Index()
+        {
+            return "This is ArtistController";
+        }
+        
         public ArtistController(ArtistService artistService)
         {
             _artistService = artistService;

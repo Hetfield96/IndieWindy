@@ -103,8 +103,9 @@ public class PersonalFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+        inflater.inflate(R.menu.personal_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.personal_search);
+        MenuItem settingsItem = menu.findItem(R.id.personal_settings);
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
         if (searchItem != null) {

@@ -35,8 +35,8 @@ public class SettingsActivity extends AppCompatActivity {
             logout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    // TODO
-//                    LoginController loginController = LoginController.getInstance();
+                    LoginController loginController = LoginController.getInstance();
+                    loginController.logout(getContext());
                     return true;
                 }
             });

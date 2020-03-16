@@ -1,6 +1,7 @@
 package com.siroytman.indiewindymobile.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import com.siroytman.indiewindymobile.controller.LoginController;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
+    public static final String TAG = "LoginActivity";
 
     LoginController loginController;
 
@@ -26,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginController = LoginController.getInstance(this);
+        loginController = LoginController.getInstance();
 
         nameText = findViewById(R.id.nameText);
         passwordText = findViewById(R.id.passwordText);
@@ -34,10 +36,11 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
 
-        loginController.loginFromSharedPrefs();
+        loginController.loginFromSharedPrefs(this);
     }
 
     public void startLoadingProgressBar() {
+        Log.d(TAG, "startLoadingProgressBar");
         passwordText.setEnabled(false);
         nameText.setEnabled(false);
         loginButton.setEnabled(false);
@@ -46,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void stopLoadingProgressBar() {
+        Log.d(TAG, "stopLoadingProgressBar");
         passwordText.setEnabled(true);
         nameText.setEnabled(true);
         loginButton.setEnabled(true);
@@ -59,12 +63,12 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
 
         if (name.isEmpty() || password.isEmpty()) {
-            Toast.makeText(LoginActivity.this, "No login or password was entered!", Toast.LENGTH_LONG)
+            Toast.makeText(this, "No login or password was entered!", Toast.LENGTH_LONG)
                     .show();
             return;
         }
 
-        loginController.login(name, password);
+        loginController.login(this, name, password);
     }
 
     // Registration
@@ -73,11 +77,11 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
 
         if (name.isEmpty() || password.isEmpty()) {
-            Toast.makeText(LoginActivity.this, "No login or password was entered!", Toast.LENGTH_LONG)
+            Toast.makeText(this, "No login or password was entered!", Toast.LENGTH_LONG)
                     .show();
             return;
         }
 
-        loginController.register(name, password);
+        loginController.register(this, name, password);
     }
 }

@@ -1,5 +1,6 @@
 package com.siroytman.indiewindymobile.controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
@@ -25,27 +26,25 @@ public class LoginController {
     private ApiController apiController;
     private SharedPrefsService sharedPrefsService;
 
-    private LoginActivity loginActivity;
     private static LoginController instance;
 
-    private LoginController(LoginActivity LoginActivity) {
-        this.loginActivity = LoginActivity;
+    private LoginController() {
         apiController = ApiController.getInstance();
         sharedPrefsService = new SharedPrefsService();
     }
 
-    public static synchronized LoginController getInstance(LoginActivity LoginActivity) {
+    public static synchronized LoginController getInstance() {
         if (instance == null) {
-            instance = new LoginController(LoginActivity);
+            instance = new LoginController();
         }
         return instance;
     }
 
-    public void login(String name, String password){
-        login(name, password, false);
+    public void login(LoginActivity loginActivity, String name, String password){
+        login(loginActivity, name, password, false);
     }
 
-    private void login(String name, String password, Boolean passwordIsHashed){
+    private void login(final LoginActivity loginActivity, String name, String password, Boolean passwordIsHashed){
         String url = "appuser/login/" + passwordIsHashed;
 
         Map<String, String> postParam = new HashMap<>();
@@ -84,24 +83,31 @@ public class LoginController {
         });
     }
 
-    public void loginFromSharedPrefs(){
+    public void loginFromSharedPrefs(LoginActivity loginActivity){
         AppUser user = sharedPrefsService.getAppUser();
         if (user != null){
             loginActivity.startLoadingProgressBar();
-            login(user.getName(), user.getPassword(), true);
+            login(loginActivity, user.getName(), user.getPassword(), true);
 
             Log.d(TAG, "Login by shared prefs");
         }
         else{
             Log.d(TAG, "No shared prefs exists for login");
+            loginActivity.stopLoadingProgressBar();
         }
+    }
+
+    public void logout(Context context) {
+        removeSharedPrefs();
+        AppController.user = null;
+        context.startActivity(new Intent(context, LoginActivity.class));
     }
 
     public void removeSharedPrefs(){
         sharedPrefsService.remove();
     }
 
-    public void register(String name, String password){
+    public void register(final LoginActivity loginActivity, String name, String password){
         String url = "appuser/register";
 
         Map<String, String> postParam = new HashMap<>();

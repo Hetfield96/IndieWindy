@@ -1,6 +1,7 @@
 package com.siroytman.indiewindymobile.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +37,7 @@ public class ArtistActivity extends AppCompatActivity implements ILinkActions<Ar
     private TextView artistDescription;
     private ImageView artistAddButton;
     private ImageView artistOptionsButton;
+    private ImageView artistDonateButton;
 
 
     @Override
@@ -59,6 +61,7 @@ public class ArtistActivity extends AppCompatActivity implements ILinkActions<Ar
         artistDescription = findViewById(R.id.artist_activity__artist_description);
         artistAddButton = findViewById(R.id.artist_activity__artist_add_button);
         artistOptionsButton = findViewById(R.id.artist_activity__artist_options_button);
+        artistOptionsButton = findViewById(R.id.artist_activity__artist_donate_button);
 
         artistName.setText(artist.getName());
         artistDescription.setText(artist.getDescription());
@@ -77,6 +80,13 @@ public class ArtistActivity extends AppCompatActivity implements ILinkActions<Ar
                 } else {
                     artistController.addUserArtistLink(activity);
                 }
+            }
+        });
+
+        artistDonateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                startActivity(new Intent(ArtistActivity.this, PaymentActivity.class));
             }
         });
 

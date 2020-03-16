@@ -124,61 +124,15 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
                     return;
                 case R.id.song_options_button:
                     Log.d(TAG, "onClick song_options_button: " + song.getName());
-                    showPopupMenu(v);
+                    PlayerActivity.showPopupMenu(getContext(), v, song);
                     return;
             }
 
 
             Log.d(TAG, "to player of song: " + songLink.getSong().getName());
             Intent intent = new Intent(context, PlayerActivity.class);
-            intent.putExtra(Song.class.getSimpleName(), songLink.getSong());
+            intent.putExtra(UserSongLink.class.getSimpleName(), songLink);
             context.startActivity(intent);
-        }
-
-        @SuppressLint("RestrictedApi")
-        private void showPopupMenu(View v) {
-            PopupMenu menu = new PopupMenu(context, v);
-            menu.inflate(R.menu.popup_song_menu);
-
-            menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()) {
-                                case R.id.song_options_menu_artist:
-                                    // If not already in ArtistActivity
-                                    if (!(context instanceof ArtistActivity)) {
-                                        Log.d(TAG, "to artist of song: " + songLink.getSong().getName());
-                                        Intent intent = new Intent(context, ArtistActivity.class);
-                                        intent.putExtra(Artist.class.getSimpleName(), songLink.getSong().getArtist());
-                                        context.startActivity(intent);
-                                        return true;
-                                    }
-                                    return true;
-                                case R.id.song_options_menu_album:
-                                    // If not already in AlbumActivity
-                                    if (!(context instanceof AlbumActivity)) {
-                                        Log.d(TAG, "to album of song: " + songLink.getSong().getName());
-                                        Intent intent = new Intent(context, AlbumActivity.class);
-                                        intent.putExtra(Album.class.getSimpleName(), songLink.getSong().getAlbum());
-                                        intent.putExtra(Artist.class.getSimpleName(), songLink.getSong().getArtist());
-                                        context.startActivity(intent);
-                                        return true;
-                                    }
-                                default:
-                                    return false;
-                            }
-                        }
-                    });
-
-            menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-                @Override
-                public void onDismiss(PopupMenu menu) {
-                }
-            });
-
-            MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) menu.getMenu(), v);
-            menuHelper.setForceShowIcon(true);
-            menuHelper.show();
         }
 
         private void songSetIconCheck() {

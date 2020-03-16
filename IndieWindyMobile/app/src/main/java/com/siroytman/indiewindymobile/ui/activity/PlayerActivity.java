@@ -1,11 +1,16 @@
 package com.siroytman.indiewindymobile.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -15,20 +20,34 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.siroytman.indiewindymobile.R;
+import com.siroytman.indiewindymobile.controller.AppController;
+import com.siroytman.indiewindymobile.controller.SongController;
+import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.model.Album;
+import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.Song;
+import com.siroytman.indiewindymobile.model.UserSongLink;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
+import androidx.appcompat.widget.PopupMenu;
 
-public class PlayerActivity extends AppCompatActivity {
+public class PlayerActivity extends AppCompatActivity implements ILinkActions<Song> {
     public static final String TAG = "PlayerActivity";
 
+    private SongController songController;
     private PlayerView playerView;
     private SimpleExoPlayer player;
-    private Song song;
+    private UserSongLink songLink;
 
     private boolean playWhenReady = true;
     private int currentWindow = 0;
     private long playbackPosition = 0;
+
+    private ImageView songArtwork;
+    private ImageView optionsButton;
+    private ImageView addButton;
 
 
     @Override
@@ -36,18 +55,98 @@ public class PlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        playerView = findViewById(R.id.player_view);
-
         // Get album from bundle
         Bundle arguments = getIntent().getExtras();
         if(arguments != null) {
-            song = arguments.getParcelable(Song.class.getSimpleName());
+            songLink = arguments.getParcelable(UserSongLink.class.getSimpleName());
         }
         else {
             Log.e(TAG, "Error: Arguments are null!");
         }
 
+        songController = SongController.getInstance();
+
+        playerView = findViewById(R.id.player_view);
+        songArtwork = playerView.findViewById(R.id.artwork);
+        optionsButton = playerView.findViewById(R.id.player_options_button);
+        addButton = playerView.findViewById(R.id.player_add_button);
+
+
+        Glide.with(this).load(songLink.getSong().getAlbum().getImageUrl()).into(songArtwork);
+
+        if(songLink.isEmpty()){
+            songSetIconAdd();
+        } else {
+            songSetIconCheck();
+        }
+
+        optionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(PlayerActivity.this, optionsButton, songLink.getSong());
+            }
+        });
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (songLink.isEmpty()) {
+                    songController.addUserSongLink(PlayerActivity.this);
+                } else{
+                    songController.removeUserSongLink(PlayerActivity.this);
+                }
+            }
+        });
+
     }
+
+    @SuppressLint("RestrictedApi")
+    public static void showPopupMenu(final Context context, View v, final Song song) {
+        PopupMenu menu = new PopupMenu(context, v);
+        menu.inflate(R.menu.popup_song_menu);
+
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.song_options_menu_artist:
+                        // If not already in ArtistActivity
+                        if (!(context instanceof ArtistActivity)) {
+                            Log.d(TAG, "to artist of song: " + song.getName());
+                            Intent intent = new Intent(context, ArtistActivity.class);
+                            intent.putExtra(Artist.class.getSimpleName(), song.getArtist());
+                            context.startActivity(intent);
+                            return true;
+                        }
+                        return true;
+                    case R.id.song_options_menu_album:
+                        // If not already in AlbumActivity
+                        if (!(context instanceof AlbumActivity)) {
+                            Log.d(TAG, "to album of song: " + song.getName());
+                            Intent intent = new Intent(context, AlbumActivity.class);
+                            intent.putExtra(Album.class.getSimpleName(), song.getAlbum());
+                            intent.putExtra(Artist.class.getSimpleName(), song.getArtist());
+                            context.startActivity(intent);
+                            return true;
+                        }
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+            }
+        });
+
+        MenuPopupHelper menuHelper = new MenuPopupHelper(context, (MenuBuilder) menu.getMenu(), v);
+        menuHelper.setForceShowIcon(true);
+        menuHelper.show();
+    }
+
+
 
     @Override
     public void onStart() {
@@ -86,14 +185,13 @@ public class PlayerActivity extends AppCompatActivity {
         player = ExoPlayerFactory.newSimpleInstance(this);
         playerView.setPlayer(player);
 
-        Uri uri = Uri.parse(song.getSongUrl());
-//        Uri uri = Uri.parse("http://indie-windy.s3.eu-north-1.amazonaws.com/music/Hadn_Dadn/hadn-dadn-ryazan.mp3");
+        Uri uri = Uri.parse(songLink.getSong().getSongUrl());
         MediaSource mediaSource = buildMediaSource(uri);
 
         player.setPlayWhenReady(playWhenReady);
         player.seekTo(currentWindow, playbackPosition);
         player.prepare(mediaSource, false, false);
-        Log.d(TAG, "Play: " + song.getName());
+        Log.d(TAG, "Play: " + songLink.getSong().getName());
     }
 
     private void releasePlayer() {
@@ -103,15 +201,23 @@ public class PlayerActivity extends AppCompatActivity {
             currentWindow = player.getCurrentWindowIndex();
             player.release();
             player = null;
-            Log.d(TAG, "Stop: " + song.getName());
+            Log.d(TAG, "Stop: " + songLink.getSong().getName());
         }
     }
 
     private MediaSource buildMediaSource(Uri uri) {
         DataSource.Factory dataSourceFactory =
-                new DefaultDataSourceFactory(this, "exoplayer-codelab");
+                new DefaultDataSourceFactory(this, "indiewindy_exoplayer");
         return new ProgressiveMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(uri);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            hideSystemUi();
+        }
     }
 
     @SuppressLint("InlinedApi")
@@ -122,5 +228,33 @@ public class PlayerActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    @Override
+    public Song getItem() {
+        return songLink.getSong();
+    }
+
+    @Override
+    public void removed() {
+        songLink.makeEmpty();
+
+        songSetIconAdd();
+    }
+
+    @Override
+    public void added() {
+        songLink.setAppUserId(AppController.user.getId());
+        songLink.setSongId(songLink.getSong().getId());
+
+        songSetIconCheck();
+    }
+
+    private void songSetIconCheck() {
+        addButton.setImageResource(R.drawable.ic_check);
+    }
+
+    private void songSetIconAdd() {
+        addButton.setImageResource(R.drawable.ic_add);
     }
 }

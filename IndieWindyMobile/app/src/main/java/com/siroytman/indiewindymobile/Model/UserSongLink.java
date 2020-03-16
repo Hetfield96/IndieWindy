@@ -1,5 +1,7 @@
 package com.siroytman.indiewindymobile.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -8,7 +10,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class UserSongLink {
+public class UserSongLink implements Parcelable {
     public static final String TAG = "UserSongLink";
 
     // Required
@@ -19,6 +21,8 @@ public class UserSongLink {
     private Song song;
 
     public UserSongLink(){}
+
+
 
     public static UserSongLink Parse(JSONObject json){
         UserSongLink link = new UserSongLink();
@@ -85,5 +89,35 @@ public class UserSongLink {
 
     public void setSongId(int songId) {
         this.songId = songId;
+    }
+
+    protected UserSongLink(Parcel in) {
+        appUserId = in.readInt();
+        songId = in.readInt();
+        song = in.readParcelable(Song.class.getClassLoader());
+    }
+
+    public static final Creator<UserSongLink> CREATOR = new Creator<UserSongLink>() {
+        @Override
+        public UserSongLink createFromParcel(Parcel in) {
+            return new UserSongLink(in);
+        }
+
+        @Override
+        public UserSongLink[] newArray(int size) {
+            return new UserSongLink[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(appUserId);
+        dest.writeInt(songId);
+        dest.writeParcelable(song, flags);
     }
 }

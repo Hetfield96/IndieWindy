@@ -10,7 +10,8 @@
         android:id="@+id/player_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:use_artwork="false"/>
+        app:use_artwork="false"
+        app:controller_layout_id="@layout/custom_exo_controller_view"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

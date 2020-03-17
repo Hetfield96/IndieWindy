@@ -14,6 +14,7 @@ import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
 import com.siroytman.indiewindymobile.services.FragmentService;
+import com.siroytman.indiewindymobile.services.IconChanger;
 import com.siroytman.indiewindymobile.ui.fragments.links.UserAlbumLinkListFragment;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class ArtistActivity extends AppCompatActivity implements ILinkAdd<Artist
         artistDescription = findViewById(R.id.artist_activity__artist_description);
         artistAddButton = findViewById(R.id.artist_activity__artist_add_button);
         artistOptionsButton = findViewById(R.id.artist_activity__artist_options_button);
-        artistOptionsButton = findViewById(R.id.artist_activity__artist_donate_button);
+        artistDonateButton = findViewById(R.id.artist_activity__artist_donate_button);
 
         artistName.setText(artist.getName());
         artistDescription.setText(artist.getDescription());
@@ -106,21 +107,14 @@ public class ArtistActivity extends AppCompatActivity implements ILinkAdd<Artist
 
     @Override
     public void removed() {
-        artistSetAddButtonIconAdd();
+        IconChanger.setIconAdd(artistAddButton);
         linkExist = false;
     }
 
     @Override
     public void added() {
-        artistSetAddButtonIconCheck();
+        IconChanger.setIconCheck(artistAddButton);
         linkExist = true;
     }
 
-    private void artistSetAddButtonIconCheck() {
-        artistAddButton.setImageResource(R.drawable.ic_check);
-    }
-
-    private void artistSetAddButtonIconAdd() {
-        artistAddButton.setImageResource(R.drawable.ic_add);
-    }
 }

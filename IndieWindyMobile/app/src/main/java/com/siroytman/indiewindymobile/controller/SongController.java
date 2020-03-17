@@ -5,7 +5,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
-import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;
@@ -85,7 +85,7 @@ public class SongController {
         });
     }
 
-    public void addUserSongLink(final ILinkActions<Song> view) {
+    public void addUserSongLink(final ILinkAdd<Song> view) {
         String url = "userSongLink/add";
         final Song song = view.getItem();
 
@@ -106,7 +106,7 @@ public class SongController {
         });
     }
 
-        public void removeUserSongLink(final ILinkActions<Song> view) {
+        public void removeUserSongLink(final ILinkAdd<Song> view) {
             final Song song = view.getItem();
             String url = "userSongLink/delete/" + AppController.user.getId() + "/" + song.getId();
 

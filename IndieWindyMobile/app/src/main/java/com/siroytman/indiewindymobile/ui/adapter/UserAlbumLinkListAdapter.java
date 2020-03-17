@@ -15,10 +15,11 @@ import com.bumptech.glide.Glide;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AlbumController;
 import com.siroytman.indiewindymobile.controller.AppController;
-import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.model.Album;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
+import com.siroytman.indiewindymobile.services.IconChanger;
 import com.siroytman.indiewindymobile.ui.activity.AlbumActivity;
 
 import java.util.List;
@@ -80,7 +81,7 @@ public class UserAlbumLinkListAdapter extends ArrayAdapter<UserAlbumLink> {
 
 
     // Single element
-    public class ViewHolder  implements View.OnClickListener, ILinkActions<Album> {
+    public class ViewHolder  implements View.OnClickListener, ILinkAdd<Album> {
         public static final String TAG = "UserAlbumLinkAdapter.VH";
         private UserAlbumLink albumLink;
 
@@ -105,11 +106,7 @@ public class UserAlbumLinkListAdapter extends ArrayAdapter<UserAlbumLink> {
             Glide.with(convertView).load(album.getImageUrl()).into(albumPhotoView);
 
 
-            if(albumLink.isEmpty()){
-                albumSetIconAdd();
-            } else {
-                albumSetIconCheck();
-            }
+            IconChanger.setAddStateIcon(albumLink, albumAddButton);
 
             convertView.setOnClickListener(this);
             albumAddButton.setOnClickListener(this);
@@ -131,11 +128,7 @@ public class UserAlbumLinkListAdapter extends ArrayAdapter<UserAlbumLink> {
             albumArtistNameView.setText(album.getArtist().getName());
             Glide.with(convertView).load(album.getImageUrl()).into(albumPhotoView);
 
-            if(albumLink.isEmpty()){
-                albumSetIconAdd();
-            } else {
-                albumSetIconCheck();
-            }
+            IconChanger.setAddStateIcon(albumLink, albumAddButton);
 
             convertView.setOnClickListener(this);
             albumAddButton.setOnClickListener(this);
@@ -171,14 +164,6 @@ public class UserAlbumLinkListAdapter extends ArrayAdapter<UserAlbumLink> {
             context.startActivity(intent);
         }
 
-        private void albumSetIconCheck() {
-            albumAddButton.setImageResource(R.drawable.ic_check);
-        }
-
-        private void albumSetIconAdd() {
-            albumAddButton.setImageResource(R.drawable.ic_add);
-        }
-
         @Override
         public Album getItem() {
             return albumLink.getAlbum();
@@ -188,7 +173,7 @@ public class UserAlbumLinkListAdapter extends ArrayAdapter<UserAlbumLink> {
         public void removed() {
             albumLink.makeEmpty();
 
-            albumSetIconAdd();
+            IconChanger.setIconAdd(albumAddButton);
         }
 
         @Override
@@ -196,7 +181,7 @@ public class UserAlbumLinkListAdapter extends ArrayAdapter<UserAlbumLink> {
             albumLink.setAppUserId(AppController.user.getId());
             albumLink.setAlbumId(albumLink.getAlbum().getId());
 
-            albumSetIconCheck();
+            IconChanger.setIconCheck(albumAddButton);
         }
     }
 }

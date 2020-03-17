@@ -3,6 +3,7 @@ package com.siroytman.indiewindymobile.ui.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -13,11 +14,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AlbumController;
-import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.model.Album;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.services.FragmentService;
+import com.siroytman.indiewindymobile.services.IconChanger;
 import com.siroytman.indiewindymobile.ui.fragments.links.UserSongLinkListFragment;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.FragmentActivity;
 
-public class AlbumActivity extends FragmentActivity implements ILinkActions<Album> {
+public class AlbumActivity extends FragmentActivity implements ILinkAdd<Album> {
     public static final String TAG = "AlbumActivity";
 
     @SuppressLint("StaticFieldLeak")
@@ -110,23 +112,16 @@ public class AlbumActivity extends FragmentActivity implements ILinkActions<Albu
 
     @Override
     public void removed() {
-        albumSetAddButtonIconAdd();
+        IconChanger.setIconAdd(albumAddButton);
         linkExist = false;
     }
 
     @Override
     public void added() {
-        albumSetAddButtonIconCheck();
+        IconChanger.setIconCheck(albumAddButton);
         linkExist = true;
     }
 
-    private void albumSetAddButtonIconCheck() {
-        albumAddButton.setImageResource(R.drawable.ic_check);
-    }
-
-    private void albumSetAddButtonIconAdd() {
-        albumAddButton.setImageResource(R.drawable.ic_add);
-    }
 
     @SuppressLint("RestrictedApi")
     public static void showPopupMenu(final Context context, View v, final Album album) {

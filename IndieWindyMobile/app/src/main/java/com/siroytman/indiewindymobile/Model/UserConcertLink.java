@@ -4,13 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.siroytman.indiewindymobile.interfaces.ILinkEmpty;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class UserConcertLink implements Parcelable {
+public class UserConcertLink implements Parcelable, ILinkEmpty {
     public static final String TAG = "UserConcertLink";
 
     // Required
@@ -61,10 +63,12 @@ public class UserConcertLink implements Parcelable {
         return result;
     }
 
+    @Override
     public boolean isEmpty(){
         return (appUserId == 0 && concertId == 0);
     }
 
+    @Override
     public void makeEmpty(){
         appUserId = 0;
         concertId = 0;

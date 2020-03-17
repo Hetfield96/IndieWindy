@@ -15,10 +15,10 @@ import com.bumptech.glide.Glide;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.ConcertController;
 import com.siroytman.indiewindymobile.controller.AppController;
-import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.model.Concert;
-import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserConcertLink;
+import com.siroytman.indiewindymobile.services.IconChanger;
 import com.siroytman.indiewindymobile.ui.activity.ConcertActivity;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class UserConcertLinkListAdapter extends ArrayAdapter<UserConcertLink> {
 
 
     // Single element
-    public class ViewHolder  implements View.OnClickListener, ILinkActions<Concert> {
+    public class ViewHolder  implements View.OnClickListener, ILinkAdd<Concert> {
         public static final String TAG = "UserConcertLinkAdapt.VH";
         private UserConcertLink concertLink;
 
@@ -88,11 +88,7 @@ public class UserConcertLinkListAdapter extends ArrayAdapter<UserConcertLink> {
             Glide.with(convertView).load(concert.getImageUrl()).into(concertPhotoView);
 
 
-            if(concertLink.isEmpty()){
-                concertSetIconAdd();
-            } else {
-                concertSetIconCheck();
-            }
+            IconChanger.setAddStateIcon(concertLink, concertAddButton);
 
             convertView.setOnClickListener(this);
             concertAddButton.setOnClickListener(this);
@@ -127,14 +123,6 @@ public class UserConcertLinkListAdapter extends ArrayAdapter<UserConcertLink> {
             context.startActivity(intent);
         }
 
-        private void concertSetIconCheck() {
-            concertAddButton.setImageResource(R.drawable.ic_check);
-        }
-
-        private void concertSetIconAdd() {
-            concertAddButton.setImageResource(R.drawable.ic_add);
-        }
-
         @Override
         public Concert getItem() {
             return concertLink.getConcert();
@@ -144,7 +132,7 @@ public class UserConcertLinkListAdapter extends ArrayAdapter<UserConcertLink> {
         public void removed() {
             concertLink.makeEmpty();
 
-            concertSetIconAdd();
+            IconChanger.setIconAdd(concertAddButton);
         }
 
         @Override
@@ -152,7 +140,7 @@ public class UserConcertLinkListAdapter extends ArrayAdapter<UserConcertLink> {
             concertLink.setAppUserId(AppController.user.getId());
             concertLink.setConcertId(concertLink.getConcert().getId());
 
-            concertSetIconCheck();
+            IconChanger.setIconCheck(concertAddButton);
         }
     }
 }

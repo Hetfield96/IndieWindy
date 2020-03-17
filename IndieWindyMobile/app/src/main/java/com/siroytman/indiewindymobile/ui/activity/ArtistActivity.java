@@ -1,7 +1,6 @@
 package com.siroytman.indiewindymobile.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.ArtistController;
-import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
 import com.siroytman.indiewindymobile.services.FragmentService;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ArtistActivity extends AppCompatActivity implements ILinkActions<Artist> {
+public class ArtistActivity extends AppCompatActivity implements ILinkAdd<Artist> {
     public static final String TAG = "ArtistActivity";
 
 

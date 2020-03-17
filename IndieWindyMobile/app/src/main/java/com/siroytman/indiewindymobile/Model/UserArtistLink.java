@@ -2,13 +2,15 @@ package com.siroytman.indiewindymobile.model;
 
 import android.util.Log;
 
+import com.siroytman.indiewindymobile.interfaces.ILinkEmpty;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class UserArtistLink {
+public class UserArtistLink implements ILinkEmpty {
     public static final String TAG = "UserArtistLink";
 
     // Required
@@ -58,10 +60,12 @@ public class UserArtistLink {
         return result;
     }
 
+    @Override
     public boolean isEmpty(){
         return (appUserId == 0 && artistId == 0);
     }
 
+    @Override
     public void makeEmpty(){
         appUserId = 0;
         artistId = 0;

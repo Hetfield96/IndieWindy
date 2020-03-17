@@ -3,6 +3,7 @@ package com.siroytman.indiewindymobile.ui.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,18 +23,19 @@ import com.google.android.exoplayer2.util.Util;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.controller.SongController;
-import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.model.Album;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.Song;
 import com.siroytman.indiewindymobile.model.UserSongLink;
+import com.siroytman.indiewindymobile.services.IconChanger;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 
-public class PlayerActivity extends AppCompatActivity implements ILinkActions<Song> {
+public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song> {
     public static final String TAG = "PlayerActivity";
 
     private SongController songController;
@@ -48,6 +50,7 @@ public class PlayerActivity extends AppCompatActivity implements ILinkActions<So
     private ImageView songArtwork;
     private ImageView optionsButton;
     private ImageView addButton;
+    private ImageView downloadButton;
 
 
     @Override
@@ -70,15 +73,12 @@ public class PlayerActivity extends AppCompatActivity implements ILinkActions<So
         songArtwork = playerView.findViewById(R.id.artwork);
         optionsButton = playerView.findViewById(R.id.player_options_button);
         addButton = playerView.findViewById(R.id.player_add_button);
+        downloadButton = playerView.findViewById(R.id.player_download_button);
 
 
         Glide.with(this).load(songLink.getSong().getAlbum().getImageUrl()).into(songArtwork);
 
-        if(songLink.isEmpty()){
-            songSetIconAdd();
-        } else {
-            songSetIconCheck();
-        }
+        IconChanger.setAddStateIcon(songLink, addButton);
 
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +145,6 @@ public class PlayerActivity extends AppCompatActivity implements ILinkActions<So
         menuHelper.setForceShowIcon(true);
         menuHelper.show();
     }
-
 
 
     @Override
@@ -239,7 +238,7 @@ public class PlayerActivity extends AppCompatActivity implements ILinkActions<So
     public void removed() {
         songLink.makeEmpty();
 
-        songSetIconAdd();
+        IconChanger.setIconAdd(addButton);
     }
 
     @Override
@@ -247,14 +246,7 @@ public class PlayerActivity extends AppCompatActivity implements ILinkActions<So
         songLink.setAppUserId(AppController.user.getId());
         songLink.setSongId(songLink.getSong().getId());
 
-        songSetIconCheck();
+        IconChanger.setIconCheck(addButton);
     }
 
-    private void songSetIconCheck() {
-        addButton.setImageResource(R.drawable.ic_check);
-    }
-
-    private void songSetIconAdd() {
-        addButton.setImageResource(R.drawable.ic_add);
-    }
 }

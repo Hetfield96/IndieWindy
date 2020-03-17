@@ -8,7 +8,7 @@ import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;
-import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.model.Concert;
 import com.siroytman.indiewindymobile.model.UserArtistLink;
 import com.siroytman.indiewindymobile.model.UserConcertLink;
@@ -137,7 +137,7 @@ public class ConcertController {
         });
     }
 
-    public void addUserConcertLink(final ILinkActions<Concert> view) {
+    public void addUserConcertLink(final ILinkAdd<Concert> view) {
         String url = "userConcertLink/add";
         final Concert concert = view.getItem();
 
@@ -157,7 +157,7 @@ public class ConcertController {
         });
     }
 
-    public void removeUserConcertLink(final ILinkActions<Concert> view) {
+    public void removeUserConcertLink(final ILinkAdd<Concert> view) {
         final Concert concert = view.getItem();
         String url = "userConcertLink/delete/" + AppController.user.getId() + "/" + concert.getId();
 

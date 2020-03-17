@@ -15,9 +15,10 @@ import com.bumptech.glide.Glide;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.controller.ArtistController;
-import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserArtistLink;
+import com.siroytman.indiewindymobile.services.IconChanger;
 import com.siroytman.indiewindymobile.ui.activity.ArtistActivity;
 
 import java.util.List;
@@ -65,7 +66,7 @@ public class UserArtistLinkListAdapter extends ArrayAdapter<UserArtistLink> {
 
 
     // Single element
-    public class ViewHolder  implements View.OnClickListener, ILinkActions<Artist> {
+    public class ViewHolder  implements View.OnClickListener, ILinkAdd<Artist> {
         public static final String TAG = "UserArtistLinkAdapterVH";
         private UserArtistLink artistLink;
 
@@ -87,11 +88,7 @@ public class UserArtistLinkListAdapter extends ArrayAdapter<UserArtistLink> {
             Glide.with(convertView).load(artist.getImageUrl()).into(artistPhotoView);
 
 
-            if(artistLink.isEmpty()){
-                artistSetIconAdd();
-            } else {
-                artistSetIconCheck();
-            }
+            IconChanger.setAddStateIcon(artistLink, artistAddButton);
 
             convertView.setOnClickListener(this);
             artistAddButton.setOnClickListener(this);
@@ -127,14 +124,6 @@ public class UserArtistLinkListAdapter extends ArrayAdapter<UserArtistLink> {
             context.startActivity(intent);
         }
 
-        private void artistSetIconCheck() {
-            artistAddButton.setImageResource(R.drawable.ic_check);
-        }
-
-        private void artistSetIconAdd() {
-            artistAddButton.setImageResource(R.drawable.ic_add);
-        }
-
         @Override
         public Artist getItem() {
             return artistLink.getArtist();
@@ -144,7 +133,7 @@ public class UserArtistLinkListAdapter extends ArrayAdapter<UserArtistLink> {
         public void removed() {
             artistLink.makeEmpty();
 
-            artistSetIconAdd();
+            IconChanger.setIconAdd(artistAddButton);
         }
 
         @Override
@@ -152,7 +141,7 @@ public class UserArtistLinkListAdapter extends ArrayAdapter<UserArtistLink> {
             artistLink.setAppUserId(AppController.user.getId());
             artistLink.setArtistId(artistLink.getArtist().getId());
 
-            artistSetIconCheck();
+            IconChanger.setIconCheck(artistAddButton);
         }
     }
 }

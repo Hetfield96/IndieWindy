@@ -1,12 +1,10 @@
 package com.siroytman.indiewindymobile.ui.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -16,22 +14,16 @@ import android.widget.TextView;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.controller.SongController;
-import com.siroytman.indiewindymobile.interfaces.ILinkActions;
-import com.siroytman.indiewindymobile.model.Album;
-import com.siroytman.indiewindymobile.model.Artist;
+import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.model.Song;
 import com.siroytman.indiewindymobile.model.UserSongLink;
-import com.siroytman.indiewindymobile.ui.activity.AlbumActivity;
-import com.siroytman.indiewindymobile.ui.activity.ArtistActivity;
+import com.siroytman.indiewindymobile.services.IconChanger;
 import com.siroytman.indiewindymobile.ui.activity.PlayerActivity;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.view.menu.MenuPopupHelper;
-import androidx.appcompat.widget.PopupMenu;
 
 public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
     public static final String TAG = "UserSongLinkListAdapter";
@@ -73,7 +65,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
 
 
     // Single element
-    public class ViewHolder implements View.OnClickListener, ILinkActions<Song> {
+    public class ViewHolder implements View.OnClickListener, ILinkAdd<Song> {
         public static final String TAG = "UserSongLinkAdapter.VH";
 
         private UserSongLink songLink;
@@ -95,11 +87,8 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             songNameView.setText(songLink.getSong().getName());
             songArtistNameView.setText(songLink.getSong().getArtist().getName());
 
-            if(songLink.isEmpty()){
-                songSetIconAdd();
-            } else {
-                songSetIconCheck();
-            }
+
+            IconChanger.setAddStateIcon(songLink, songAddButton);
 
             convertView.setOnClickListener(this);
             songAddButton.setOnClickListener(this);
@@ -135,13 +124,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             context.startActivity(intent);
         }
 
-        private void songSetIconCheck() {
-            songAddButton.setImageResource(R.drawable.ic_check);
-        }
 
-        private void songSetIconAdd() {
-            songAddButton.setImageResource(R.drawable.ic_add);
-        }
 
         public UserSongLink getSongLink() {
             return songLink;
@@ -156,7 +139,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
         public void removed() {
             songLink.makeEmpty();
 
-            songSetIconAdd();
+            IconChanger.setIconAdd(songAddButton);
         }
 
         @Override
@@ -164,7 +147,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             songLink.setAppUserId(AppController.user.getId());
             songLink.setSongId(songLink.getSong().getId());
 
-            songSetIconCheck();
+            IconChanger.setIconCheck(songAddButton);
         }
     }
 }

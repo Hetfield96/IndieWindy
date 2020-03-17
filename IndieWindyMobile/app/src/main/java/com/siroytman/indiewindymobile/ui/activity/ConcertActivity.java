@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.controller.ConcertController;
-import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.model.Concert;
 import com.siroytman.indiewindymobile.model.UserArtistLink;
 import com.siroytman.indiewindymobile.model.UserConcertLink;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ConcertActivity extends AppCompatActivity implements ILinkActions<Concert> {
+public class ConcertActivity extends AppCompatActivity implements ILinkAdd<Concert> {
     public static final String TAG = "ConcertActivity";
 
     private UserConcertLink concertLink;

@@ -9,7 +9,7 @@ import com.siroytman.indiewindymobile.api.ErrorHandler;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;
-import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.interfaces.ISearchableAlbum;
 import com.siroytman.indiewindymobile.model.Album;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
@@ -113,7 +113,7 @@ public class AlbumController {
         });
     }
 
-    public void linkExist(final ILinkActions<Album> view){
+    public void linkExist(final ILinkAdd<Album> view){
         final Album album = view.getItem();
         String url = "userAlbumLink/linkExist/" + AppController.user.getId() + "/" + album.getId();
 
@@ -133,7 +133,7 @@ public class AlbumController {
     }
 
 
-    public void addUserAlbumLink(final ILinkActions<Album> view) {
+    public void addUserAlbumLink(final ILinkAdd<Album> view) {
         String url = "userAlbumLink/add";
         final Album album = view.getItem();
 
@@ -153,7 +153,7 @@ public class AlbumController {
         });
     }
 
-    public void removeUserAlbumLink(final ILinkActions<Album> view) {
+    public void removeUserAlbumLink(final ILinkAdd<Album> view) {
         final Album album = view.getItem();
         String url = "userAlbumLink/delete/" + AppController.user.getId() + "/" + album.getId();
 

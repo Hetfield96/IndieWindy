@@ -9,7 +9,7 @@ import com.siroytman.indiewindymobile.api.ErrorHandler;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
 import com.siroytman.indiewindymobile.api.VolleyCallbackString;
-import com.siroytman.indiewindymobile.interfaces.ILinkActions;
+import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.interfaces.ISearchableArtist;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
@@ -112,7 +112,7 @@ public class ArtistController {
         });
     }
 
-    public void linkExist(final ILinkActions<Artist> view){
+    public void linkExist(final ILinkAdd<Artist> view){
         final Artist artist = view.getItem();
         String url = "userArtistLink/linkExist/" + AppController.user.getId() + "/" + artist.getId();
 
@@ -132,7 +132,7 @@ public class ArtistController {
     }
 
 
-    public void addUserArtistLink(final ILinkActions<Artist> view) {
+    public void addUserArtistLink(final ILinkAdd<Artist> view) {
         String url = "userArtistLink/add";
         final Artist artist = view.getItem();
 
@@ -152,7 +152,7 @@ public class ArtistController {
         });
     }
 
-    public void removeUserArtistLink(final ILinkActions<Artist> view) {
+    public void removeUserArtistLink(final ILinkAdd<Artist> view) {
         final Artist artist = view.getItem();
         String url = "userArtistLink/delete/" + AppController.user.getId() + "/" + artist.getId();
 

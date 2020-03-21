@@ -41,7 +41,7 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song> 
     public static final String TAG = "PlayerActivity";
 
     private SongController songController;
-    private PlayerView playerView;
+    public PlayerView playerView;
     private UserSongLink songLink;
 
 
@@ -101,86 +101,10 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song> 
             }
         });
 
-        new PlayerServiceConnection(playerView);
-        startService();
+        PlayerServiceConnection.createInstance(playerView);
+        PlayerForegroundService.startService(this, songLink.getSong());
     }
 
-
-    public void startService() {
-        Intent serviceIntent = new Intent(this, PlayerForegroundService.class);
-        serviceIntent.putExtra(Song.class.getSimpleName(), songLink.getSong());
-        ContextCompat.startForegroundService(this, serviceIntent);
-    }
-
-    public void stopService() {
-        Intent serviceIntent = new Intent(this, PlayerForegroundService.class);
-        stopService(serviceIntent);
-    }
-
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        if (Util.SDK_INT >= 24) {
-//            initializePlayer();
-//        }
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        hideSystemUi();
-//        if ((Util.SDK_INT < 24 || player == null)) {
-//            initializePlayer();
-//        }
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        if (Util.SDK_INT < 24) {
-//            releasePlayer();
-//        }
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        if (Util.SDK_INT >= 24) {
-//            releasePlayer();
-//        }
-//    }
-//
-//    private void initializePlayer() {
-//        player = ExoPlayerFactory.newSimpleInstance(this);
-//        playerView.setPlayer(player);
-//
-//        Uri uri = Uri.parse(songLink.getSong().getSongUrl());
-//        MediaSource mediaSource = buildMediaSource(uri);
-//
-//        player.setPlayWhenReady(playWhenReady);
-//        player.seekTo(currentWindow, playbackPosition);
-//        player.prepare(mediaSource, false, false);
-//        Log.d(TAG, "Play: " + songLink.getSong().getName());
-//    }
-//
-//    private void releasePlayer() {
-//        if (player != null) {
-//            playWhenReady = player.getPlayWhenReady();
-//            playbackPosition = player.getCurrentPosition();
-//            currentWindow = player.getCurrentWindowIndex();
-//            player.release();
-//            player = null;
-//            Log.d(TAG, "Stop: " + songLink.getSong().getName());
-//        }
-//    }
-//
-//    private MediaSource buildMediaSource(Uri uri) {
-//        DataSource.Factory dataSourceFactory =
-//                new DefaultDataSourceFactory(this, "indiewindy_exoplayer");
-//        return new ProgressiveMediaSource.Factory(dataSourceFactory)
-//                .createMediaSource(uri);
-//    }
 
     @Override
     public Song getItem() {

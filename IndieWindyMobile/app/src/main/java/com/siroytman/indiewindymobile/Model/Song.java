@@ -7,6 +7,8 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import androidx.annotation.Nullable;
+
 public class Song implements Parcelable {
     public static final String TAG = "Song";
 
@@ -86,6 +88,26 @@ public class Song implements Parcelable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        // If the object is compared with itself then return true
+        if (obj == this) {
+            return true;
+        }
+
+        /* Check if o is an instance of Song or not
+          "null instanceof [type]" also returns false */
+        if (!(obj instanceof Song)) {
+            return false;
+        }
+
+        // typecast o to Song so that we can compare data members
+        Song songObj = (Song) obj;
+
+        // Compare ids
+        return id == songObj.id;
     }
 
     protected Song(Parcel in) {

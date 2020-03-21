@@ -4,6 +4,7 @@
     package="com.siroytman.indiewindymobile">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <dist:module dist:instant="true" />
 
@@ -15,10 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".services.PlayerForegroundService"
+            android:enabled="true"
+            android:exported="true" />
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
-        <activity android:name=".ui.activity.PaymentActivity"></activity>
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:label="@string/title_activity_settings" />

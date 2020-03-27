@@ -28,7 +28,6 @@ public class ConcertPagerAdapter extends FragmentStatePagerAdapter {
     // Returns the fragment to display for that page
     @Override
     public Fragment getItem(int position) {
-        Log.d(TAG, "Position = " + position);
         switch (position) {
             case 0:
                 return NearestConcertFragment.getInstance();
@@ -52,7 +51,7 @@ public class ConcertPagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 return "Saved";
         }
-        return "Page " + position;
+        return null;
     }
 
     @Override

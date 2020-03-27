@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DatabaseAPI
 {
     /* Migrations commands: from DatabaseAPI folder
-dotnet ef --startup-project ../WebAPI/ migrations add donations
+dotnet ef --startup-project ../WebAPI/ migrations add concertsImprovement
 dotnet ef --startup-project ../WebAPI/ database update
      */
     public class IndieWindyDbContext:DbContext

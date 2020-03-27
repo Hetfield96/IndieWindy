@@ -25,5 +25,11 @@ namespace DatabaseAPI.Models
         
         [Column("address")]
         public string Address { get; set; }
+        
+        [Column("ticket_link")]
+        public string TicketLink { get; set; }
+        
+        [Column("description")]
+        public string Description { get; set; }
     }
 }

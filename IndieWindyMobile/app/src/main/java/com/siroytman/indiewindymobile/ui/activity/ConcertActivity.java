@@ -1,9 +1,13 @@
 package com.siroytman.indiewindymobile.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,9 +39,11 @@ public class ConcertActivity extends AppCompatActivity implements ILinkAdd<Conce
 
     private ImageView concertPhoto;
     private TextView concertName;
+    private TextView concertDate;
     private TextView concertDescription;
     private ImageView concertAddButton;
     private ImageView concertOptionsButton;
+    private Button concertTicketButton;
 
 
     @Override
@@ -58,16 +64,20 @@ public class ConcertActivity extends AppCompatActivity implements ILinkAdd<Conce
 
         concertPhoto = findViewById(R.id.concert_activity__concert_photo);
         concertName = findViewById(R.id.concert_activity__concert_name);
+        concertDate = findViewById(R.id.concert_activity__concert_date);
         concertDescription = findViewById(R.id.concert_activity__concert_description);
         concertAddButton = findViewById(R.id.concert_activity__concert_add_button);
         concertOptionsButton = findViewById(R.id.concert_activity__concert_options_button);
+        concertTicketButton = findViewById(R.id.concert_activity__ticket_button);
 
         IconChanger.setAddStateIcon(concertLink, concertAddButton);
 
-        Concert concert = concertLink.getConcert();
+        final Concert concert = concertLink.getConcert();
 
         concertName.setText(concert.getName());
-//        concertDescription.setText(concert.getDescription());
+        concertDate.setText(concert.getStartTimeString());
+        concertDescription.setText(concert.getDescription());
+        concertDescription.setMovementMethod(new ScrollingMovementMethod());
         Glide.with(activity).load(concert.getImageUrl()).into(concertPhoto);
 
         concertController = ConcertController.getInstance();
@@ -82,6 +92,14 @@ public class ConcertActivity extends AppCompatActivity implements ILinkAdd<Conce
                 } else {
                     concertController.addUserConcertLink(activity);
                 }
+            }
+        });
+
+        concertTicketButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(concert.getTicketLink()));
+                startActivity(browserIntent);
             }
         });
     }

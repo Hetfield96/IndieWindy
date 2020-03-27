@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 
 
 public class Concert implements Parcelable {
@@ -17,8 +18,10 @@ public class Concert implements Parcelable {
     private String name;
     private String imageUrl;
     private int cost;
-    private Time startTime;
+    private Timestamp startTime;
     private String address;
+    private String description;
+    private String ticketLink;
 
 
     public static Concert Parse(JSONObject json) {
@@ -28,13 +31,14 @@ public class Concert implements Parcelable {
             concert.name = json.getString("name");
             concert.imageUrl = json.getString("imageUrl");
             concert.cost = json.getInt("cost");
-            // TODO check
-//            concert.startTime = Time.valueOf(json.getString("startTime"));
+            concert.startTime = Timestamp.valueOf(json.getString("startTime").replace("T", " "));
             concert.address = json.getString("address");
+            concert.description = json.getString("description");
+            concert.ticketLink = json.getString("ticketLink");
 
-        } catch (JSONException e)
+        } catch (Exception e)
         {
-            Log.d(TAG, "Can't parse concert");
+            Log.d(TAG, "Can't parse concert: " + e.getMessage());
             return null;
         }
 
@@ -49,6 +53,9 @@ public class Concert implements Parcelable {
         imageUrl = in.readString();
         cost = in.readInt();
         address = in.readString();
+        description = in.readString();
+        ticketLink = in.readString();
+        startTime = Timestamp.valueOf(in.readString());
     }
 
     public static final Creator<Concert> CREATOR = new Creator<Concert>() {
@@ -75,6 +82,9 @@ public class Concert implements Parcelable {
         dest.writeString(imageUrl);
         dest.writeInt(cost);
         dest.writeString(address);
+        dest.writeString(description);
+        dest.writeString(ticketLink);
+        dest.writeString(startTime.toString());
     }
 
 
@@ -110,11 +120,16 @@ public class Concert implements Parcelable {
         this.cost = cost;
     }
 
-    public Time getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public String getStartTimeString() {
+        String res = startTime.toString();
+        return res.substring(0, res.lastIndexOf(':'));
+    }
+
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
@@ -126,5 +141,11 @@ public class Concert implements Parcelable {
         this.address = address;
     }
 
+    public String getDescription() {
+        return description;
+    }
 
+    public String getTicketLink() {
+        return ticketLink;
+    }
 }

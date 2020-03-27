@@ -108,7 +108,7 @@ public class PlayerForegroundService extends Service {
         Intent notificationIntent = new Intent(this, PlayerActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+        Notification notification = new Notification.Builder(this, CHANNEL_ID)
                 .setContentTitle(TAG)
                 .setContentText(song.getName())
                 .setSmallIcon(R.drawable.ic_album)

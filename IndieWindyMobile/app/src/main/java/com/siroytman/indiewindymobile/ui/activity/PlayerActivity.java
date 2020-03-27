@@ -44,12 +44,6 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song> 
     public PlayerView playerView;
     private UserSongLink songLink;
 
-
-//    private SimpleExoPlayer player;
-//    private boolean playWhenReady = true;
-//    private int currentWindow = 0;
-//    private long playbackPosition = 0;
-
     private ImageView songArtwork;
     private ImageView optionsButton;
     private ImageView addButton;

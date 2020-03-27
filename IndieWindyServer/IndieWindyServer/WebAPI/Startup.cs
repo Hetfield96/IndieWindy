@@ -33,6 +33,7 @@ namespace WebAPI
             services.AddScoped<UserAlbumLinkService>();
             services.AddScoped<UserSongLinkService>();
             services.AddScoped<UserConcertLinkService>();
+            services.AddScoped<DonationService>();
             
             services.AddControllers();
 

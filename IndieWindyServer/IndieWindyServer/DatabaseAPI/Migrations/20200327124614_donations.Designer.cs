@@ -3,15 +3,17 @@ using System;
 using DatabaseAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(IndieWindyDbContext))]
-    partial class MyWebApiContextModelSnapshot : ModelSnapshot
+    [Migration("20200327124614_donations")]
+    partial class donations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,31 +144,6 @@ namespace WebAPI.Migrations
                     b.ToTable("concert");
                 });
 
-            modelBuilder.Entity("DatabaseAPI.Models.Donation", b =>
-                {
-                    b.Property<int>("AppUserId")
-                        .HasColumnName("app_user_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ArtistId")
-                        .HasColumnName("artist_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Amount")
-                        .HasColumnName("amount")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnName("date")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("AppUserId", "ArtistId");
-
-                    b.HasIndex("ArtistId");
-
-                    b.ToTable("donation");
-                });
-
             modelBuilder.Entity("DatabaseAPI.Models.Song", b =>
                 {
                     b.Property<int>("Id")
@@ -288,21 +265,6 @@ namespace WebAPI.Migrations
                     b.HasOne("DatabaseAPI.Models.Concert", "Concert")
                         .WithMany()
                         .HasForeignKey("ConcertId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DatabaseAPI.Models.Donation", b =>
-                {
-                    b.HasOne("DatabaseAPI.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DatabaseAPI.Models.Artist", "Artist")
-                        .WithMany()
-                        .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

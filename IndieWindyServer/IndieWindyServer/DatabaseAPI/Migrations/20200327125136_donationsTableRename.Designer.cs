@@ -3,15 +3,17 @@ using System;
 using DatabaseAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(IndieWindyDbContext))]
-    partial class MyWebApiContextModelSnapshot : ModelSnapshot
+    [Migration("20200327125136_donationsTableRename")]
+    partial class donationsTableRename
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,10 +157,6 @@ namespace WebAPI.Migrations
                     b.Property<int>("Amount")
                         .HasColumnName("amount")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnName("date")
-                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("AppUserId", "ArtistId");
 

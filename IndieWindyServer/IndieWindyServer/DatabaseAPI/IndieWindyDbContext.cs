@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 namespace DatabaseAPI
 {
     /* Migrations commands: from DatabaseAPI folder
-     dotnet ef --startup-project ../WebAPI/ migrations add *MigrationName*
-     dotnet ef --startup-project ../WebAPI/ database update
+dotnet ef --startup-project ../WebAPI/ migrations add donations
+dotnet ef --startup-project ../WebAPI/ database update
      */
     public class IndieWindyDbContext:DbContext
     {
@@ -28,6 +28,7 @@ namespace DatabaseAPI
         public DbSet<UserSongLink> UserSongLink { get; set; }
         public DbSet<UserConcertLink> UserConcertLink { get; set; }
         
+        public DbSet<Donation> Donation { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ArtistConcertLink>()
@@ -44,6 +45,9 @@ namespace DatabaseAPI
             
             modelBuilder.Entity<UserSongLink>()
                 .HasKey(i => new { i.AppUserId, i.SongId });
+            
+            modelBuilder.Entity<Donation>()
+                .HasKey(d => new { d.AppUserId, d.ArtistId });
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.siroytman.indiewindymobile.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.ArtistController;
+import com.siroytman.indiewindymobile.controller.DonationController;
 import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
@@ -86,7 +88,9 @@ public class ArtistActivity extends AppCompatActivity implements ILinkAdd<Artist
         artistDonateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(ArtistActivity.this, PaymentActivity.class));
+                Intent intent = new Intent(ArtistActivity.this, DonationActivity.class);
+                intent.putExtra(Artist.class.getSimpleName(), artist);
+                startActivity(intent);
             }
         });
 

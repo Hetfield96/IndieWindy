@@ -52,7 +52,7 @@ public class PersonalPagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 return "Albums";
         }
-        return "Page " + position;
+        return null;
     }
 
 }

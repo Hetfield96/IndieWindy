@@ -23,8 +23,6 @@ public class SongsPersonalFragment extends Fragment implements ISearchableSong {
     private SongController songController;
 
     private SongsPersonalFragment() {
-        songController = SongController.getInstance();
-        songController.searchSongsLinked(this);
     }
 
     public static synchronized SongsPersonalFragment getInstance() {
@@ -38,6 +36,9 @@ public class SongsPersonalFragment extends Fragment implements ISearchableSong {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        songController = SongController.getInstance();
+        songController.searchSongsLinked(this);
     }
 
 

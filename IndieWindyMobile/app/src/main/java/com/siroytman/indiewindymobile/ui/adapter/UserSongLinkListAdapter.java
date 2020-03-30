@@ -3,6 +3,7 @@ package com.siroytman.indiewindymobile.ui.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.offline.DownloadRequest;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.controller.SongController;
@@ -20,6 +22,7 @@ import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.services.IconChanger;
 import com.siroytman.indiewindymobile.ui.activity.PlayerActivity;
 
+import java.net.URI;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -30,12 +33,14 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
     private SongController songController;
     private Context context;
     private List<UserSongLink> linksList;
+    private AppController appController;
 
     public UserSongLinkListAdapter(@NonNull Context context, int resource, @NonNull List<UserSongLink> linksList) {
         super(context, resource, linksList);
         this.context = context;
         this.linksList = linksList;
         this.songController = SongController.getInstance();
+        this.appController = AppController.getInstance();
     }
 
     @NonNull
@@ -74,6 +79,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
         private TextView songArtistNameView;
         private ImageView songAddButton;
         private ImageView songOptionsButton;
+        private ImageView songDownloadButton;
 
 
         public ViewHolder(View convertView, final UserSongLink songLink) {
@@ -83,6 +89,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             songArtistNameView = convertView.findViewById(R.id.artist_activity__artist_name);
             songAddButton = convertView.findViewById(R.id.song_add_button);
             songOptionsButton = convertView.findViewById(R.id.song_options_button);
+            songDownloadButton = convertView.findViewById(R.id.song_download_button);
 
             songNameView.setText(songLink.getSong().getName());
             songArtistNameView.setText(songLink.getSong().getArtist().getName());
@@ -93,6 +100,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             convertView.setOnClickListener(this);
             songAddButton.setOnClickListener(this);
             songOptionsButton.setOnClickListener(this);
+            songDownloadButton.setOnClickListener(this);
         }
 
         @Override
@@ -103,8 +111,6 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
 
             switch (v.getId()) {
                 case R.id.song_add_button:
-                    Log.d(TAG, "onClick song_add_button: " + song.getName());
-
                     if (songLink.isEmpty()) {
                         songController.addUserSongLink(this);
                     } else{
@@ -112,8 +118,10 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
                     }
                     return;
                 case R.id.song_options_button:
-                    Log.d(TAG, "onClick song_options_button: " + song.getName());
                     PlayerActivity.showPopupMenu(getContext(), v, song);
+                    return;
+                case R.id.song_download_button:
+                    // TODO
                     return;
             }
 

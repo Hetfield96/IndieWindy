@@ -9,10 +9,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.RenderersFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.offline.DownloadService;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -27,6 +30,7 @@ import com.siroytman.indiewindymobile.model.Album;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.Song;
 import com.siroytman.indiewindymobile.model.UserSongLink;
+import com.siroytman.indiewindymobile.services.DownloadTracker;
 import com.siroytman.indiewindymobile.services.IconChanger;
 import com.siroytman.indiewindymobile.services.PlayerForegroundService;
 import com.siroytman.indiewindymobile.services.PlayerServiceConnection;
@@ -37,9 +41,10 @@ import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 
-public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song> {
+public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>, DownloadTracker.Listener {
     public static final String TAG = "PlayerActivity";
 
+    private AppController appController;
     private SongController songController;
     public PlayerView playerView;
     private UserSongLink songLink;
@@ -48,6 +53,8 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song> 
     private ImageView optionsButton;
     private ImageView addButton;
     private ImageView downloadButton;
+
+    private DownloadTracker downloadTracker;
 
 
     @Override
@@ -64,6 +71,7 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song> 
             Log.e(TAG, "Error: Arguments are null!");
         }
 
+        appController = AppController.getInstance();
         songController = SongController.getInstance();
 
         playerView = findViewById(R.id.player_view);
@@ -72,9 +80,8 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song> 
         addButton = playerView.findViewById(R.id.player_add_button);
         downloadButton = playerView.findViewById(R.id.player_download_button);
 
-
+        downloadTracker = appController.getDownloadTracker();
         Glide.with(this).load(songLink.getSong().getAlbum().getImageUrl()).into(songArtwork);
-
         IconChanger.setAddStateIcon(songLink, addButton);
 
         optionsButton.setOnClickListener(new View.OnClickListener() {
@@ -95,8 +102,50 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song> 
             }
         });
 
+        downloadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Song song = songLink.getSong();
+                Uri uri = Uri.parse(song.getSongUrl());
+                downloadTracker.toggleDownload(
+                        getSupportFragmentManager(),
+                        song.getName(),
+                        uri,
+                        "extension",
+                        null);
+            }
+        });
+
         PlayerServiceConnection.createInstance(playerView);
         PlayerForegroundService.startService(this, songLink.getSong());
+
+        // Start the download service if it should be running but it's not currently.
+        // Starting the service in the foreground causes notification flicker if there is no scheduled
+        // action. Starting it in the background throws an exception if the app is in the background too
+        // (e.g. if device screen is locked).
+        try {
+            DownloadService.start(this, DownloadService.class);
+        } catch (IllegalStateException e) {
+            DownloadService.startForeground(this, DownloadService.class);
+        }
+    }
+
+    @Override
+    public void onDownloadsChanged() {
+        // TODO
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        downloadTracker.addListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        downloadTracker.removeListener(this);
+        super.onStop();
     }
 
 

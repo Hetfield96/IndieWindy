@@ -17,6 +17,7 @@ package com.siroytman.indiewindymobile.services;
 
 import android.app.Notification;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.exoplayer2.offline.Download;
 import com.google.android.exoplayer2.offline.DownloadManager;
@@ -33,9 +34,9 @@ import static com.siroytman.indiewindymobile.controller.AppController.DOWNLOAD_N
 
 /** A service for downloading media. */
 public class DownloadService extends com.google.android.exoplayer2.offline.DownloadService {
-
+  public static final String TAG = "DownloadService";
   private static final int JOB_ID = 1;
-  private static final int FOREGROUND_NOTIFICATION_ID = 1;
+  private static final int FOREGROUND_NOTIFICATION_ID = 2;
 
 
   public DownloadService() {
@@ -96,6 +97,7 @@ public class DownloadService extends com.google.android.exoplayer2.offline.Downl
 
     @Override
     public void onDownloadChanged(DownloadManager manager, Download download) {
+      Log.d(TAG, "onDownloadChanged");
       Notification notification;
       if (download.state == Download.STATE_COMPLETED) {
         notification =

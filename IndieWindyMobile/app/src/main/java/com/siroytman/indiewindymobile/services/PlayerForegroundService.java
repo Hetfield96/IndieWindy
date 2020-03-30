@@ -24,13 +24,14 @@ import com.siroytman.indiewindymobile.model.Song;
 import com.siroytman.indiewindymobile.ui.activity.PlayerActivity;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
 
 public class PlayerForegroundService extends Service {
     public static final String TAG = "PlayerForegroundService";
     private static final String CHANNEL_ID = "ForegroundServiceChannel";
+    private static final int FOREGROUND_NOTIFICATION_ID = 1;
 
 
     public static PlayerForegroundService instance;
@@ -114,7 +115,7 @@ public class PlayerForegroundService extends Service {
                 .setSmallIcon(R.drawable.ic_album)
                 .setContentIntent(pendingIntent)
                 .build();
-        startForeground(1, notification);
+        startForeground(FOREGROUND_NOTIFICATION_ID, notification);
         //do heavy work on a background thread
 
         initializePlayer();

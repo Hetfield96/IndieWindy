@@ -115,13 +115,14 @@ public class DownloadTracker {
   }
 
   private void loadDownloads() {
+    Log.d(TAG, "loadDownloads");
     try (DownloadCursor loadedDownloads = downloadIndex.getDownloads()) {
       while (loadedDownloads.moveToNext()) {
         Download download = loadedDownloads.getDownload();
         downloads.put(download.request.uri, download);
       }
     } catch (IOException e) {
-      Log.w(TAG, "Failed to query downloads", e);
+      Log.d(TAG, "Failed to query downloads", e);
     }
   }
 

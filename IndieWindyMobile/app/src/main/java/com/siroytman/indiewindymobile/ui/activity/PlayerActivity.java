@@ -111,7 +111,7 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
                         getSupportFragmentManager(),
                         song.getName(),
                         uri,
-                        "extension",
+                        "",
                         null);
             }
         });
@@ -133,6 +133,8 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
     @Override
     public void onDownloadsChanged() {
         // TODO
+        Log.d(TAG, "onDownloadsChanged");
+        IconChanger.setIconCheck(downloadButton);
     }
 
 
@@ -147,7 +149,6 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
         downloadTracker.removeListener(this);
         super.onStop();
     }
-
 
     @Override
     public Song getItem() {

@@ -31,7 +31,7 @@ public class ArtistPostLinkListFragment extends ListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new ArtistPostLinkListAdapter(getActivity(), R.layout.post_list_item, links);
+        adapter = new ArtistPostLinkListAdapter(getActivity(), R.layout.post_list_item, links, getChildFragmentManager());
         setListAdapter(adapter);
     }
 

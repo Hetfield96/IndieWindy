@@ -28,7 +28,5 @@ namespace DatabaseAPI.Models
         
         [ForeignKey("ArtistId")]
         public Artist Artist { get; set; }
-        
-        public ICollection<Song> Songs { get; set; }
     }
 }

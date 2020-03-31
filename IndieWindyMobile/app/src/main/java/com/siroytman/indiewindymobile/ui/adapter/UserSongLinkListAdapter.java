@@ -94,7 +94,6 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             songNameView.setText(songLink.getSong().getName());
             songArtistNameView.setText(songLink.getSong().getArtist().getName());
 
-
             IconChanger.setAddStateIcon(songLink, songAddButton);
 
             convertView.setOnClickListener(this);

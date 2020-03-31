@@ -23,5 +23,12 @@ namespace WebAPI.Controllers
         {
             return await _postService.GetBySubscription(userId);
         }
+        
+        [HttpGet]
+        [Route("getSongs/{userId}/{postId}")]
+        public async Task<List<UserSongLink>> GetSongs(int userId, int postId)
+        {
+            return await _postService.GetSongs(userId, postId);
+        }
     }
 }

@@ -35,7 +35,7 @@ import java.io.IOException;
 public class AppController extends Application {
     public static final String DOWNLOAD_NOTIFICATION_CHANNEL_ID = "download_channel";
 
-    private static final String TAG = "DemoApplication";
+    private static final String TAG = "AppController";
     private static final String DOWNLOAD_ACTION_FILE = "actions";
     private static final String DOWNLOAD_TRACKER_ACTION_FILE = "tracked_actions";
     private static final String DOWNLOAD_CONTENT_DIRECTORY = "downloads";

@@ -10,6 +10,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
+import com.siroytman.indiewindymobile.BuildConfig;
 
 /**
  * Volley queue for executing requests to server
@@ -38,13 +39,13 @@ class VolleyQueue {
         // lazy initialize the request queue, the queue instance will be
         // created when it is accessed for the first time
         if (mRequestQueue == null) {
-            if (ApiController.azure) {
-                // Http connection with Azure
-                mRequestQueue = Volley.newRequestQueue(context);
-            } else {
+            if (BuildConfig.DEBUG) {
                 // Https connection with localhost
                 mRequestQueue = Volley.newRequestQueue(context,
                         new HurlStack(null, SSLSocketFactoryProvider.getSocketFactory(context)));
+            } else {
+                // Http connection with Azure
+                mRequestQueue = Volley.newRequestQueue(context);
             }
         }
 

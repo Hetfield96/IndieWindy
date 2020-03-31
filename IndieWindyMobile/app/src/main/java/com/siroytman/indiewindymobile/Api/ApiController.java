@@ -1,5 +1,6 @@
 package com.siroytman.indiewindymobile.api;
 
+import android.os.Build;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -9,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.siroytman.indiewindymobile.BuildConfig;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
 
@@ -19,13 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ApiController {
-
-    public static final Boolean azure;
-    public static final String serverUrl;
+    private static final String serverUrl;
 
     static {
-        azure = false;
-        int serverUrlId = azure ? R.string.azure_server_url : R.string.server_url;
+        // Choosing server url
+        int serverUrlId = BuildConfig.DEBUG ? R.string.server_url : R.string.azure_server_url;
         serverUrl = AppController.getContext().getString(serverUrlId);
     }
     

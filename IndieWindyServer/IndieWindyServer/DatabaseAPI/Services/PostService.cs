@@ -38,14 +38,17 @@ namespace DatabaseAPI.Services
         {
             await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
             
-            var res = await con.QueryAsync<UserSongLink, Song, Artist, UserSongLink>(
-                @"select usl.*, s.*, a.* from post_song_link psl
+            var res = await con.QueryAsync<UserSongLink, Song, Artist, Album, UserSongLink>(
+                @"select usl.*, s.*, a.*, al.* 
+                    from post_song_link psl
                     join song s on psl.song_id = s.id
                     join artist a on s.artist_id = a.id
+                    join album al on s.artist_id = al.id
                     left join user_song_link usl on s.id = usl.song_id and usl.app_user_id = @userId
                     where psl.post_id = @postId;",
-                (link, song, artist) =>
+                (link, song, artist, album) =>
                 {
+                    song.Album = album;
                     song.Artist = artist;
                     link.Song = song;
                     return link;

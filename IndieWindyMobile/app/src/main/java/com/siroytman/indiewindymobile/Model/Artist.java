@@ -20,7 +20,7 @@ public class Artist implements Parcelable{
     public Artist() { }
 
 
-    public static Artist Parse(JSONObject jsonObject) {
+    public static Artist parse(JSONObject jsonObject) {
         try {
             Artist artist = new Artist();
             artist.setId(jsonObject.getInt("id"));

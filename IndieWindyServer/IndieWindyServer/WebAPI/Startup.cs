@@ -34,6 +34,7 @@ namespace WebAPI
             services.AddScoped<UserSongLinkService>();
             services.AddScoped<UserConcertLinkService>();
             services.AddScoped<DonationService>();
+            services.AddScoped<PostService>();
             
             services.AddControllers();
 

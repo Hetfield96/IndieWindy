@@ -3,15 +3,17 @@ using System;
 using DatabaseAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(IndieWindyDbContext))]
-    partial class MyWebApiContextModelSnapshot : ModelSnapshot
+    [Migration("20200331142616_posts")]
+    partial class posts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -261,9 +263,6 @@ namespace WebAPI.Migrations
                         .HasColumnName("name")
                         .HasColumnType("text");
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("SongUrl")
                         .HasColumnName("song_url")
                         .HasColumnType("text");
@@ -273,8 +272,6 @@ namespace WebAPI.Migrations
                     b.HasIndex("AlbumId");
 
                     b.HasIndex("ArtistId");
-
-                    b.HasIndex("PostId");
 
                     b.ToTable("song");
                 });
@@ -438,10 +435,6 @@ namespace WebAPI.Migrations
                         .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DatabaseAPI.Models.Post", null)
-                        .WithMany("Songs")
-                        .HasForeignKey("PostId");
                 });
 
             modelBuilder.Entity("DatabaseAPI.Models.UserAlbumLink", b =>

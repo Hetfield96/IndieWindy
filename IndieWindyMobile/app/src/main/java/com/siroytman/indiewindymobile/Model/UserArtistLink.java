@@ -34,7 +34,7 @@ public class UserArtistLink implements ILinkEmpty {
         }
 
         try {
-            link.artist = Artist.Parse(json.getJSONObject("artist"));
+            link.artist = Artist.parse(json.getJSONObject("artist"));
         } catch (JSONException e) {
             Log.d(TAG, "Can't parse artist");
         }

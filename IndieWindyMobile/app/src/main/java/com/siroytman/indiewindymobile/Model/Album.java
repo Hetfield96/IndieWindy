@@ -63,7 +63,7 @@ public class Album  implements Parcelable {
         }
 
         try {
-            album.artist = Artist.Parse(jsonObject.getJSONObject("artist"));
+            album.artist = Artist.parse(jsonObject.getJSONObject("artist"));
         } catch (JSONException e) {
             Log.d(TAG, "No artist");
         }

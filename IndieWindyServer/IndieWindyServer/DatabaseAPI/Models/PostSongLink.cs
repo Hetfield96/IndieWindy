@@ -17,6 +17,6 @@ namespace DatabaseAPI.Models
         public int SongId { get; set; }
         
         [ForeignKey("SongId")]
-        public Artist Song { get; set; }
+        public Song Song { get; set; }
     }
 }

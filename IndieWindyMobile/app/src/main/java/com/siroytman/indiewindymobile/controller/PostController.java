@@ -10,6 +10,7 @@ import com.siroytman.indiewindymobile.model.ArtistPostLink;
 import com.siroytman.indiewindymobile.model.Post;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.ui.adapter.ArtistPostLinkListAdapter;
+import com.siroytman.indiewindymobile.ui.fragments.home.LatestHomeFragment;
 import com.siroytman.indiewindymobile.ui.fragments.home.SubscriptionHomeFragment;
 
 import org.json.JSONArray;
@@ -54,13 +55,34 @@ public class PostController {
         });
     }
 
+    public void getLatestPosts(){
+        String url = "post/getLatest";
+        apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
+            @Override
+            public void onSuccessResponse(JSONArray result) {
+                try {
+                    Log.d(TAG, "getLatestPosts: completed");
+                    ArrayList<ArtistPostLink> posts = ArtistPostLink.parseArray(result);
+                    LatestHomeFragment.getInstance().postsFoundViewUpdate(posts);
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
+                }
+            }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "getLatestPosts: not completed!" + error.getMessage());
+            }
+        });
+    }
+
     public void getPostSongs(final ArtistPostLinkListAdapter.ViewHolder viewHolder, int postId){
         String url = "post/getSongs/" + AppController.user.getId() + "/" + postId;
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
             public void onSuccessResponse(JSONArray result) {
                 try {
-                    Log.d(TAG, "getPostSongs: completed");
+                     Log.d(TAG, "getPostSongs: completed");
                     if(result.length() > 0) {
                         ArrayList<UserSongLink> songLinks = UserSongLink.parseLinks(result);
                         viewHolder.updatePostSongsView(songLinks);

@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
                         postController.getSubscriptionPosts();
                         break;
                     case 1:
-//                        postController.getNearestHomes();
+                        postController.getLatestPosts();
                         break;
                     default:
                         break;

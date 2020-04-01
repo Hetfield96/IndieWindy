@@ -25,6 +25,13 @@ namespace WebAPI.Controllers
         }
         
         [HttpGet]
+        [Route("getLatest")]
+        public async Task<List<ArtistPostLink>> GetLatest()
+        {
+            return await _postService.GetLatest();
+        }
+        
+        [HttpGet]
         [Route("getSongs/{userId}/{postId}")]
         public async Task<List<UserSongLink>> GetSongs(int userId, int postId)
         {

@@ -35,6 +35,27 @@ namespace DatabaseAPI.Services
             return res.ToList();
         }
         
+        public async Task<List<ArtistPostLink>> GetLatest()
+        {
+            await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
+
+            var res = await con.QueryAsync<ArtistPostLink, Post, Artist, ArtistPostLink>(
+                @"select apl.*, p.*, a.* from latest_post lp
+                        join post p on lp.post_id = p.id
+                        join artist a on p.artist_id = a.id
+                        join artist_post_link apl on apl.artist_id = a.id and apl.post_id = p.id
+                        order by lp.id desc;",
+                (link, post, artist) =>
+                {
+                    link.PostId = post.Id;
+                    link.Post = post;
+                    link.ArtistId = artist.Id;
+                    link.Artist = artist;
+                    return link;
+                });
+            return res.ToList();
+        }
+        
         public async Task<List<UserSongLink>> GetSongs(int userId, int postId)
         {
             await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);

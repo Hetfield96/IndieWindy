@@ -28,6 +28,7 @@ pg_restore -v --no-owner --host=indiewindydb.postgres.database.azure.com --port=
         public DbSet<Concert> Concert { get; set; }
         public DbSet<Donation> Donation { get; set; }
         public DbSet<Post> Post { get; set; }
+        public DbSet<LatestPost> LatestPost { get; set; }
         
         
         public DbSet<ArtistConcertLink> ArtistConcertLink { get; set; }

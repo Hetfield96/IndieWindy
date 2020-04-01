@@ -50,7 +50,7 @@ public class LatestHomeFragment extends Fragment {
 
             // Load list fragment
             ArtistPostLinkListFragment fragment = new ArtistPostLinkListFragment(postLinks);
-            FragmentService.replaceFragment(this, R.id.fragment_home_subscription__container, fragment);
+            FragmentService.replaceFragment(this, R.id.fragment_home_latest__container, fragment);
         } else {
             FragmentService.clearFragment(this);
         }

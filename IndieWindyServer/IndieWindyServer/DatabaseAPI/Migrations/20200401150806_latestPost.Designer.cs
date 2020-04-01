@@ -3,15 +3,17 @@ using System;
 using DatabaseAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(IndieWindyDbContext))]
-    partial class MyWebApiContextModelSnapshot : ModelSnapshot
+    [Migration("20200401150806_latestPost")]
+    partial class latestPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,6 +207,8 @@ namespace WebAPI.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("latest_post");
                 });
@@ -409,6 +413,15 @@ namespace WebAPI.Migrations
                     b.HasOne("DatabaseAPI.Models.Artist", "Artist")
                         .WithMany()
                         .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DatabaseAPI.Models.LatestPost", b =>
+                {
+                    b.HasOne("DatabaseAPI.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

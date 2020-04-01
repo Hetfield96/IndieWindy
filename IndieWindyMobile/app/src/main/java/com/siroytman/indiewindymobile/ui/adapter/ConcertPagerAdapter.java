@@ -3,6 +3,8 @@ package com.siroytman.indiewindymobile.ui.adapter;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.siroytman.indiewindymobile.R;
+import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.ui.fragments.concert.NearestConcertFragment;
 import com.siroytman.indiewindymobile.ui.fragments.concert.SavedConcertFragment;
 import com.siroytman.indiewindymobile.ui.fragments.concert.SubscriptionConcertFragment;
@@ -45,11 +47,11 @@ public class ConcertPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Nearest";
+                return AppController.getContext().getString(R.string.concert__nearest_title);
             case 1:
-                return "Subscriptions";
+                return AppController.getContext().getString(R.string.concert__subscriptions_title);
             case 2:
-                return "Saved";
+                return AppController.getContext().getString(R.string.concert__saved_title);
         }
         return null;
     }

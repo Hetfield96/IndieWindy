@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
 
         if (name.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "No login or password was entered!", Toast.LENGTH_LONG)
+            Toast.makeText(this, getString(R.string.login__no_login), Toast.LENGTH_LONG)
                     .show();
             return;
         }
@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
 
         if (name.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "No login or password was entered!", Toast.LENGTH_LONG)
+            Toast.makeText(this, getString(R.string.login__no_login), Toast.LENGTH_LONG)
                     .show();
             return;
         }

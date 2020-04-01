@@ -220,9 +220,9 @@ public class DownloadTracker {
 
     @Override
     public void onPrepareError(DownloadHelper helper, IOException e) {
-      Toast.makeText(context, "Failed to start download", Toast.LENGTH_LONG).show();
-      Log.e(
-          TAG,
+      Toast.makeText(context, context.getString(R.string.download_tracker__download_failed), Toast.LENGTH_LONG)
+              .show();
+      Log.e(TAG,
           e instanceof DownloadHelper.LiveContentUnsupportedException
               ? "Downloading live content unsupported"
               : "Failed to start download",

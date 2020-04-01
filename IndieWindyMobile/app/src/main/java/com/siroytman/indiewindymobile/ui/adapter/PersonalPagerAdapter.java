@@ -1,5 +1,7 @@
 package com.siroytman.indiewindymobile.ui.adapter;
 
+import com.siroytman.indiewindymobile.R;
+import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.ui.fragments.personal.AlbumsPersonalFragment;
 import com.siroytman.indiewindymobile.ui.fragments.personal.ArtistsPersonalFragment;
 import com.siroytman.indiewindymobile.ui.fragments.personal.SongsPersonalFragment;
@@ -44,13 +46,13 @@ public class PersonalPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Songs";
+                return AppController.getContext().getString(R.string.personal__song_title);
 //            case 1:
 //                return "Downloaded";
             case 1:
-                return "Artists";
+                return AppController.getContext().getString(R.string.personal__artist_title);
             case 2:
-                return "Albums";
+                return AppController.getContext().getString(R.string.personal__album_title);
         }
         return null;
     }

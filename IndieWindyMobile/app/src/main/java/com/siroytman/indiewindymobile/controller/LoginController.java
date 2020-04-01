@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.api.ApiController;
 import com.siroytman.indiewindymobile.api.ErrorHandler;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
@@ -58,7 +59,8 @@ public class LoginController {
                     // Save to shared prefs
                     sharedPrefsService.saveAppUser(AppController.user);
 
-                    Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_SHORT)
+                    String msg = String.format(loginActivity.getString(R.string.login__hello), AppController.user.getName());
+                    Toast.makeText(loginActivity, msg, Toast.LENGTH_LONG)
                             .show();
                     // Swap to next activity
                     loginActivity.startActivity(new Intent(loginActivity, NavigationActivity.class));
@@ -67,7 +69,7 @@ public class LoginController {
                 catch (Exception e)
                 {
                     loginActivity.stopLoadingProgressBar();
-                    Log.d("VolleyError", "Unable to parse response: " + e.getMessage());
+                    Log.d(TAG, "Unable to parse response: " + e.getMessage());
                 }
             }
 
@@ -75,7 +77,7 @@ public class LoginController {
             public void onErrorResponse(VolleyError error) {
                 loginActivity.stopLoadingProgressBar();
                 if (!ErrorHandler.HandleError(loginActivity, error)) {
-                    Toast.makeText(loginActivity, "Incorrect login or password!",
+                    Toast.makeText(loginActivity, loginActivity.getString(R.string.login__incorrect_login),
                             Toast.LENGTH_LONG)
                             .show();
                 }
@@ -120,7 +122,8 @@ public class LoginController {
                 // Save to shared prefs
                 sharedPrefsService.saveAppUser(AppController.user);
 
-                Toast.makeText(loginActivity, "Hello, " + AppController.user.getName() + "!", Toast.LENGTH_LONG)
+                String msg = String.format(loginActivity.getString(R.string.login__hello), AppController.user.getName());
+                Toast.makeText(loginActivity, msg, Toast.LENGTH_LONG)
                         .show();
                 // Swap to next activity
                 loginActivity.startActivity(new Intent(loginActivity, NavigationActivity.class));
@@ -130,7 +133,7 @@ public class LoginController {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (!ErrorHandler.HandleError(loginActivity, error)) {
-                    Toast.makeText(loginActivity, "User with that login already exists!",
+                    Toast.makeText(loginActivity, loginActivity.getString(R.string.login__user_exist),
                             Toast.LENGTH_LONG)
                             .show();
                 }

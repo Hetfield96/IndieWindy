@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:text="myTestPassword"
-        android:hint="Enter password"
+        android:hint="@string/login__password_hint"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
         android:layout_marginBottom="16dp"
         android:ems="10"
         android:text="dimas"
-        android:hint="Enter login"
+        android:hint="@string/login__login_hint"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/passwordText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,9 +50,8 @@
         android:layout_height="45dp"
         android:layout_marginTop="16dp"
         android:onClick="loginOnClick"
-        android:text="Login"
+        android:text="@string/login__login_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordText" />
 
@@ -63,9 +62,8 @@
         android:layout_height="45dp"
         android:layout_marginTop="8dp"
         android:onClick="registerOnClick"
-        android:text="Register"
+        android:text="@string/login__register_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

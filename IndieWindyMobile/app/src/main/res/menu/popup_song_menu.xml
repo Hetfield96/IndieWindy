@@ -4,11 +4,11 @@
     <group android:id="@+id/song_options_menu_group">
         <item
             android:id="@+id/song_options_menu_artist"
-            android:title="To artist"
+            android:title="@string/popup__artist"
             android:icon="@drawable/ic_artist"/>
         <item
             android:id="@+id/song_options_menu_album"
-            android:title="To album"
+            android:title="@string/popup__album"
             android:icon="@drawable/ic_album"/>
     </group>
 

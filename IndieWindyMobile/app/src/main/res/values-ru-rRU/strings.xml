@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IndieWindyMobile</string>
+    <string name="title_activity_settings">Настройки</string>
+    <string name="personal__album_title">Альбомы</string>
+    <string name="personal__artist_title">Исполнители</string>
+    <string name="personal__song_title">Песни</string>
+    <string name="home__latest_title">Новинки</string>
+    <string name="home__subscriptions_title">По подписке</string>
+    <string name="concert__subscriptions_title">По подписке</string>
+    <string name="concert__saved_title">Сохраненные</string>
+    <string name="song__list_title">Песни</string>
+    <string name="more__button">ЕЩЕ</string>
+    <string name="search__title">Поиск</string>
+    <string name="popup__artist">К исполнителю</string>
+    <string name="popup__album">К альбому</string>
+    <string name="concert__nearest_title">Ближайшие</string>
+    <string name="artist__list_title">Исполнители</string>
+    <string name="album__list_title">Альбомы</string>
+    <string name="donation__donate_button">Поддержать</string>
+    <string name="donation__amount_hint">Введите сумму</string>
+    <string name="download_tracker__download_failed">Ошибка при скачивании</string>
+    <string name="error_handler__timeout">Превышено время ожидания ответа</string>
+    <string name="error_handler__no_connection">Нет соединения</string>
+    <string name="login__register_button">Зарегистрироваться</string>
+    <string name="login__login_button">Войти</string>
+    <string name="login__login_hint">Введите логин</string>
+    <string name="login__password_hint">Введите пароль</string>
+    <string name="login__incorrect_login">Неверный логин или пароль</string>
+    <string name="login__hello">Привет, %1$s!</string>
+    <string name="login__user_exist">Пользователь с таким логином уже существует!</string>
+    <string name="login__no_login">Логин или пароль не были введены!</string>
+    <string name="navigation__title_home">Главная</string>
+    <string name="navigation__title_search">Поиск</string>
+    <string name="navigation__title_concert">Концерты</string>
+    <string name="navigation__title_personal">Моя страница</string>
+    <string name="title_activity_navigation">Навигация</string>
+    <string name="settings__logout">Выйти из аккаунта</string>
+    <string name="settings__account_header">Аккаунт</string>
+</resources>

@@ -8,24 +8,24 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.siroytman.indiewindymobile.ui.fragments.home.HomeFragment"
-        android:label="@string/title_home"
+        android:label="@string/navigation__title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.siroytman.indiewindymobile.ui.fragments.search.SearchFragment"
-        android:label="@string/fragment_search_title"
+        android:label="@string/navigation__title_search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_concert"
         android:name="com.siroytman.indiewindymobile.ui.fragments.concert.ConcertFragment"
-        android:label="@string/fragment_concert_title"
+        android:label="@string/navigation__title_concert"
         tools:layout="@layout/fragment_concert" />
 
     <fragment
         android:id="@+id/navigation_personal"
         android:name="com.siroytman.indiewindymobile.ui.fragments.personal.PersonalFragment"
-        android:label="@string/fragment_personal_title"
+        android:label="@string/navigation__title_personal"
         tools:layout="@layout/fragment_personal" />
 </navigation>

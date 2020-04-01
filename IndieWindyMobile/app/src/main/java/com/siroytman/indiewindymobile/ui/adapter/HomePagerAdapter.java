@@ -2,6 +2,8 @@ package com.siroytman.indiewindymobile.ui.adapter;
 
 import android.os.Parcelable;
 
+import com.siroytman.indiewindymobile.R;
+import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.ui.fragments.home.LatestHomeFragment;
 import com.siroytman.indiewindymobile.ui.fragments.home.SubscriptionHomeFragment;
 
@@ -41,9 +43,9 @@ public class HomePagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Subscriptions";
+                return AppController.getContext().getString(R.string.home__subscriptions_title);
             case 1:
-                return "Latest";
+                return AppController.getContext().getString(R.string.home__latest_title);
         }
         return null;
     }

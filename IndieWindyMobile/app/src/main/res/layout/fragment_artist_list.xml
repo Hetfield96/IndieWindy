@@ -8,7 +8,7 @@
         android:id="@+id/fragment_artist_list__title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Artists"
+        android:text="@string/artist__list_title"
         android:textSize="18dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -29,6 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@android:id/list"
-        android:text="more" />
+        android:text="@string/more__button" />
 
 </RelativeLayout>

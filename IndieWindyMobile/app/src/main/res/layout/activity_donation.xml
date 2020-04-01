@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Enter amount"
+        android:hint="@string/donation__amount_hint"
         android:inputType="numberDecimal"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/donation_activity_artist_image" />
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_marginTop="16dp"
-        android:text="Donate"
+        android:text="@string/donation__donate_button"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/donation_activity_amount"/>
 

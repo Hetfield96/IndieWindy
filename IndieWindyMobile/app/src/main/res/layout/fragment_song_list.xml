@@ -8,12 +8,11 @@
         android:id="@+id/fragment_song_list__title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Songs"
+        android:text="@string/song__list_title"
         android:textSize="18dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp"
-        />
+        android:layout_marginBottom="5dp" />
 
     <com.siroytman.indiewindymobile.ui.custom_views.MyListView
         android:id="@android:id/list"
@@ -29,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@android:id/list"
-        android:text="more" />
+        android:text="@string/more__button" />
 
 
 </RelativeLayout>

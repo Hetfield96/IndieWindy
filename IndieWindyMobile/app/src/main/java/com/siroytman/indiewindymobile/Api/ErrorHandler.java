@@ -7,28 +7,30 @@ import android.widget.Toast;
 import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.siroytman.indiewindymobile.R;
 
 public class ErrorHandler {
+    public static final String TAG = "ErrorHandler";
 
     // Return true if handled, false otherwise
     public static Boolean HandleError(Context context, VolleyError error)
     {
         if (error.getClass() == NoConnectionError.class)
         {
-            Toast.makeText(context, "NoConnection", Toast.LENGTH_LONG)
+            Toast.makeText(context, context.getString(R.string.error_handler__no_connection), Toast.LENGTH_LONG)
                     .show();
-            Log.d("VolleyError", "No connection error");
+            Log.d(TAG, context.getString(R.string.error_handler__no_connection));
             return true;
         }
         if (error.getClass() == TimeoutError.class)
         {
-            Toast.makeText(context, "TimeoutError", Toast.LENGTH_LONG)
+            Toast.makeText(context, context.getString(R.string.error_handler__timeout), Toast.LENGTH_LONG)
                     .show();
-            Log.d("VolleyError", "Timeout Error");
+            Log.d(TAG, context.getString(R.string.error_handler__timeout));
             return true;
         }
 
-        Log.d("VolleyError", error.getMessage());
+        Log.d(TAG, error.getMessage());
         return false;
     }
 }

@@ -45,7 +45,7 @@ public class SearchFragment extends Fragment
     private LinkedHashMap<Integer, Boolean> containerBusy;
 
     private String searchQuery;
-    private int N = 2;
+    public static final int MAX_ELEMENTS = 2;
 
 
     @Nullable
@@ -70,9 +70,8 @@ public class SearchFragment extends Fragment
             int containerId = R.id.fragment_search__song_container;
             containerBusy.put(containerId, true);
 
-            List<UserSongLink> subLinks = links.subList(0, Math.min(N, links.size()));
             // Load list fragment
-            UserSongLinkListFragment fragment = new UserSongLinkListFragment(subLinks);
+            UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);
             FragmentService.replaceFragment(this, containerId, fragment);
         }
 
@@ -88,7 +87,7 @@ public class SearchFragment extends Fragment
             int containerId = pickFirstEmptyContainer();
             containerBusy.put(containerId, true);
 
-            List<UserArtistLink> subLinks = links.subList(0, Math.min(N, links.size()));
+            List<UserArtistLink> subLinks = links.subList(0, Math.min(MAX_ELEMENTS, links.size()));
             // Load list fragment
             UserArtistLinkListFragment fragment = new UserArtistLinkListFragment(subLinks);
             FragmentService.replaceFragment(this, containerId, fragment);
@@ -106,7 +105,7 @@ public class SearchFragment extends Fragment
             int containerId = pickFirstEmptyContainer();
             containerBusy.put(containerId, true);
 
-            List<UserAlbumLink> subLinks = links.subList(0, Math.min(N, links.size()));
+            List<UserAlbumLink> subLinks = links.subList(0, Math.min(MAX_ELEMENTS, links.size()));
             // Load list fragment
             UserAlbumLinkListFragment fragment = new UserAlbumLinkListFragment(subLinks);
             FragmentService.replaceFragment(this, containerId, fragment);

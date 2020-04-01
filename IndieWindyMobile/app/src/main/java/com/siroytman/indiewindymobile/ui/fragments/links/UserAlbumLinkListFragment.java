@@ -1,5 +1,6 @@
 package com.siroytman.indiewindymobile.ui.fragments.links;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,8 +12,12 @@ import android.widget.TextView;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
+import com.siroytman.indiewindymobile.model.UserSongLink;
+import com.siroytman.indiewindymobile.ui.activity.MoreActivity;
 import com.siroytman.indiewindymobile.ui.adapter.UserAlbumLinkListAdapter;
+import com.siroytman.indiewindymobile.ui.fragments.search.SearchFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -49,11 +54,20 @@ public class UserAlbumLinkListFragment extends ListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (artist != null) {
-            adapter = new UserAlbumLinkListAdapter(getActivity(), R.layout.album_list_item, albumLinks, artist);
+        List<UserAlbumLink> subLinks;
+        if(!rawList) {
+            // Cut to subLinks not to show all found songs
+            subLinks = albumLinks.subList(0, Math.min(SearchFragment.MAX_ELEMENTS, albumLinks.size()));
         } else {
-            adapter = new UserAlbumLinkListAdapter(getActivity(), R.layout.album_list_item, albumLinks);
+            subLinks = albumLinks;
         }
+
+        if (artist != null) {
+            adapter = new UserAlbumLinkListAdapter(getActivity(), R.layout.album_list_item, subLinks, artist);
+        } else {
+            adapter = new UserAlbumLinkListAdapter(getActivity(), R.layout.album_list_item, subLinks);
+        }
+
         setListAdapter(adapter);
     }
 
@@ -69,11 +83,18 @@ public class UserAlbumLinkListFragment extends ListFragment {
             artistTitleView.setVisibility(View.GONE);
         }
         else {
-            // TODO open fragment with full list
             albumMoreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "more button clicked");
+                    Log.d(TAG, "albumLinks size = " + albumLinks.size());
+
+                    Bundle bundle = new Bundle();
+                    ArrayList<UserAlbumLink> arrayList = new ArrayList<>(albumLinks);
+                    bundle.putParcelableArrayList("albumLinks", arrayList);
+                    Intent intent = new Intent(getContext(), MoreActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
             });
         }

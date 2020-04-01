@@ -1,5 +1,7 @@
 package com.siroytman.indiewindymobile.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.siroytman.indiewindymobile.interfaces.ILinkEmpty;
@@ -10,7 +12,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class UserAlbumLink implements ILinkEmpty {
+public class UserAlbumLink implements Parcelable, ILinkEmpty {
     public static final String TAG = "UserAlbumLink";
 
     // Required
@@ -90,4 +92,34 @@ public class UserAlbumLink implements ILinkEmpty {
     public void setAlbumId(int albumId) {
         this.albumId = albumId;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(appUserId);
+        dest.writeInt(albumId);
+        dest.writeParcelable(album, flags);
+    }
+
+    protected UserAlbumLink(Parcel in) {
+        appUserId = in.readInt();
+        albumId = in.readInt();
+        album = in.readParcelable(Album.class.getClassLoader());
+    }
+
+    public static final Creator<UserAlbumLink> CREATOR = new Creator<UserAlbumLink>() {
+        @Override
+        public UserAlbumLink createFromParcel(Parcel in) {
+            return new UserAlbumLink(in);
+        }
+
+        @Override
+        public UserAlbumLink[] newArray(int size) {
+            return new UserAlbumLink[size];
+        }
+    };
 }

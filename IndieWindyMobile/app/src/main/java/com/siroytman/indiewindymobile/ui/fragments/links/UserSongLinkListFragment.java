@@ -1,5 +1,6 @@
 package com.siroytman.indiewindymobile.ui.fragments.links;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,9 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.siroytman.indiewindymobile.R;
+import com.siroytman.indiewindymobile.ui.activity.MoreActivity;
 import com.siroytman.indiewindymobile.ui.adapter.UserSongLinkListAdapter;
 import com.siroytman.indiewindymobile.model.UserSongLink;
+import com.siroytman.indiewindymobile.ui.fragments.search.SearchFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -42,7 +46,14 @@ public class UserSongLinkListFragment extends ListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new UserSongLinkListAdapter(getActivity(), R.layout.song_list_item, songLinks);
+        List<UserSongLink> subLinks;
+        if(!rawList) {
+            // Cut to subLinks not to show all found songs
+            subLinks = songLinks.subList(0, Math.min(SearchFragment.MAX_ELEMENTS, songLinks.size()));
+        } else {
+            subLinks = songLinks;
+        }
+        adapter = new UserSongLinkListAdapter(getActivity(), R.layout.song_list_item, subLinks);
         setListAdapter(adapter);
     }
 
@@ -58,11 +69,18 @@ public class UserSongLinkListFragment extends ListFragment {
             songTitleView.setVisibility(View.GONE);
         }
         else {
-            // TODO open fragment with full list
             songMoreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "more button clicked");
+                    Log.d(TAG, "songLinks size = " + songLinks.size());
+
+                    Bundle bundle = new Bundle();
+                    ArrayList<UserSongLink> arrayList = new ArrayList<>(songLinks);
+                    bundle.putParcelableArrayList("songLinks", arrayList);
+                    Intent intent = new Intent(getContext(), MoreActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
             });
         }

@@ -1,5 +1,6 @@
 package com.siroytman.indiewindymobile.ui.fragments.links;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,8 +12,11 @@ import android.widget.TextView;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserArtistLink;
+import com.siroytman.indiewindymobile.model.UserSongLink;
+import com.siroytman.indiewindymobile.ui.activity.MoreActivity;
 import com.siroytman.indiewindymobile.ui.adapter.UserArtistLinkListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -59,11 +63,18 @@ public class UserArtistLinkListFragment extends ListFragment {
             artistTitleView.setVisibility(View.GONE);
         }
         else {
-            // TODO open fragment with full list
             artistMoreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "more button clicked");
+                    Log.d(TAG, "artistLinks size = " + artistLinks.size());
+
+                    Bundle bundle = new Bundle();
+                    ArrayList<UserArtistLink> arrayList = new ArrayList<>(artistLinks);
+                    bundle.putParcelableArrayList("artistLinks", arrayList);
+                    Intent intent = new Intent(getContext(), MoreActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
             });
         }

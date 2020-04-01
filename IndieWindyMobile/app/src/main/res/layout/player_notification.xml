@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/player_notification__icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:paddingBottom="1dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="6dp"
+        android:src="@drawable/ic_artist"/>
+
+    <TextView
+        android:id="@+id/player_notification__song_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Song name"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@id/player_notification__icon"
+        android:textAppearance="@style/TextAppearance.Compat.Notification.Title.Media"/>
+
+    <TextView
+        android:id="@+id/player_notification__artist_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Artist name"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@id/player_notification__icon"
+        android:layout_below="@id/player_notification__song_name"
+        android:textAppearance="@style/TextAppearance.Compat.Notification.Info.Media"/>
+
+<!--    <ImageView-->
+<!--        android:id="@+id/player_notification__prev"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_toStartOf="@id/player_notification__next"-->
+<!--        android:layout_marginHorizontal="8dp"-->
+<!--        android:src="@drawable/ic_prev"/>-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/player_notification__next"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginHorizontal="8dp"-->
+<!--        android:src="@drawable/ic_next"/>-->
+
+
+</RelativeLayout>

@@ -114,7 +114,7 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
         });
 
         PlayerServiceConnection.createInstance(playerView);
-        PlayerForegroundService.startService(this, songLink.getSong());
+        PlayerForegroundService.startService(this, songLink);
 
         // Start the download service if it should be running but it's not currently.
         // Starting the service in the foreground causes notification flicker if there is no scheduled

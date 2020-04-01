@@ -9,19 +9,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.RenderersFactory;
-import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.offline.DownloadService;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.controller.SongController;
@@ -39,7 +31,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.core.content.ContextCompat;
 
 public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>, DownloadTracker.Listener {
     public static final String TAG = "PlayerActivity";
@@ -49,6 +40,8 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
     public PlayerView playerView;
     private UserSongLink songLink;
 
+    private TextView songName;
+    private TextView artistName;
     private ImageView songArtwork;
     private ImageView optionsButton;
     private ImageView addButton;
@@ -76,13 +69,17 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
 
         playerView = findViewById(R.id.player_view);
         songArtwork = playerView.findViewById(R.id.artwork);
-        optionsButton = playerView.findViewById(R.id.player_options_button);
-        addButton = playerView.findViewById(R.id.player_add_button);
-        downloadButton = playerView.findViewById(R.id.player_download_button);
+        optionsButton = playerView.findViewById(R.id.player__options_button);
+        addButton = playerView.findViewById(R.id.player__add_button);
+        downloadButton = playerView.findViewById(R.id.player__download_button);
+        songName = playerView.findViewById(R.id.player__song_name);
+        artistName = playerView.findViewById(R.id.player__artist_name);
 
         downloadTracker = appController.getDownloadTracker();
         Glide.with(this).load(songLink.getSong().getAlbum().getImageUrl()).into(songArtwork);
         IconChanger.setAddStateIcon(songLink, addButton);
+        songName.setText(songLink.getSong().getName());
+        artistName.setText(songLink.getSong().getArtist().getName());
 
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override

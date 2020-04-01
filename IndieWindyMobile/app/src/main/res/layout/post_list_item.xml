@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
+<!--TODO card wrap content somehow-->
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/post_list_item__card"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="450dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

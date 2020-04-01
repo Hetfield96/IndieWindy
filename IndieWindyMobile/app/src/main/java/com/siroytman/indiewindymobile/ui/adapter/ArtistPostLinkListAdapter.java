@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -27,6 +28,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 
 public class ArtistPostLinkListAdapter extends ArrayAdapter<ArtistPostLink> {
@@ -76,6 +78,7 @@ public class ArtistPostLinkListAdapter extends ArrayAdapter<ArtistPostLink> {
         private TextView postTextView;
         private TextView postArtistNameView;
         private ImageView postArtistPhotoView;
+
         private RelativeLayout relativeLayout;
         private FrameLayout frameLayout;
 
@@ -101,18 +104,22 @@ public class ArtistPostLinkListAdapter extends ArrayAdapter<ArtistPostLink> {
             // Create frame layout
             frameLayout = new FrameLayout(context);
             frameLayout.setId(getPosition(link) + 1);
+            frameLayout.setScrollContainer(false);
             PostController.getInstance().getPostSongs(this, link.getPostId());
         }
 
         public void updatePostSongsView(List<UserSongLink> links) {
+            // TODO maybe add more button?
             // Dynamically add frame layout
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.addRule(RelativeLayout.BELOW, postTextView.getId());
+
             relativeLayout.addView(frameLayout, layoutParams);
 
             UserSongLinkListFragment fragment = new UserSongLinkListFragment(links, true);
             FragmentService.replaceFragment(fragmentManager, frameLayout.getId(), fragment);
+
         }
 
         @Override

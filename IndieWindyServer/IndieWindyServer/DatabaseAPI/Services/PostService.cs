@@ -21,7 +21,8 @@ namespace DatabaseAPI.Services
                     join artist a on apl.artist_id = a.id
                     where apl.artist_id in
                     (select user_artist_link.artist_id from user_artist_link 
-                    where app_user_id = @user);",
+                    where app_user_id = @user)
+                    order by p.time desc;",
                 (link, post, artist) =>
                 {
                     link.PostId = post.Id;

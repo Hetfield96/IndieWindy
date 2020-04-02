@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.RemoteViews;
 
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -26,7 +25,6 @@ import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.ui.activity.PlayerActivity;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 
@@ -107,17 +105,6 @@ public class PlayerForegroundService extends Service {
             Log.e(TAG, "Error: Arguments are null!");
         }
 
-
-//        Intent notificationIntent = new Intent(this, PlayerActivity.class);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this,
-//                0, notificationIntent, 0);
-//        Notification notification = new Notification.Builder(this, CHANNEL_ID)
-//                .setContentTitle(TAG)
-//                .setContentText(song.getName())
-//                .setSmallIcon(R.drawable.ic_album)
-//                .setContentIntent(pendingIntent)
-//                .build();
-//        startForeground(FOREGROUND_NOTIFICATION_ID, notification);
         createNotification();
 
         initializePlayer();
@@ -126,41 +113,55 @@ public class PlayerForegroundService extends Service {
     }
 
     private void createNotification() {
-        createNotificationChannel();
+        Context context = getApplicationContext();
 
-        RemoteViews collapsedView = new RemoteViews(getPackageName(), R.layout.player_notification);
-        collapsedView.setTextViewText(R.id.player_notification__song_name, song.getName());
-        collapsedView.setTextViewText(R.id.player_notification__artist_name, song.getArtist().getName());
+        createNotificationChannel();
 
         // adding action to prev button
         Intent prevIntent = new Intent(getApplicationContext(), PlayerNotificationIntentService.class);
         prevIntent.setAction("prev");
-        collapsedView.setOnClickPendingIntent(R.id.player_notification__prev,
-                PendingIntent.getService(getApplicationContext(), 0, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
         // adding action to next button
         Intent nextIntent = new Intent(this, PlayerNotificationIntentService.class);
         nextIntent.setAction("next");
-        collapsedView.setOnClickPendingIntent(R.id.player_notification__next,
-                PendingIntent.getService(this, 1, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT));
-//
-//        Intent intent = new Intent(this, PlayerActivity.class);
-//        intent.putExtra(UserSongLink.class.getSimpleName(), songLink);
 
+        // adding action to next button
+        Intent pauseIntent = new Intent(this, PlayerNotificationIntentService.class);
+        pauseIntent.setAction("next");
 
-        Notification notification = new Notification.Builder(getApplicationContext(), CHANNEL_ID)
-                // these are the three things a Notification.Builder object requires at a minimum
-                // TODO app icon
+        // adding action to click notification
+        // TODO
+        Intent contentIntent = new Intent(context, PlayerActivity.class);
+
+        Notification notification = new Notification.Builder(context, CHANNEL_ID)
+                // Add the metadata for the currently playing track
+                .setContentTitle(songLink.getSong().getName())
+                .setContentText(songLink.getSong().getArtist().getName())
+
+                // Enable launching the player by clicking the notification
+                // TODO
+//                .setContentIntent(PendingIntent.getActivity(context, 0, contentIntent, 0))
+
+                // Stop the service when the notification is swiped away
+                // TODO
+//                .setDeleteIntent()
+
+                // Make the transport controls visible on the lockscreen
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
+
+                .addAction(R.drawable.ic_prev, "prev", PendingIntent.getService(context, 0, prevIntent, 0))
+                .addAction(R.drawable.ic_pause, "pause", PendingIntent.getService(context, 0, pauseIntent, 0))
+                .addAction(R.drawable.ic_next, "next", PendingIntent.getService(context, 0, nextIntent, 0))
+
+                // Add an app icon and set its color
                 .setSmallIcon(R.drawable.ic_artist)
-                .setContentTitle("title")
-                .setContentText("text")
-                // tapping notification will open MainActivity
-                // TODO playerActivity
-//                .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, intent, 0))
-                // setting the custom collapsed and expanded views
-                .setCustomContentView(collapsedView)
-                // setting style to DecoratedCustomViewStyle() is necessary for custom views to display
-                .setStyle(new Notification.DecoratedMediaCustomViewStyle())
+                .setColor(ContextCompat.getColor(context, R.color.primary_dark))
+
+                // Take advantage of MediaStyle features
+                .setStyle(new Notification.MediaStyle()
+//                        .setMediaSession(mediaSession.getSessionToken())
+                        .setShowActionsInCompactView(0, 1, 2)
+                )
                 .build();
 
         startForeground(FOREGROUND_NOTIFICATION_ID, notification);

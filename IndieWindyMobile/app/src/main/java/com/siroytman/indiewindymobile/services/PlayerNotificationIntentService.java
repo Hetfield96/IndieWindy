@@ -31,6 +31,9 @@ public class PlayerNotificationIntentService extends IntentService {
             case "next":
                 Log.d(TAG, "Next clicked");
                 break;
+            case "pause":
+                Log.d(TAG, "Pause clicked");
+                break;
         }
     }
 }

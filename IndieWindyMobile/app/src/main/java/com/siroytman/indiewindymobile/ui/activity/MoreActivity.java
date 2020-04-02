@@ -1,20 +1,9 @@
 package com.siroytman.indiewindymobile.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
 
 import com.siroytman.indiewindymobile.R;
-import com.siroytman.indiewindymobile.model.Album;
-import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
 import com.siroytman.indiewindymobile.model.UserArtistLink;
 import com.siroytman.indiewindymobile.model.UserSongLink;
@@ -22,9 +11,10 @@ import com.siroytman.indiewindymobile.services.FragmentService;
 import com.siroytman.indiewindymobile.ui.fragments.links.UserAlbumLinkListFragment;
 import com.siroytman.indiewindymobile.ui.fragments.links.UserArtistLinkListFragment;
 import com.siroytman.indiewindymobile.ui.fragments.links.UserSongLinkListFragment;
-import com.siroytman.indiewindymobile.ui.fragments.search.SearchFragment;
 
 import java.util.ArrayList;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MoreActivity extends AppCompatActivity {
     public static final String TAG = "MoreActivity";
@@ -51,13 +41,13 @@ public class MoreActivity extends AppCompatActivity {
 
         if (songLinks != null) {
             // Load list fragment
-            UserSongLinkListFragment fragment = new UserSongLinkListFragment(songLinks, true);
+            UserSongLinkListFragment fragment = new UserSongLinkListFragment(songLinks, true, false);
             FragmentService.replaceFragment(this, R.id.more_activity__container, fragment);
         }
 
         if (albumLinks != null) {
             // Load list fragment
-            UserAlbumLinkListFragment fragment = new UserAlbumLinkListFragment(albumLinks, true);
+            UserAlbumLinkListFragment fragment = new UserAlbumLinkListFragment(albumLinks, true, false);
             FragmentService.replaceFragment(this, R.id.more_activity__container, fragment);
         }
 

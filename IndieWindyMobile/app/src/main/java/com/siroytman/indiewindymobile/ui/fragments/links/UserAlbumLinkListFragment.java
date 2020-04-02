@@ -30,24 +30,27 @@ public class UserAlbumLinkListFragment extends ListFragment {
     private UserAlbumLinkListAdapter adapter;
     private Artist artist;
     private Boolean rawList;
+    private Boolean cutList;
 
 
     public UserAlbumLinkListFragment() {
     }
 
     public UserAlbumLinkListFragment(List<UserAlbumLink> albumLinks) {
-        this(albumLinks, false);
+        this(albumLinks, false, false);
     }
 
-    public UserAlbumLinkListFragment(List<UserAlbumLink> albumLinks, Boolean rawList) {
+    public UserAlbumLinkListFragment(List<UserAlbumLink> albumLinks, Boolean rawList, Boolean cutList) {
         this.albumLinks = albumLinks;
         this.rawList = rawList;
+        this.cutList = cutList;
     }
 
     public UserAlbumLinkListFragment(List<UserAlbumLink> albumLinks, Artist artist) {
         this.albumLinks = albumLinks;
         this.artist = artist;
-        this.rawList = false;
+        this.rawList = true;
+        this.cutList = false;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class UserAlbumLinkListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         List<UserAlbumLink> subLinks;
-        if(!rawList) {
+        if(cutList) {
             // Cut to subLinks not to show all found songs
             subLinks = albumLinks.subList(0, Math.min(SearchFragment.MAX_ELEMENTS, albumLinks.size()));
         } else {

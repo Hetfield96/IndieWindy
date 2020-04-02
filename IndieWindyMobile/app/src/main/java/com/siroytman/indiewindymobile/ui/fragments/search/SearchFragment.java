@@ -72,7 +72,7 @@ public class SearchFragment extends Fragment
             containerBusy.put(containerId, true);
 
             // Load list fragment
-            UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);
+            UserSongLinkListFragment fragment = new UserSongLinkListFragment(links, false, true);
             FragmentService.replaceFragment(this, containerId, fragment);
         }
 

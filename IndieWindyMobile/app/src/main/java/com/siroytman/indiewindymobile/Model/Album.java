@@ -23,6 +23,7 @@ public class Album  implements Parcelable {
         id = in.readInt();
         name = in.readString();
         imageUrl = in.readString();
+        artist = in.readParcelable(Artist.class.getClassLoader());
     }
 
     public static final Creator<Album> CREATOR = new Creator<Album>() {
@@ -47,6 +48,7 @@ public class Album  implements Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(imageUrl);
+        dest.writeParcelable(artist, flags);
     }
 
     public static Album Parse(JSONObject jsonObject) {

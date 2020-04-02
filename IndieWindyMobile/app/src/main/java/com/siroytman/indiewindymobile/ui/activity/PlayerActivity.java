@@ -192,7 +192,6 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
                             Log.d(TAG, "to album of song: " + song.getName());
                             Intent intent = new Intent(context, AlbumActivity.class);
                             intent.putExtra(Album.class.getSimpleName(), song.getAlbum());
-                            intent.putExtra(Artist.class.getSimpleName(), song.getArtist());
                             context.startActivity(intent);
                             return true;
                         }

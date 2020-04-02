@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.ArtistController;
-import com.siroytman.indiewindymobile.controller.DonationController;
 import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
 import com.siroytman.indiewindymobile.model.Artist;
 import com.siroytman.indiewindymobile.model.UserAlbumLink;
@@ -38,7 +37,6 @@ public class ArtistActivity extends AppCompatActivity implements ILinkAdd<Artist
     private TextView artistName;
     private TextView artistDescription;
     private ImageView artistAddButton;
-    private ImageView artistOptionsButton;
     private ImageView artistDonateButton;
 
 
@@ -62,7 +60,6 @@ public class ArtistActivity extends AppCompatActivity implements ILinkAdd<Artist
         artistName = findViewById(R.id.artist_activity__artist_name);
         artistDescription = findViewById(R.id.artist_activity__artist_description);
         artistAddButton = findViewById(R.id.artist_activity__artist_add_button);
-        artistOptionsButton = findViewById(R.id.artist_activity__artist_options_button);
         artistDonateButton = findViewById(R.id.artist_activity__artist_donate_button);
 
         artistName.setText(artist.getName());
@@ -93,8 +90,6 @@ public class ArtistActivity extends AppCompatActivity implements ILinkAdd<Artist
                 startActivity(intent);
             }
         });
-
-        // TODO what is in options button?
     }
 
     public void albumsFoundViewUpdate(ArrayList<UserAlbumLink> links)

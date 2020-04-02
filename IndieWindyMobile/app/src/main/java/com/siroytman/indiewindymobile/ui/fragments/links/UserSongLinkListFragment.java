@@ -28,18 +28,20 @@ public class UserSongLinkListFragment extends ListFragment {
     List<UserSongLink> songLinks;
     private UserSongLinkListAdapter adapter;
     private Boolean rawList;
+    private boolean cutList;
 
 
     public UserSongLinkListFragment() {
     }
 
     public UserSongLinkListFragment(List<UserSongLink> songLinks) {
-        this(songLinks, false);
+        this(songLinks, false, false);
     }
 
-    public UserSongLinkListFragment(List<UserSongLink> songLinks, Boolean rawList) {
+    public UserSongLinkListFragment(List<UserSongLink> songLinks, Boolean rawList, Boolean cutList) {
         this.songLinks = songLinks;
         this.rawList = rawList;
+        this.cutList = cutList;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class UserSongLinkListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         List<UserSongLink> subLinks;
-        if(!rawList) {
+        if(cutList) {
             // Cut to subLinks not to show all found songs
             subLinks = songLinks.subList(0, Math.min(SearchFragment.MAX_ELEMENTS, songLinks.size()));
         } else {

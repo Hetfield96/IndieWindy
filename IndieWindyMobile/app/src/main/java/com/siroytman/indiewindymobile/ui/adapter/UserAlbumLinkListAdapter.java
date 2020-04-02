@@ -160,7 +160,6 @@ public class UserAlbumLinkListAdapter extends ArrayAdapter<UserAlbumLink> {
             Log.d(TAG, "to page of album: " + album.getName());
             Intent intent = new Intent(context, AlbumActivity.class);
             intent.putExtra(Album.class.getSimpleName(), album);
-            intent.putExtra(Artist.class.getSimpleName(), album.getArtist());
             context.startActivity(intent);
         }
 

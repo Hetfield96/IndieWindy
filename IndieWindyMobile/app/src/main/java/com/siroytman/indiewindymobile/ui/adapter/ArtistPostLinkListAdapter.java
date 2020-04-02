@@ -119,7 +119,7 @@ public class ArtistPostLinkListAdapter extends ArrayAdapter<ArtistPostLink> {
 
             relativeLayout.addView(frameLayout, layoutParams);
 
-            UserSongLinkListFragment fragment = new UserSongLinkListFragment(links, true);
+            UserSongLinkListFragment fragment = new UserSongLinkListFragment(links, true, false);
             FragmentService.replaceFragment(fragmentManager, frameLayout.getId(), fragment);
 
         }

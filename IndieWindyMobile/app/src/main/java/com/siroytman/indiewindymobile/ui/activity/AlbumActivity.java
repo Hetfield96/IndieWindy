@@ -56,8 +56,6 @@ public class AlbumActivity extends FragmentActivity implements ILinkAdd<Album> {
         Bundle arguments = getIntent().getExtras();
         if(arguments != null) {
             album = arguments.getParcelable(Album.class.getSimpleName());
-            Artist artist = arguments.getParcelable(Artist.class.getSimpleName());
-            album.setArtist(artist);
         }
         else {
             Log.e(TAG, "Error: Arguments are null!");
@@ -100,7 +98,7 @@ public class AlbumActivity extends FragmentActivity implements ILinkAdd<Album> {
     public void songsFoundViewUpdate(ArrayList<UserSongLink> links)
     {
         // Load list fragment
-        UserSongLinkListFragment fragment = new UserSongLinkListFragment(links);
+        UserSongLinkListFragment fragment = new UserSongLinkListFragment(links, true, false);
         FragmentService.replaceFragment(activity, R.id.album_activity__album_song_list_container, fragment);
     }
 

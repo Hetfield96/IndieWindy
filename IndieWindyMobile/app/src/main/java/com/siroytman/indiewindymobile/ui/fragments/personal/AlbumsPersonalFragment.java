@@ -52,7 +52,7 @@ public class AlbumsPersonalFragment extends Fragment implements ISearchableAlbum
             Log.d(TAG, "Albums found");
 
             // Load list fragment
-            UserAlbumLinkListFragment fragment = new UserAlbumLinkListFragment(links, true);
+            UserAlbumLinkListFragment fragment = new UserAlbumLinkListFragment(links, true, false);
             FragmentService.replaceFragment(this, R.id.fragment_personal_albums__container, fragment);
         } else {
             FragmentService.clearFragment(this);

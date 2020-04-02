@@ -14,7 +14,7 @@ public class Post {
 
     private int id;
     private String text;
-    private Timestamp time;
+    private Timestamp date;
     private String imageUrl;
     private int artistId;
 
@@ -24,7 +24,7 @@ public class Post {
         try {
             post.id = json.getInt("id");
             post.text = json.getString("text");
-            post.time = Timestamp.valueOf(json.getString("time").replace("T", " "));
+            post.date = Timestamp.valueOf(json.getString("time").replace("T", " "));
             post.imageUrl = json.getString("imageUrl");
             post.artistId = json.getInt("artistId");
 
@@ -55,6 +55,11 @@ public class Post {
         return result;
     }
 
+    public String getDateString() {
+        String res = date.toString();
+        return res.substring(0, res.lastIndexOf(':'));
+    }
+
     public int getId() {
         return id;
     }
@@ -71,12 +76,12 @@ public class Post {
         this.text = text;
     }
 
-    public Timestamp getTime() {
-        return time;
+    public Timestamp getDate() {
+        return date;
     }
 
-    public void setTime(Timestamp time) {
-        this.time = time;
+    public void setDate(Timestamp date) {
+        this.date = date;
     }
 
     public String getImageUrl() {

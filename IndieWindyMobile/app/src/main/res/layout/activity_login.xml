@@ -8,26 +8,14 @@
 
     <ImageView
         android:id="@+id/login_activity__logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="192dp"
+        android:layout_height="192dp"
         android:src="@mipmap/ic_logo"
         app:layout_constraintBottom_toTopOf="@+id/login_activity__login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/login_activity__password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:text="myTestPassword"
-        android:hint="@string/login__password_hint"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/login_activity__login"
@@ -40,7 +28,22 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/login_activity__password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/BigText"/>
+
+    <EditText
+        android:id="@+id/login_activity__password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="myTestPassword"
+        android:hint="@string/login__password_hint"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/BigText"/>
 
     <ProgressBar
         android:id="@+id/login_activity__loading_progress_bar"
@@ -57,10 +60,12 @@
     <Button
         android:id="@+id/login_activity__login_button"
         android:layout_width="wrap_content"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="40dp"
         android:layout_marginTop="16dp"
         android:onClick="loginOnClick"
         android:text="@string/login__login_button"
+        android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_activity__password" />
@@ -68,9 +73,11 @@
     <Button
         android:id="@+id/login_activity__register_button"
         style="?attr/materialButtonOutlinedStyle"
+        android:textSize="@dimen/button_text_size"
         android:layout_width="wrap_content"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:paddingVertical="10dp"
         android:onClick="registerOnClick"
         android:text="@string/login__register_button"
         app:layout_constraintEnd_toEndOf="parent"

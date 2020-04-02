@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.google.android.material.tabs.TabLayout;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.ConcertController;
+import com.siroytman.indiewindymobile.services.KeyboardService;
 import com.siroytman.indiewindymobile.ui.adapter.ConcertPagerAdapter;
 
 import androidx.annotation.Nullable;
@@ -112,7 +113,7 @@ public class ConcertFragment extends Fragment {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    hideKeyboard();
+                    KeyboardService.hideKeyboard(getActivity());
                     switch (currentPage) {
                         case 0:
                             concertController.getNearestConcerts(query);
@@ -131,14 +132,6 @@ public class ConcertFragment extends Fragment {
             searchView.setOnQueryTextListener(queryTextListener);
         }
         super.onCreateOptionsMenu(menu, inflater);
-    }
-    
-    private void hideKeyboard(){
-        InputMethodManager inputManager = (InputMethodManager)
-                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
 }

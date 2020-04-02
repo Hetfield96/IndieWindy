@@ -14,13 +14,13 @@
         android:layout_centerHorizontal="true"
         android:text="Artist name"
         android:textSize="22sp"
-        android:textAppearance="@style/TextStyle"/>
+        android:textAppearance="@style/BigText"/>
 
     <ImageView
         android:id="@+id/donation_activity_artist_image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="@dimen/activity_image_size"
+        android:layout_height="@dimen/activity_image_size"
+        android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/donation_activity_artist_name"
         app:srcCompat="@drawable/ic_artist" />
@@ -30,6 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:layout_marginTop="16dp"
+        style="@style/SmallText"
         android:hint="@string/donation__amount_hint"
         android:inputType="numberDecimal"
         android:layout_centerHorizontal="true"
@@ -39,9 +41,10 @@
         android:id="@+id/donation_activity_donation_button"
         style="?attr/materialButtonStyle"
         android:layout_width="wrap_content"
-        android:layout_height="45dp"
+        android:layout_height="@dimen/button_height"
         android:layout_marginTop="16dp"
         android:text="@string/donation__donate_button"
+        android:textSize="@dimen/button_text_size"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/donation_activity_amount"/>
 

@@ -7,22 +7,22 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_background_disabled"
-        app:strokeWidth="0.3dp">
+        app:strokeWidth="@dimen/list_item_stroke">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="4dp">
+            android:padding="@dimen/list_item_padding">
 
             <ImageView
                 android:id="@+id/concert_list_item__photo"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:paddingHorizontal="12dp"
@@ -39,26 +39,43 @@
                 android:paddingTop="12dp"
                 android:layout_toEndOf="@id/concert_list_item__photo"
                 android:text="Concert Name"
-                android:textAppearance="@style/TextStyle" />
+                android:textAppearance="@style/BigText" />
+
+            <TextView
+                android:id="@+id/concert_list_item__date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:text="Concert date"
+                android:textSize="17sp"
+                android:textStyle="italic"
+                android:layout_toEndOf="@id/concert_list_item__photo"
+                android:layout_below="@id/concert_list_item__name" />
+
+            <TextView
+                android:id="@+id/concert_list_item__description"
+                android:text="Concert description"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_toEndOf="@id/concert_list_item__photo"
+                android:layout_below="@id/concert_list_item__date"
+                android:textSize="18sp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:lines="5"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"/>
 
             <ImageView
                 android:id="@+id/concert_list_item___add_button"
-                android:layout_toStartOf="@id/concert_list_item___options_button"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_width="@dimen/options_button_big"
+                android:layout_height="@dimen/options_button_big"
                 android:src="@drawable/ic_add"
                 android:contentDescription="Add button" />
-
-            <ImageView
-                android:id="@+id/concert_list_item___options_button"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_options"
-                android:contentDescription="Options button" />
-
 
         </RelativeLayout>
 

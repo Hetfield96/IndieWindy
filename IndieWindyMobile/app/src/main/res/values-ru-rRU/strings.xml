@@ -22,13 +22,13 @@
     <string name="download_tracker__download_failed">Ошибка при скачивании</string>
     <string name="error_handler__timeout">Превышено время ожидания ответа</string>
     <string name="error_handler__no_connection">Нет соединения</string>
-    <string name="login__register_button">Зарегистрироваться</string>
-    <string name="login__login_button">Войти</string>
+    <string name="login__register_button">Регистрация</string>
+    <string name="login__login_button">Вход</string>
     <string name="login__login_hint">Введите логин</string>
     <string name="login__password_hint">Введите пароль</string>
     <string name="login__incorrect_login">Неверный логин или пароль</string>
     <string name="login__hello">Привет, %1$s!</string>
-    <string name="login__user_exist">Пользователь с таким логином уже существует!</string>
+    <string name="login__user_exist">Пользователь с таким логином уже зарегистрирован!</string>
     <string name="login__no_login">Логин или пароль не были введены!</string>
     <string name="navigation__title_home">Главная</string>
     <string name="navigation__title_search">Поиск</string>
@@ -37,4 +37,5 @@
     <string name="title_activity_navigation">Навигация</string>
     <string name="settings__logout">Выйти из аккаунта</string>
     <string name="settings__account_header">Аккаунт</string>
+    <string name="activity_concert__ticket">Билет</string>
 </resources>

@@ -4,10 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 
@@ -18,7 +16,7 @@ public class Concert implements Parcelable {
     private String name;
     private String imageUrl;
     private int cost;
-    private Timestamp startTime;
+    private Timestamp date;
     private String address;
     private String description;
     private String ticketLink;
@@ -31,7 +29,7 @@ public class Concert implements Parcelable {
             concert.name = json.getString("name");
             concert.imageUrl = json.getString("imageUrl");
             concert.cost = json.getInt("cost");
-            concert.startTime = Timestamp.valueOf(json.getString("startTime").replace("T", " "));
+            concert.date = Timestamp.valueOf(json.getString("startTime").replace("T", " "));
             concert.address = json.getString("address");
             concert.description = json.getString("description");
             concert.ticketLink = json.getString("ticketLink");
@@ -55,7 +53,7 @@ public class Concert implements Parcelable {
         address = in.readString();
         description = in.readString();
         ticketLink = in.readString();
-        startTime = Timestamp.valueOf(in.readString());
+        date = Timestamp.valueOf(in.readString());
     }
 
     public static final Creator<Concert> CREATOR = new Creator<Concert>() {
@@ -84,7 +82,7 @@ public class Concert implements Parcelable {
         dest.writeString(address);
         dest.writeString(description);
         dest.writeString(ticketLink);
-        dest.writeString(startTime.toString());
+        dest.writeString(date.toString());
     }
 
 
@@ -120,17 +118,17 @@ public class Concert implements Parcelable {
         this.cost = cost;
     }
 
-    public Timestamp getStartTime() {
-        return startTime;
+    public Timestamp getDate() {
+        return date;
     }
 
-    public String getStartTimeString() {
-        String res = startTime.toString();
+    public String getDateString() {
+        String res = date.toString();
         return res.substring(0, res.lastIndexOf(':'));
     }
 
-    public void setStartTime(Timestamp startTime) {
-        this.startTime = startTime;
+    public void setDate(Timestamp date) {
+        this.date = date;
     }
 
     public String getAddress() {

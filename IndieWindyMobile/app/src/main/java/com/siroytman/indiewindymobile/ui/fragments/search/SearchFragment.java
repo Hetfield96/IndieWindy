@@ -21,6 +21,7 @@ import com.siroytman.indiewindymobile.model.UserAlbumLink;
 import com.siroytman.indiewindymobile.model.UserArtistLink;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.services.FragmentService;
+import com.siroytman.indiewindymobile.services.KeyboardService;
 import com.siroytman.indiewindymobile.ui.fragments.links.UserAlbumLinkListFragment;
 import com.siroytman.indiewindymobile.ui.fragments.links.UserArtistLinkListFragment;
 import com.siroytman.indiewindymobile.ui.fragments.links.UserSongLinkListFragment;
@@ -143,7 +144,7 @@ public class SearchFragment extends Fragment
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     searchQuery = query;
-                    hideKeyboard();
+                    KeyboardService.hideKeyboard(getActivity());
                     clearContainers();
                     searchController.searchSongs(SearchFragment.this, searchQuery);
                     return true;
@@ -154,14 +155,6 @@ public class SearchFragment extends Fragment
         super.onCreateOptionsMenu(menu, inflater);
     }
     
-    private void hideKeyboard(){
-        InputMethodManager inputManager = (InputMethodManager)
-                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
     private void clearContainers() {
         containerBusy = new LinkedHashMap<Integer, Boolean>() {{
             put(R.id.fragment_search__song_container, false);

@@ -3,6 +3,7 @@ package com.siroytman.indiewindymobile.ui.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,6 @@ import androidx.fragment.app.FragmentManager;
 
 public class ArtistPostLinkListAdapter extends ArrayAdapter<ArtistPostLink> {
     public static final String TAG = "PostsListAdapter";
-    private PostController postController;
     private Context context;
     private List<ArtistPostLink> links;
     private FragmentManager fragmentManager;
@@ -43,7 +43,6 @@ public class ArtistPostLinkListAdapter extends ArrayAdapter<ArtistPostLink> {
         this.context = context;
         this.links = links;
         this.fragmentManager = fragmentManager;
-        this.postController = PostController.getInstance();
     }
 
 
@@ -78,6 +77,7 @@ public class ArtistPostLinkListAdapter extends ArrayAdapter<ArtistPostLink> {
         private TextView postTextView;
         private TextView postArtistNameView;
         private ImageView postArtistPhotoView;
+        private TextView postDateView;
 
         private RelativeLayout relativeLayout;
         private FrameLayout frameLayout;
@@ -88,12 +88,15 @@ public class ArtistPostLinkListAdapter extends ArrayAdapter<ArtistPostLink> {
             postTextView = convertView.findViewById(R.id.post_list_item__text);
             postArtistNameView = convertView.findViewById(R.id.post_list_item__artist_name);
             postArtistPhotoView = convertView.findViewById(R.id.post_list_item__artist_photo);
+            postDateView = convertView.findViewById(R.id.post_list_item__date);
             relativeLayout = convertView.findViewById(R.id.post_list_item__layout);
 
-            postArtistNameView.setText(link.getArtist().getName());
-            postTextView.setText(link.getPost().getText());
             Glide.with(convertView).load(link.getArtist().getImageUrl()).into(postArtistPhotoView);
             getPostSongs();
+            postArtistNameView.setText(link.getArtist().getName());
+            postTextView.setText(link.getPost().getText());
+            postTextView.setMovementMethod(new ScrollingMovementMethod());
+            postDateView.setText(link.getPost().getDateString());
 
             postArtistNameView.setOnClickListener(this);
             postArtistPhotoView.setOnClickListener(this);
@@ -109,7 +112,6 @@ public class ArtistPostLinkListAdapter extends ArrayAdapter<ArtistPostLink> {
         }
 
         public void updatePostSongsView(List<UserSongLink> links) {
-            // TODO maybe add more button?
             // Dynamically add frame layout
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);

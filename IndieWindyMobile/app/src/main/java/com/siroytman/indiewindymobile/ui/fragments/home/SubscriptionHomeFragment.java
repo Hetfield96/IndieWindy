@@ -31,7 +31,6 @@ public class SubscriptionHomeFragment extends Fragment {
         return instance;
     }
 
-
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -84,6 +84,7 @@
     <string name="personal__artist_title">Artists</string>
     <string name="personal__album_title">Albums</string>
     <string name="settings__logout">Logout</string>
+    <string name="activity_concert__ticket">Ticket</string>
 
 
 </resources>

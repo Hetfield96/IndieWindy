@@ -2,4 +2,27 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--    Options and add button width and height-->
+    <dimen name="options_button_big">35dp</dimen>
+
+    <!--    List item: song, artist, album-->
+    <dimen name="list_item_height">80dp</dimen>
+    <dimen name="list_item_padding">8dp</dimen>
+    <dimen name="list_item_image">65dp</dimen>
+    <dimen name="list_item_options">30dp</dimen>
+    <dimen name="list_item_stroke">0.4dp</dimen>
+
+    <!--    Fragment list-->
+    <dimen name="fragment_list_title">21sp</dimen>
+    <dimen name="fragment_list_more_button">120dp</dimen>
+
+    <!--    Activity image size-->
+    <dimen name="activity_image_size">210dp</dimen>
+
+
+    <!--    Buttons-->
+    <dimen name="button_height">60dp</dimen>
+    <dimen name="button_text_size">16sp</dimen>
+
 </resources>

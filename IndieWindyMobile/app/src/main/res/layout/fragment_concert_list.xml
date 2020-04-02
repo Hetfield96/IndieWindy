@@ -5,11 +5,10 @@
     android:layout_alignParentTop="true">
 
 
-    <ListView
+    <com.siroytman.indiewindymobile.ui.custom_views.MyListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
 
 
 </RelativeLayout>

@@ -7,22 +7,22 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/list_item_height"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_background_disabled"
-        app:strokeWidth="0.3dp">
+        app:strokeWidth="@dimen/list_item_stroke">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="4dp">
+            android:padding="@dimen/list_item_padding">
 
             <ImageView
                 android:id="@+id/artist_list_item__artist_photo"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/list_item_image"
+                android:layout_height="@dimen/list_item_image"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:src="@drawable/ic_artist" />
@@ -33,18 +33,17 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/artist_list_item__artist_photo"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="4dp"
-                android:paddingHorizontal="8dp"
+                android:layout_marginStart="14dp"
                 android:layout_centerInParent="true"
                 android:text="Artist Name"
-                android:textAppearance="@style/TextStyle" />
+                android:textAppearance="@style/BigText" />
 
             <ImageView
                 android:id="@+id/artist_list_item__options_button"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/list_item_options"
+                android:layout_height="@dimen/list_item_options"
                 android:src="@drawable/ic_options"
                 android:contentDescription="Options button" />
 
@@ -52,8 +51,8 @@
                 android:id="@+id/artist_list_item__add_button"
                 android:layout_toStartOf="@id/artist_list_item__options_button"
                 android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/list_item_options"
+                android:layout_height="@dimen/list_item_options"
                 android:src="@drawable/ic_add"
                 android:contentDescription="Add button" />
 

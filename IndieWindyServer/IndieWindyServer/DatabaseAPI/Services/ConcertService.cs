@@ -60,7 +60,8 @@ namespace DatabaseAPI.Services
                     (select distinct concert_id from artist_concert_link
                     where artist_id in
                     (select artist_id from user_artist_link
-                    where app_user_id = @user));",
+                    where app_user_id = @user))
+                    order by c.start_time;",
                 (link, concert) =>
                 {
                     link.Concert = concert;
@@ -78,7 +79,8 @@ namespace DatabaseAPI.Services
                 @"select link.*, c.*
                     from user_concert_link link
                     right join concert c on link.concert_id = c.id and app_user_id = @user
-                    where link.app_user_id is not null and lower(c.name) like @name ;",
+                    where link.app_user_id is not null and lower(c.name) like @name 
+                    order by c.start_time;",
                 (link, concert) =>
                 {
                     link.Concert = concert;

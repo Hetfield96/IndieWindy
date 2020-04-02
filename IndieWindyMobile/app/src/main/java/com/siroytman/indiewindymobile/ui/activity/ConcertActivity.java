@@ -42,7 +42,6 @@ public class ConcertActivity extends AppCompatActivity implements ILinkAdd<Conce
     private TextView concertDate;
     private TextView concertDescription;
     private ImageView concertAddButton;
-    private ImageView concertOptionsButton;
     private Button concertTicketButton;
 
 
@@ -67,7 +66,6 @@ public class ConcertActivity extends AppCompatActivity implements ILinkAdd<Conce
         concertDate = findViewById(R.id.concert_activity__concert_date);
         concertDescription = findViewById(R.id.concert_activity__concert_description);
         concertAddButton = findViewById(R.id.concert_activity__concert_add_button);
-        concertOptionsButton = findViewById(R.id.concert_activity__concert_options_button);
         concertTicketButton = findViewById(R.id.concert_activity__ticket_button);
 
         IconChanger.setAddStateIcon(concertLink, concertAddButton);
@@ -75,8 +73,8 @@ public class ConcertActivity extends AppCompatActivity implements ILinkAdd<Conce
         final Concert concert = concertLink.getConcert();
 
         concertName.setText(concert.getName());
-        concertDate.setText(concert.getStartTimeString());
         concertDescription.setText(concert.getDescription());
+        concertDate.setText(concert.getDateString());
         concertDescription.setMovementMethod(new ScrollingMovementMethod());
         Glide.with(activity).load(concert.getImageUrl()).into(concertPhoto);
 

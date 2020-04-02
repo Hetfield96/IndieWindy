@@ -71,28 +71,28 @@ public class UserConcertLinkListAdapter extends ArrayAdapter<UserConcertLink> {
 
         private ImageView concertPhotoView;
         private TextView concertNameView;
-        private TextView concertArtistNameView;
+        private TextView concertDateView;
+        private TextView concertDescriptionView;
         private ImageView concertAddButton;
-        private ImageView concertOptionsButton;
 
         public ViewHolder(View convertView, final UserConcertLink concertLink) {
             this.concertLink = concertLink;
 
             concertPhotoView = convertView.findViewById(R.id.concert_list_item__photo);
             concertNameView = convertView.findViewById(R.id.concert_list_item__name);
+            concertDateView = convertView.findViewById(R.id.concert_list_item__date);
+            concertDescriptionView = convertView.findViewById(R.id.concert_list_item__description);
             concertAddButton = convertView.findViewById(R.id.concert_list_item___add_button);
-            concertOptionsButton = convertView.findViewById(R.id.concert_list_item___options_button);
 
             Concert concert = concertLink.getConcert();
-            concertNameView.setText(concert.getName());
             Glide.with(convertView).load(concert.getImageUrl()).into(concertPhotoView);
-
-
+            concertNameView.setText(concert.getName());
+            concertDateView.setText(concert.getDateString());
+            concertDescriptionView.setText(concert.getDescription());
             IconChanger.setAddStateIcon(concertLink, concertAddButton);
 
             convertView.setOnClickListener(this);
             concertAddButton.setOnClickListener(this);
-            concertOptionsButton.setOnClickListener(this);
         }
 
         @Override
@@ -110,12 +110,7 @@ public class UserConcertLinkListAdapter extends ArrayAdapter<UserConcertLink> {
                         concertController.removeUserConcertLink(this);
                     }
                     return;
-                case R.id.concert_list_item___options_button:
-                    Log.d(TAG, "onClick concert_options_button: " + concert.getName());
-//                    ConcertActivity.showPopupMenu(getContext(), v, concert);
-                    return;
             }
-
 
             Log.d(TAG, "to page of concert: " + concert.getName());
             Intent intent = new Intent(context, ConcertActivity.class);

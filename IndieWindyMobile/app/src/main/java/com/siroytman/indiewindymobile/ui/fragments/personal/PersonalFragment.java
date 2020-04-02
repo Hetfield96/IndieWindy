@@ -10,13 +10,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AlbumController;
 import com.siroytman.indiewindymobile.controller.ArtistController;
 import com.siroytman.indiewindymobile.controller.SongController;
+import com.siroytman.indiewindymobile.services.KeyboardService;
 import com.siroytman.indiewindymobile.ui.activity.SettingsActivity;
 import com.siroytman.indiewindymobile.ui.adapter.PersonalPagerAdapter;
 
@@ -123,7 +123,7 @@ public class PersonalFragment extends Fragment {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    hideKeyboard();
+                    KeyboardService.hideKeyboard(getActivity());
                     switch (currentPage) {
                         case 0:
                             songController.searchSongsLinked(SongsPersonalFragment.getInstance(), query);
@@ -155,13 +155,4 @@ public class PersonalFragment extends Fragment {
 
         super.onCreateOptionsMenu(menu, inflater);
     }
-    
-    private void hideKeyboard(){
-        InputMethodManager inputManager = (InputMethodManager)
-                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
 }

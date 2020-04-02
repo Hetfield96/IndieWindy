@@ -6,8 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.LoginActivity">
 
+    <ImageView
+        android:id="@+id/login_activity__logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@mipmap/ic_logo"
+        app:layout_constraintBottom_toTopOf="@+id/login_activity__login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
-        android:id="@+id/passwordText"
+        android:id="@+id/login_activity__password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -20,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/nameText"
+        android:id="@+id/login_activity__login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -28,12 +38,12 @@
         android:text="dimas"
         android:hint="@string/login__login_hint"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/passwordText"
+        app:layout_constraintBottom_toTopOf="@+id/login_activity__password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar
-        android:id="@+id/loading_progress_bar"
+        android:id="@+id/login_activity__loading_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -45,7 +55,7 @@
         tools:visibility="gone" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/login_activity__login_button"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_marginTop="16dp"
@@ -53,10 +63,10 @@
         android:text="@string/login__login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordText" />
+        app:layout_constraintTop_toBottomOf="@+id/login_activity__password" />
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/login_activity__register_button"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
@@ -65,5 +75,5 @@
         android:text="@string/login__register_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+        app:layout_constraintTop_toBottomOf="@+id/login_activity__login_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

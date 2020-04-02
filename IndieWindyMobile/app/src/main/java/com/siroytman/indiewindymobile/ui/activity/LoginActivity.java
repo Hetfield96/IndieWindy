@@ -30,11 +30,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         loginController = LoginController.getInstance();
 
-        nameText = findViewById(R.id.nameText);
-        passwordText = findViewById(R.id.passwordText);
-        progressBar = findViewById(R.id.loading_progress_bar);
-        loginButton = findViewById(R.id.loginButton);
-        registerButton = findViewById(R.id.registerButton);
+        nameText = findViewById(R.id.login_activity__login);
+        passwordText = findViewById(R.id.login_activity__password);
+        progressBar = findViewById(R.id.login_activity__loading_progress_bar);
+        loginButton = findViewById(R.id.login_activity__login_button);
+        registerButton = findViewById(R.id.login_activity__register_button);
 
         loginController.loginFromSharedPrefs(this);
     }

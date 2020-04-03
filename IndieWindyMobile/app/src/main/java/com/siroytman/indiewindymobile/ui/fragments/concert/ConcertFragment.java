@@ -63,6 +63,10 @@ public class ConcertFragment extends Fragment {
                     case 2:
                         concertController.getSavedConcerts();
                         break;
+//                    case 3:
+                        // TODO
+//                        concertController.getSavedConcerts();
+//                        break;
                     default:
                         break;
                 }
@@ -124,6 +128,10 @@ public class ConcertFragment extends Fragment {
                         case 2:
                             concertController.getSavedConcerts(query);
                             return true;
+//                        case 3:
+                            // TODO
+//                            concertController.getSavedConcerts(query);
+//                            return true;
                         default:
                             return false;
                     }

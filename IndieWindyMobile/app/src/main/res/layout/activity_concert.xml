@@ -8,9 +8,9 @@
     <ImageView
         android:id="@+id/concert_activity__concert_photo"
         android:src="@drawable/ic_concert"
-        android:layout_width="@dimen/activity_image_size"
-        android:layout_height="@dimen/activity_image_size"
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="370dp"
+        android:layout_marginTop="40dp"
         android:layout_marginStart="10dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -21,9 +21,9 @@
         android:text="Concert name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/concert_activity__concert_photo"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"
         android:textSize="22sp"
         style="@style/BigText" />
 
@@ -31,22 +31,34 @@
         android:id="@+id/concert_activity__concert_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/concert_activity__concert_photo"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:text="Concert date"
         android:textSize="17sp"
         android:textStyle="italic"
-        android:layout_below="@id/concert_activity__concert_name"
         />
+
+    <TextView
+        android:id="@+id/concert_activity__concert_address"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/concert_activity__concert_photo"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:text="Address"
+        android:scrollbars="vertical"
+        android:textSize="16sp"
+        style="@style/SmallText"/>
 
     <TextView
         android:id="@+id/concert_activity__concert_description"
         android:text="Concert description"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_below="@id/concert_activity__concert_date"
-        android:layout_toEndOf="@id/concert_activity__concert_photo"
+        android:layout_height="100dp"
+        android:layout_below="@id/concert_activity__ticket_button"
         android:textSize="18sp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
@@ -57,9 +69,10 @@
         android:id="@+id/concert_activity__concert_add_button"
         android:layout_width="@dimen/options_button_big"
         android:layout_height="@dimen/options_button_big"
-        android:layout_above="@+id/concert_activity__artists_container"
+        android:layout_below="@id/concert_activity__concert_photo"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="15dp"
+        android:layout_marginTop="11dp"
         android:layout_alignParentEnd="true"
         android:contentDescription="Add button"
         android:src="@drawable/ic_add" />
@@ -72,11 +85,10 @@
         android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
+        android:layout_toLeftOf="@id/concert_activity__concert_add_button"
         android:text="@string/activity_concert__ticket"
         style="?attr/materialButtonStyle"
-        android:layout_toEndOf="@id/concert_activity__concert_photo"
-        android:layout_toStartOf="@id/concert_activity__concert_add_button"
-        android:layout_above="@+id/concert_activity__artists_container"
+        android:layout_below="@id/concert_activity__concert_photo"
         android:textSize="@dimen/button_text_size"
         />
 
@@ -86,6 +98,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/concert_activity__concert_photo" />
+        android:layout_below="@id/concert_activity__concert_description" />
 
 </RelativeLayout>

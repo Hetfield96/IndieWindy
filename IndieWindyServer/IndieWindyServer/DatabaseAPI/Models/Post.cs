@@ -18,9 +18,6 @@ namespace DatabaseAPI.Models
         [Column("time")]
         public DateTime Time { get; set; }
         
-        [Column("image_url")]
-        public string? ImageUrl { get; set; }
-        
         [Column("artist_id")]
         public int ArtistId { get; set; }
         

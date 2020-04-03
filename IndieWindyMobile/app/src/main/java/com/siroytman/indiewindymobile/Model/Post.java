@@ -15,7 +15,6 @@ public class Post {
     private int id;
     private String text;
     private Timestamp date;
-    private String imageUrl;
     private int artistId;
 
 
@@ -25,7 +24,6 @@ public class Post {
             post.id = json.getInt("id");
             post.text = json.getString("text");
             post.date = Timestamp.valueOf(json.getString("time").replace("T", " "));
-            post.imageUrl = json.getString("imageUrl");
             post.artistId = json.getInt("artistId");
 
         } catch (Exception e)
@@ -82,14 +80,6 @@ public class Post {
 
     public void setDate(Timestamp date) {
         this.date = date;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public int getArtistId() {

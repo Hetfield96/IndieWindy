@@ -1,27 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">IndieWindyMobile</string>
-    <string name="title_activity_settings">Настройки</string>
+    <!--    Название приложения-->
+    <string name="app_name">IndieWindy</string>
+
+    <!--    Еще-->
+    <string name="more__button">ЕЩЕ</string>
+
+    <!--    Всплывающие меню-->
+    <string name="popup__artist">К исполнителю</string>
+    <string name="popup__album">К альбому</string>
+
+    <!--    Ошибка-->
+    <string name="error_handler__timeout">Превышено время ожидания ответа</string>
+    <string name="error_handler__no_connection">Нет соединения</string>
+
+    <!--    Моя страница-->
     <string name="personal__album_title">Альбомы</string>
     <string name="personal__artist_title">Исполнители</string>
     <string name="personal__song_title">Песни</string>
+
+    <!--    Главная-->
     <string name="home__latest_title">Новинки</string>
     <string name="home__subscriptions_title">По подписке</string>
+
+    <!--    Песни-->
+    <string name="song__list_title">Песни</string>
+
+    <!--    Альбом-->
+    <string name="album__list_title">Альбомы</string>
+
+    <!--    Поиск-->
+    <string name="search__title">Поиск</string>
+
+    <!--    Исполнитель-->
+    <string name="artist__list_title">Исполнители</string>
+
+    <!--    Загрузка-->
+    <string name="download_tracker__download_failed">Ошибка при скачивании</string>
+
+    <!--    Настройки-->
+    <string name="title_activity_settings">Настройки</string>
+    <string name="settings__logout">Выйти из аккаунта</string>
+    <string name="settings__account_header">Аккаунт</string>
+
+    <!--    Навигация-->
+    <string name="navigation__title_home">Главная</string>
+    <string name="navigation__title_search">Поиск</string>
+    <string name="navigation__title_concert">Концерты</string>
+    <string name="navigation__title_personal">Моя страница</string>
+    <string name="title_activity_navigation">Навигация</string>
+
+    <!--    Концерты-->
+    <string name="concert__artist_title">Исполнитель</string>
     <string name="concert__subscriptions_title">По подписке</string>
     <string name="concert__saved_title">Сохраненные</string>
-    <string name="song__list_title">Песни</string>
-    <string name="more__button">ЕЩЕ</string>
-    <string name="search__title">Поиск</string>
-    <string name="popup__artist">К исполнителю</string>
-    <string name="popup__album">К альбому</string>
     <string name="concert__nearest_title">Ближайшие</string>
-    <string name="artist__list_title">Исполнители</string>
-    <string name="album__list_title">Альбомы</string>
+    <string name="activity_concert__ticket">Билет</string>
+
+    <!--    Пожертвования-->
     <string name="donation__donate_button">Поддержать</string>
     <string name="donation__amount_hint">Введите сумму</string>
-    <string name="download_tracker__download_failed">Ошибка при скачивании</string>
-    <string name="error_handler__timeout">Превышено время ожидания ответа</string>
-    <string name="error_handler__no_connection">Нет соединения</string>
+    <string name="donation_activity__donation_message">Спасибо за ваше пожертвование! Вы помогаете хорошей музыке распространяться!</string>
+    <string name="donation_activity__donation_error_message">О, нет! Что-то пошло не так! Мы скоро это исправим!</string>
+
+    <!--    Авторизация-->
     <string name="login__register_button">Регистрация</string>
     <string name="login__login_button">Вход</string>
     <string name="login__login_hint">Введите логин</string>
@@ -30,14 +72,4 @@
     <string name="login__hello">Привет, %1$s!</string>
     <string name="login__user_exist">Пользователь с таким логином уже зарегистрирован!</string>
     <string name="login__no_login">Логин или пароль не были введены!</string>
-    <string name="navigation__title_home">Главная</string>
-    <string name="navigation__title_search">Поиск</string>
-    <string name="navigation__title_concert">Концерты</string>
-    <string name="navigation__title_personal">Моя страница</string>
-    <string name="title_activity_navigation">Навигация</string>
-    <string name="settings__logout">Выйти из аккаунта</string>
-    <string name="settings__account_header">Аккаунт</string>
-    <string name="activity_concert__ticket">Билет</string>
-    <string name="donation_activity__donation_message">Спасибо за ваше пожертвование! Вы помогаете хорошей музыке распространяться!</string>
-    <string name="donation_activity__donation_error_message">О, нет! Что-то пошло не так! Мы скоро это исправим!</string>
 </resources>

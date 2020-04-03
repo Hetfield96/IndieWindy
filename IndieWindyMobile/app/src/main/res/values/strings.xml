@@ -1,6 +1,6 @@
 <resources>
     <!--    App name-->
-    <string name="app_name">IndieWindyMobile</string>
+    <string name="app_name">IndieWindy</string>
 
     <!--    Server URL-->
     <string name="azure_server_url" translatable="false">http://indiewindy.azurewebsites.net</string>
@@ -74,6 +74,7 @@
     <string name="concert__nearest_title">Nearest</string>
     <string name="concert__subscriptions_title">Subscriptions</string>
     <string name="concert__saved_title">Saved</string>
+    <string name="concert__artist_title">By artist</string>
     <string name="activity_concert__ticket">Ticket</string>
 
     <!--    Home-->

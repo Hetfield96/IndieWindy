@@ -39,17 +39,8 @@
                 android:textAppearance="@style/BigText" />
 
             <ImageView
-                android:id="@+id/artist_list_item__options_button"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:layout_width="@dimen/list_item_options"
-                android:layout_height="@dimen/list_item_options"
-                android:src="@drawable/ic_options"
-                android:contentDescription="Options button" />
-
-            <ImageView
                 android:id="@+id/artist_list_item__add_button"
-                android:layout_toStartOf="@id/artist_list_item__options_button"
+                android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
                 android:layout_width="@dimen/list_item_options"
                 android:layout_height="@dimen/list_item_options"

@@ -73,7 +73,6 @@ public class UserArtistLinkListAdapter extends ArrayAdapter<UserArtistLink> {
         private ImageView artistPhotoView;
         private TextView artistNameView;
         private ImageView artistAddButton;
-        private ImageView artistOptionsButton;
 
         public ViewHolder(View convertView, final UserArtistLink artistLink) {
             this.artistLink = artistLink;
@@ -81,7 +80,6 @@ public class UserArtistLinkListAdapter extends ArrayAdapter<UserArtistLink> {
             artistPhotoView = convertView.findViewById(R.id.artist_list_item__artist_photo);
             artistNameView = convertView.findViewById(R.id.artist_list_item__artist_name);
             artistAddButton = convertView.findViewById(R.id.artist_list_item__add_button);
-            artistOptionsButton = convertView.findViewById(R.id.artist_list_item__options_button);
 
             Artist artist = artistLink.getArtist();
             artistNameView.setText(artist.getName());
@@ -92,7 +90,6 @@ public class UserArtistLinkListAdapter extends ArrayAdapter<UserArtistLink> {
 
             convertView.setOnClickListener(this);
             artistAddButton.setOnClickListener(this);
-            artistOptionsButton.setOnClickListener(this);
         }
 
         @Override
@@ -109,11 +106,6 @@ public class UserArtistLinkListAdapter extends ArrayAdapter<UserArtistLink> {
                     } else{
                         artistController.removeUserArtistLink(this);
                     }
-                    return;
-                case R.id.artist_list_item__options_button:
-                    Log.d(TAG, "onClick artist_options_button: " + artist.getName());
-                    // TODO no popup menu for now
-//                    ArtistActivity.showPopupMenu(getContext(), v, artist);
                     return;
             }
 

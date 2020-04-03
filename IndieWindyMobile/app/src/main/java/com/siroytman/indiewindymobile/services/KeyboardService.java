@@ -1,5 +1,6 @@
 package com.siroytman.indiewindymobile.services;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
 

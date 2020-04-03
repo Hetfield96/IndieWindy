@@ -74,6 +74,7 @@
     <string name="concert__nearest_title">Nearest</string>
     <string name="concert__subscriptions_title">Subscriptions</string>
     <string name="concert__saved_title">Saved</string>
+    <string name="activity_concert__ticket">Ticket</string>
 
     <!--    Home-->
     <string name="home__subscriptions_title">Subscriptions</string>
@@ -83,8 +84,13 @@
     <string name="personal__song_title">Songs</string>
     <string name="personal__artist_title">Artists</string>
     <string name="personal__album_title">Albums</string>
+
+    <!--    Settings-->
     <string name="settings__logout">Logout</string>
-    <string name="activity_concert__ticket">Ticket</string>
+
+    <!--    Donation-->
+    <string name="donation_activity__donation_message">Thanks for your donation! It helps good music spread around the world!</string>
+    <string name="donation_activity__donation_error_message">Oops! Your donation failed! We will fix it soon!</string>
 
 
 </resources>

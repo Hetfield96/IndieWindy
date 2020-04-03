@@ -1,7 +1,5 @@
 package com.siroytman.indiewindymobile.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +12,9 @@ import com.bumptech.glide.Glide;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.DonationController;
 import com.siroytman.indiewindymobile.model.Artist;
+import com.siroytman.indiewindymobile.services.KeyboardService;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class DonationActivity extends AppCompatActivity {
     public static final String TAG = "ArtistActivity";
@@ -53,8 +54,9 @@ public class DonationActivity extends AppCompatActivity {
         donationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                KeyboardService.hideKeyboard(DonationActivity.this);
                 int amount = Integer.parseInt(donationAmount.getText().toString());
-                donationController.addDonation(artist, amount);
+                donationController.addDonation(DonationActivity.this, artist, amount);
             }
         });
     }

@@ -38,4 +38,6 @@
     <string name="settings__logout">Выйти из аккаунта</string>
     <string name="settings__account_header">Аккаунт</string>
     <string name="activity_concert__ticket">Билет</string>
+    <string name="donation_activity__donation_message">Спасибо за ваше пожертвование! Вы помогаете хорошей музыке распространяться!</string>
+    <string name="donation_activity__donation_error_message">О, нет! Что-то пошло не так! Мы скоро это исправим!</string>
 </resources>

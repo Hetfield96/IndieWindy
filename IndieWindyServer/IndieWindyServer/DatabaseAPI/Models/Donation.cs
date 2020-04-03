@@ -8,13 +8,15 @@ namespace DatabaseAPI.Models
     public class Donation : BaseEntity
     {
         [Key]
-        [Column("app_user_id", Order=1)]
+        [Column("id", Order=1)]
+        public int Id { get; set; }
+        
+        [Column("app_user_id")]
         public int AppUserId { get; set; }
         [ForeignKey("AppUserId")]
         public AppUser AppUser { get; set; }
         
-        [Key]
-        [Column("artist_id", Order=2)]
+        [Column("artist_id")]
         public int ArtistId { get; set; }
         [ForeignKey("ArtistId")]
         public Artist Artist { get; set; }

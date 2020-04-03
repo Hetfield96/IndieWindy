@@ -1,25 +1,17 @@
 package com.siroytman.indiewindymobile.controller;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.VolleyError;
+import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.api.ApiController;
-import com.siroytman.indiewindymobile.api.ErrorHandler;
-import com.siroytman.indiewindymobile.api.VolleyCallbackJSONArray;
 import com.siroytman.indiewindymobile.api.VolleyCallbackJSONObject;
-import com.siroytman.indiewindymobile.api.VolleyCallbackString;
-import com.siroytman.indiewindymobile.interfaces.ILinkAdd;
-import com.siroytman.indiewindymobile.interfaces.ISearchableArtist;
 import com.siroytman.indiewindymobile.model.Artist;
-import com.siroytman.indiewindymobile.model.UserAlbumLink;
-import com.siroytman.indiewindymobile.model.UserArtistLink;
-import com.siroytman.indiewindymobile.ui.activity.ArtistActivity;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +32,7 @@ public class DonationController {
         return instance;
     }
 
-    public void addDonation(final Artist artist, final int donationAmount) {
+    public void addDonation(final Context context, final Artist artist, final int donationAmount) {
         String url = "donation/add";
 
         Map<String, Integer> postParam = new HashMap<>();
@@ -54,13 +46,18 @@ public class DonationController {
                         + "user=" + AppController.user.getName()
                         + "; artist=" + artist.getName()
                         + "; amount=" + donationAmount);
+                Toast.makeText(context, R.string.donation_activity__donation_message, Toast.LENGTH_LONG)
+                        .show();
             }
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "donation not added:"
                         + "user=" + AppController.user.getName()
                         + "; artist=" + artist.getName()
-                        + "; amount=" + donationAmount);            }
+                        + "; amount=" + donationAmount);
+                Toast.makeText(context, R.string.donation_activity__donation_message, Toast.LENGTH_LONG)
+                        .show();
+            }
         });
     }
 

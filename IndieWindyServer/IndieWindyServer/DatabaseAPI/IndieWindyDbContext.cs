@@ -61,9 +61,6 @@ pg_restore -v --no-owner --host=indiewindydb.postgres.database.azure.com --port=
             
             modelBuilder.Entity<UserSongLink>()
                 .HasKey(i => new { i.AppUserId, i.SongId });
-            
-            modelBuilder.Entity<Donation>()
-                .HasKey(d => new { d.AppUserId, d.ArtistId });
         }
     }
 }

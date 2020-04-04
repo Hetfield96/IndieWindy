@@ -30,7 +30,7 @@
     <string name="album__list_title">Альбомы</string>
 
     <!--    Поиск-->
-    <string name="search__title">Поиск</string>
+    <string name="concert_search_menu__search_title">Поиск</string>
 
     <!--    Исполнитель-->
     <string name="artist__list_title">Исполнители</string>

@@ -44,8 +44,6 @@ public class ConcertPagerAdapter extends FragmentStatePagerAdapter {
                 return SubscriptionConcertFragment.getInstance();
             case 2:
                 return SavedConcertFragment.getInstance();
-//            case 3:
-//                return ArtistConcertFragment.getInstance();
             default:
                 return null;
         }
@@ -70,10 +68,6 @@ public class ConcertPagerAdapter extends FragmentStatePagerAdapter {
 //                myDrawable = context.getDrawable(R.drawable.ic_check);
 //                title = "MyTitle";
                 return context.getString(R.string.concert__saved_title);
-//            case 3:
-//                myDrawable = context.getDrawable(R.drawable.ic_artist);
-//                title = "MyTitle";
-//                return context.getString(R.string.concert__artist_title);
             default:
                 return null;
         }
@@ -85,7 +79,7 @@ public class ConcertPagerAdapter extends FragmentStatePagerAdapter {
 //            sb.setSpan(span, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //            return sb;
 //        } catch (Exception e) {
-//            // TODO: handle exception
+//            // handle exception
 //            return null;
 //        }
     }

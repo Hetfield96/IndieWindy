@@ -64,7 +64,7 @@
     <string name="more__button">MORE</string>
 
     <!--    Search-->
-    <string name="search__title">Search</string>
+    <string name="concert_search_menu__search_title">Search</string>
 
     <!--    Popup menu-->
     <string name="popup__artist">To artist</string>
@@ -92,6 +92,7 @@
     <!--    Donation-->
     <string name="donation_activity__donation_message">Thanks for your donation! It helps good music spread around the world!</string>
     <string name="donation_activity__donation_error_message">Oops! Your donation failed! We will fix it soon!</string>
+    <string name="concert_search_menu__spinner">ActionBar Spinner</string>
 
 
 </resources>

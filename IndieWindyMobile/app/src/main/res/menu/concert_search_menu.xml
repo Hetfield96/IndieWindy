@@ -5,10 +5,18 @@
     tools:context=".HomeActivity">
 
     <item
-        android:id="@+id/search_menu__search"
+        android:id="@+id/concert_search_menu__spinner"
+        android:title="@string/concert_search_menu__spinner"
+        app:actionViewClass="android.widget.Spinner"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/concert_search_menu__search"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/concert_search_menu__search_title"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always" />
+
+
 
 </menu>

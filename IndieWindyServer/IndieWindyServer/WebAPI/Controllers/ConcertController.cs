@@ -31,6 +31,14 @@ namespace WebAPI.Controllers
             query = query.Equals("null") ? "" : query;
             return await _concertService.GetNearest(userId, query);
         }
+        
+        [HttpGet]
+        [Route("getNearestByArtist/{userId}/{query}")]
+        public async Task<List<UserConcertLink>> GetNearestByArtist(int userId, string query)
+        {
+            query = query.Equals("null") ? "" : query;
+            return await _concertService.GetNearestByArtist(userId, query);
+        }
 
         // Returns UserConcertLinks for concerts where subscribed artists participate
         [HttpGet]
@@ -42,11 +50,27 @@ namespace WebAPI.Controllers
         }
         
         [HttpGet]
+        [Route("getBySubscriptionByArtist/{userId}/{query}")]
+        public async Task<List<UserConcertLink>> GetBySubscriptionByArtist(int userId, string query)
+        {
+            query = query.Equals("null") ? "" : query;
+            return await _concertService.GetBySubscriptionByArtist(userId, query);
+        }
+        
+        [HttpGet]
         [Route("getSaved/{userId}/{query}")]
         public async Task<List<UserConcertLink>> GetSaved(int userId, string query)
         {
             query = query.Equals("null") ? "" : query;
             return await _concertService.GetSaved(userId, query);
+        }
+        
+        [HttpGet]
+        [Route("getSavedByArtist/{userId}/{query}")]
+        public async Task<List<UserConcertLink>> GetSavedByArtist(int userId, string query)
+        {
+            query = query.Equals("null") ? "" : query;
+            return await _concertService.GetSavedByArtist(userId, query);
         }
         
         [HttpGet]

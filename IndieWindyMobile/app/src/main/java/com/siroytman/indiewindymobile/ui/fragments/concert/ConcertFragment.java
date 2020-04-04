@@ -9,7 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.android.material.tabs.TabLayout;
 import com.siroytman.indiewindymobile.R;
@@ -63,10 +64,6 @@ public class ConcertFragment extends Fragment {
                     case 2:
                         concertController.getSavedConcerts();
                         break;
-//                    case 3:
-                        // TODO
-//                        concertController.getSavedConcerts();
-//                        break;
                     default:
                         break;
                 }
@@ -99,8 +96,23 @@ public class ConcertFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+        inflater.inflate(R.menu.concert_search_menu, menu);
+
+        // Spinner
+        MenuItem spinnerItem = menu.findItem(R.id.concert_search_menu__spinner);
+        Spinner spinner = null;
+
+        if (spinnerItem != null) {
+            spinner = (Spinner) spinnerItem.getActionView();
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                    R.array.concert_search_menu__spinner_array, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        }
+
+        // Search
+        MenuItem searchItem = menu.findItem(R.id.concert_search_menu__search);
+
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
         if (searchItem != null) {
@@ -109,29 +121,45 @@ public class ConcertFragment extends Fragment {
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
 
+            final Spinner finalSpinner = spinner;
             SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    return true;
+                    if(!newText.isEmpty()) {
+                        return true;
+                    }
+
+                    // Text is empty
+                    KeyboardService.hideKeyboard(getActivity());
+                    switch (currentPage) {
+                        case 0:
+                            concertController.getNearestConcerts();
+                            return true;
+                        case 1:
+                            concertController.getSubscriptionConcerts();
+                            return true;
+                        case 2:
+                            concertController.getSavedConcerts();
+                            return true;
+                        default:
+                            return false;
+                    }
                 }
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     KeyboardService.hideKeyboard(getActivity());
+                    boolean searchByArtist = finalSpinner.getSelectedItemId() == 1;
                     switch (currentPage) {
                         case 0:
-                            concertController.getNearestConcerts(query);
+                            concertController.getNearestConcerts(query, searchByArtist);
                             return true;
                         case 1:
-                            concertController.getSubscriptionConcerts(query);
+                            concertController.getSubscriptionConcerts(query, searchByArtist);
                             return true;
                         case 2:
-                            concertController.getSavedConcerts(query);
+                            concertController.getSavedConcerts(query, searchByArtist);
                             return true;
-//                        case 3:
-                            // TODO
-//                            concertController.getSavedConcerts(query);
-//                            return true;
                         default:
                             return false;
                     }

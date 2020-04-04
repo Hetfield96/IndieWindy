@@ -1,6 +1,6 @@
 <resources>
     <string-array name="concert_search_menu__spinner_array" >
-        <item>Concert</item>
-        <item>Artist</item>
+        <item>Концерт</item>
+        <item>Исполнитель</item>
     </string-array>
 </resources>

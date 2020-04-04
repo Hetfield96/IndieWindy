@@ -63,8 +63,6 @@ public class PersonalFragment extends Fragment {
                     case 0:
                         songController.searchSongsLinked(SongsPersonalFragment.getInstance());
                         break;
-//                    case 1:
-//                        break;
                     case 1:
                         artistController.searchArtistsLinked(ArtistsPersonalFragment.getInstance());
                         break;
@@ -128,8 +126,6 @@ public class PersonalFragment extends Fragment {
                         case 0:
                             songController.searchSongsLinked(SongsPersonalFragment.getInstance(), query);
                             return true;
-//                        case 1:
-//                            return true;
                         case 1:
                             artistController.searchArtistsLinked(ArtistsPersonalFragment.getInstance(), query);
                             return true;

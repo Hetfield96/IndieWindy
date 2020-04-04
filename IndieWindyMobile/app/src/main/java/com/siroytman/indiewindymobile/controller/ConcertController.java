@@ -41,12 +41,18 @@ public class ConcertController {
         return instance;
     }
 
-    public void getNearestConcerts() {
-        getNearestConcerts("null");
+    private String createGetConcertsUrl(String urlStart, String query, boolean byArtist) {
+        String urlEnd = "/" + AppController.user.getId() + "/" + query;
+        return byArtist ? urlStart + "ByArtist" + urlEnd : urlStart + urlEnd;
     }
 
-    public void getNearestConcerts(String query){
-        String url = "concert/getNearest/" + AppController.user.getId() + "/" + query;
+    public void getNearestConcerts() {
+        getNearestConcerts("null", false);
+    }
+
+    public void getNearestConcerts(String query, boolean byArtist){
+        String url = createGetConcertsUrl("concert/getNearest", query, byArtist);
+
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
             public void onSuccessResponse(JSONArray result) {
@@ -67,11 +73,12 @@ public class ConcertController {
     }
 
     public void getSubscriptionConcerts() {
-        getSubscriptionConcerts("null");
+        getSubscriptionConcerts("null", false);
     }
 
-    public void getSubscriptionConcerts(String query){
-        String url = "concert/getBySubscription/" + AppController.user.getId() + "/" + query;
+    public void getSubscriptionConcerts(String query, boolean byArtist){
+        String url = createGetConcertsUrl("concert/getBySubscription", query, byArtist);
+
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
             public void onSuccessResponse(JSONArray result) {
@@ -92,11 +99,12 @@ public class ConcertController {
     }
 
     public void getSavedConcerts() {
-        getSavedConcerts("null");
+        getSavedConcerts("null", false);
     }
 
-    public void getSavedConcerts(String query){
-        String url = "concert/getSaved/" + AppController.user.getId() + "/" + query;
+    public void getSavedConcerts(String query, boolean byArtist){
+        String url = createGetConcertsUrl("concert/getSaved", query, byArtist);
+
         apiController.getJSONArrayResponse(Request.Method.GET, url, null, new VolleyCallbackJSONArray() {
             @Override
             public void onSuccessResponse(JSONArray result) {

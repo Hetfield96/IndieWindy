@@ -48,6 +48,28 @@ namespace DatabaseAPI.Services
             return res.ToList();
         }
         
+        public async Task<List<UserConcertLink>> GetNearestByArtist(int userId, string query)
+        {
+            await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
+            
+            var res = await con.QueryAsync<UserConcertLink, Concert, UserConcertLink>(
+                @"select link.*, c.*
+                    from user_concert_link as link
+                    right join concert c on link.concert_id = c.id and link.app_user_id = @user
+                    where c.start_time > now() and c.id in 
+                    (select distinct acl.concert_id from artist_concert_link acl
+                    join artist a on acl.artist_id = a.id
+                    where lower(a.name) like @name)
+                    order by c.start_time;",
+                (link, concert) =>
+                {
+                    link.Concert = concert;
+                    return link;
+                },
+                param: new {@name = $"{query.ToLower()}%", @user = userId});
+            return res.ToList();
+        }
+        
         public async Task<List<UserConcertLink>> GetBySubscription(int userId, string query)
         {
             await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
@@ -71,6 +93,30 @@ namespace DatabaseAPI.Services
             return res.ToList();
         }
         
+        public async Task<List<UserConcertLink>> GetBySubscriptionByArtist(int userId, string query)
+        {
+            await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
+            
+            var res = await con.QueryAsync<UserConcertLink, Concert, UserConcertLink>(
+                @"select link.*, c.*
+                    from user_concert_link link
+                    right join concert c on link.concert_id = c.id and app_user_id = @user
+                    where c.id in
+                    (select distinct concert_id from artist_concert_link
+                    where artist_id in
+                    (select artist_id from user_artist_link
+                    join artist a on user_artist_link.artist_id = a.id
+                    where app_user_id = @user and lower(a.name) like @name))
+                    order by c.start_time;",
+                (link, concert) =>
+                {
+                    link.Concert = concert;
+                    return link;
+                },
+                param: new {@name = $"{query.ToLower()}%", @user = userId});
+            return res.ToList();
+        }
+        
         public async Task<List<UserConcertLink>> GetSaved(int userId, string query)
         {
             await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
@@ -80,6 +126,28 @@ namespace DatabaseAPI.Services
                     from user_concert_link link
                     right join concert c on link.concert_id = c.id and app_user_id = @user
                     where link.app_user_id is not null and lower(c.name) like @name 
+                    order by c.start_time;",
+                (link, concert) =>
+                {
+                    link.Concert = concert;
+                    return link;
+                },
+                param: new {@name = $"{query.ToLower()}%", @user = userId});
+            return res.ToList();
+        }
+        
+        public async Task<List<UserConcertLink>> GetSavedByArtist(int userId, string query)
+        {
+            await using var con = new NpgsqlConnection(IndieWindyDbContext.ConnectionString);
+            
+            var res = await con.QueryAsync<UserConcertLink, Concert, UserConcertLink>(
+                @"select link.*, c.*
+                    from user_concert_link link
+                    right join concert c on link.concert_id = c.id and app_user_id = @user
+                    where link.app_user_id is not null and c.id in 
+                    (select distinct acl.concert_id from artist_concert_link acl
+                    join artist a on acl.artist_id = a.id
+                    where lower(a.name) like @name)
                     order by c.start_time;",
                 (link, concert) =>
                 {

@@ -16,18 +16,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <EditText
         android:id="@+id/login_activity__login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:ems="10"
-        android:text="dimas"
         android:hint="@string/login__login_hint"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/login_activity__password"
         app:layout_constraintEnd_toEndOf="parent"
+        android:text="dimas"
         app:layout_constraintStart_toStartOf="parent"
         style="@style/BigText"/>
 
@@ -36,12 +35,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:text="myTestPassword"
         android:hint="@string/login__password_hint"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:text="myTestPassword"
         app:layout_constraintTop_toTopOf="parent"
         style="@style/BigText"/>
 

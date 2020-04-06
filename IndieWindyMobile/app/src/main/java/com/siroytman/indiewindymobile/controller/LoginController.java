@@ -88,6 +88,7 @@ public class LoginController {
     public void loginFromSharedPrefs(LoginActivity loginActivity){
         AppUser user = sharedPrefsService.getAppUser();
         if (user != null){
+            loginActivity.setLoginAndPasswordText(user.getName(), user.getPassword());
             loginActivity.startLoadingProgressBar();
             login(loginActivity, user.getName(), user.getPassword(), true);
 

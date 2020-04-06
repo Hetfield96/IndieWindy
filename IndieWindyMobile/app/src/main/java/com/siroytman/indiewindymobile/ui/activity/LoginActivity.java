@@ -39,6 +39,11 @@ public class LoginActivity extends AppCompatActivity {
         loginController.loginFromSharedPrefs(this);
     }
 
+    public void setLoginAndPasswordText(String login, String password){
+        nameText.setText(login);
+        // Password is hashed here... Should be not
+    }
+
     public void startLoadingProgressBar() {
         Log.d(TAG, "startLoadingProgressBar");
         passwordText.setEnabled(false);

@@ -13,7 +13,7 @@ public class SharedPrefsService {
 
     public SharedPrefsService() {
         Context context = AppController.getContext();
-        this.preferences = context.getSharedPreferences("IndieWindyPrefs", context.MODE_PRIVATE);
+        this.preferences = context.getSharedPreferences("IndieWindyPrefs", Context.MODE_PRIVATE);
         gson = new Gson();
     }
 

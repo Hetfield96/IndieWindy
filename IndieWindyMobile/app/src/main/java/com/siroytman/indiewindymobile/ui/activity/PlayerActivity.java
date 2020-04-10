@@ -140,6 +140,7 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
         IconChanger.setAddStateIcon(songLink, addButton);
         songName.setText(songLink.getSong().getName());
         artistName.setText(songLink.getSong().getArtist().getName());
+
     }
 
     public void setPlayer(SimpleExoPlayer player) {
@@ -152,7 +153,6 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
         Log.d(TAG, "onDownloadsChanged");
         IconChanger.setIconCheck(downloadButton);
     }
-
 
     @Override
     public void onStart() {

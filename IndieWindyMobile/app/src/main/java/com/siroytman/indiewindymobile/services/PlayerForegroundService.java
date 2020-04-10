@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,12 +19,10 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.ui.PlayerNotificationManager;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.siroytman.indiewindymobile.R;
-import com.siroytman.indiewindymobile.model.Song;
 import com.siroytman.indiewindymobile.model.UserSongLink;
-import com.siroytman.indiewindymobile.ui.activity.PlayerActivity;
 
 import java.util.ArrayList;
 
@@ -33,8 +32,8 @@ import androidx.core.content.ContextCompat;
 
 public class PlayerForegroundService extends Service {
     public static final String TAG = "PlayerForegroundService";
-    private static final String CHANNEL_ID = "ForegroundServiceChannel";
-    private static final int FOREGROUND_NOTIFICATION_ID = 1;
+    private static final String CHANNEL_ID = "PlayerForegroundServiceChannel";
+    private static final int NOTIFICATION_ID = 2;
 
     public static PlayerForegroundService instance;
 
@@ -45,10 +44,16 @@ public class PlayerForegroundService extends Service {
 
     private PlayerServiceConnection playerActivityConnection;
 
+    PlayerNotificationManager playerNotificationManager;
+
     private SimpleExoPlayer player;
     private boolean playWhenReady = true;
     private int currentWindow;
     private long playbackPosition = 0;
+
+    public static synchronized PlayerForegroundService getInstance() {
+        return instance;
+    }
 
     public static void startService(Context context, ArrayList<UserSongLink> songLinks, int songPos) {
         Log.d(TAG, "startService begin");
@@ -99,6 +104,13 @@ public class PlayerForegroundService extends Service {
         Log.d(TAG, "onCreate begin");
         super.onCreate();
         instance = this;
+
+        playerNotificationManager = new PlayerNotificationManager(
+                getApplicationContext(),
+                CHANNEL_ID,
+                NOTIFICATION_ID,
+                new PlayerNotificationDescriptionAdapter());
+
         Log.d(TAG, "onCreate end");
     }
 
@@ -114,10 +126,8 @@ public class PlayerForegroundService extends Service {
             Log.e(TAG, "Error: Arguments are null!");
         }
 
-        createNotification();
-
         initializePlayer();
-//        stopSelf();
+        createNotification();
         return START_NOT_STICKY;
     }
 
@@ -126,80 +136,21 @@ public class PlayerForegroundService extends Service {
 
         createNotificationChannel();
 
-        // adding action to prev button
-        Intent prevIntent = new Intent(getApplicationContext(), PlayerNotificationIntentService.class);
-        prevIntent.setAction("prev");
-
-        // adding action to next button
-        Intent nextIntent = new Intent(this, PlayerNotificationIntentService.class);
-        nextIntent.setAction("next");
-
-        // adding action to next button
-        Intent pauseIntent = new Intent(this, PlayerNotificationIntentService.class);
-        pauseIntent.setAction("next");
-
-        // adding action to click notification
-        // TODO
-        Intent contentIntent = new Intent(context, PlayerActivity.class);
-
         Notification notification = new Notification.Builder(context, CHANNEL_ID)
-                // Add the metadata for the currently playing track
-                .setContentTitle(songLink.getSong().getName())
-                .setContentText(songLink.getSong().getArtist().getName())
-
-                // Enable launching the player by clicking the notification
-                // TODO
-//                .setContentIntent(PendingIntent.getActivity(context, 0, contentIntent, 0))
-
-                // Stop the service when the notification is swiped away
-                // TODO
-//                .setDeleteIntent()
-
                 // Make the transport controls visible on the lockscreen
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
-
-                .addAction(R.drawable.ic_prev, "prev", PendingIntent.getService(context, 0, prevIntent, 0))
-                .addAction(R.drawable.ic_pause, "pause", PendingIntent.getService(context, 0, pauseIntent, 0))
-                .addAction(R.drawable.ic_next, "next", PendingIntent.getService(context, 0, nextIntent, 0))
-
-                // Add an app icon and set its color
-                .setSmallIcon(R.drawable.ic_artist)
-                .setColor(ContextCompat.getColor(context, R.color.primary_dark))
-
                 // Take advantage of MediaStyle features
                 .setStyle(new Notification.MediaStyle()
-//                        .setMediaSession(mediaSession.getSessionToken())
                         .setShowActionsInCompactView(0, 1, 2)
                 )
                 .build();
 
-        startForeground(FOREGROUND_NOTIFICATION_ID, notification);
-    }
-
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel serviceChannel = new NotificationChannel(
-                    CHANNEL_ID,
-                    CHANNEL_ID,
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(serviceChannel);
-        }
+        startForeground(NOTIFICATION_ID, notification);
     }
 
     private void initializePlayer() {
         Log.d(TAG, "initializePlayer");
         player = ExoPlayerFactory.newSimpleInstance(this);
-
-        PlayerServiceConnection.getInstance().getPlayerActivity().setPlayer(player);
         concatenatingMediaSource = buildConcatenatingMediaSource(songLinks);
 
         player.setPlayWhenReady(playWhenReady);
@@ -228,17 +179,8 @@ public class PlayerForegroundService extends Service {
                 }
             }
         });
-    }
 
-    private void releasePlayer() {
-        if (player != null) {
-            playWhenReady = player.getPlayWhenReady();
-            playbackPosition = player.getCurrentPosition();
-            currentWindow = player.getCurrentWindowIndex();
-            player.release();
-            player = null;
-            Log.d(TAG, "Stop: " + songLink.getSong().getName());
-        }
+        PlayerServiceConnection.getInstance().getPlayerActivity().setPlayer(player);
     }
 
     private ConcatenatingMediaSource buildConcatenatingMediaSource(ArrayList<UserSongLink> songLinks) {
@@ -254,6 +196,70 @@ public class PlayerForegroundService extends Service {
                             .createMediaSource(uri));
         }
         return concatenatingMediaSource;
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(
+                    CHANNEL_ID,
+                    CHANNEL_ID,
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            serviceChannel.setSound(null, null);
+
+            playerNotificationManager.setPlayer(player);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
+        }
+    }
+
+    private void releasePlayer() {
+        if (player != null) {
+            playWhenReady = player.getPlayWhenReady();
+            playbackPosition = player.getCurrentPosition();
+            currentWindow = player.getCurrentWindowIndex();
+            player.release();
+            player = null;
+            Log.d(TAG, "Stop: " + songLink.getSong().getName());
+        }
+    }
+
+
+    private class PlayerNotificationDescriptionAdapter implements
+            PlayerNotificationManager.MediaDescriptionAdapter
+    {
+        public static final String TAG = "PlayerNotificationDescriptionAdapter";
+
+        @Override
+        public String getCurrentContentTitle(Player player) {
+            return songLink.getSong().getName();
+        }
+
+        @Nullable
+        @Override
+        public String getCurrentContentText(Player player) {
+            return songLink.getSong().getArtist().getName();
+        }
+
+        @Nullable
+        @Override
+        public Bitmap getCurrentLargeIcon(Player player,
+                                          PlayerNotificationManager.BitmapCallback callback) {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public PendingIntent createCurrentContentIntent(Player player) {
+            int window = player.getCurrentWindowIndex();
+            return PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(), window);
+        }
     }
 
 }

@@ -1,8 +1,12 @@
 package com.siroytman.indiewindymobile.services;
 
+import android.util.Log;
+
 import com.siroytman.indiewindymobile.ui.activity.PlayerActivity;
 
 public class PlayerServiceConnection {
+    public static final String TAG = "PlayerServiceConnection";
+
     private static PlayerServiceConnection instance;
     private PlayerActivity playerActivity;
 
@@ -11,15 +15,18 @@ public class PlayerServiceConnection {
         instance = this;
     }
 
-    public static void createInstance(PlayerActivity playerView) {
+    public static void createInstance(PlayerActivity playerActivity) {
         if (instance == null) {
-            new PlayerServiceConnection(playerView);
+            new PlayerServiceConnection(playerActivity);
         } else {
-            instance.playerActivity = playerView;
+            instance.playerActivity = playerActivity;
         }
     }
 
-    public static PlayerServiceConnection getInstance() {
+    public static PlayerServiceConnection getInstance()  {
+        if(instance == null) {
+            Log.d(TAG, "Instance is null");
+        }
         return instance;
     }
 

@@ -1,17 +1,10 @@
 package com.siroytman.indiewindymobile.ui.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.DynamicDrawableSpan;
-import android.text.style.ImageSpan;
-import android.util.Log;
 
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
-import com.siroytman.indiewindymobile.ui.fragments.concert.ArtistConcertFragment;
 import com.siroytman.indiewindymobile.ui.fragments.concert.NearestConcertFragment;
 import com.siroytman.indiewindymobile.ui.fragments.concert.SavedConcertFragment;
 import com.siroytman.indiewindymobile.ui.fragments.concert.SubscriptionConcertFragment;

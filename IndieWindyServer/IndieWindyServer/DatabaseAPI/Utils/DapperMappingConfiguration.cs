@@ -13,8 +13,12 @@ namespace DatabaseAPI.Utils
             ConfigureType<AppUser>();
             ConfigureType<Artist>();
             ConfigureType<ArtistConcertLink>();
+            ConfigureType<ArtistPostLink>();
+            ConfigureType<Donation>();
             ConfigureType<Concert>();
             ConfigureType<Song>();
+            ConfigureType<Post>();
+            ConfigureType<PostSongLink>();
             ConfigureType<UserAlbumLink>();
             ConfigureType<UserArtistLink>();
             ConfigureType<UserConcertLink>();

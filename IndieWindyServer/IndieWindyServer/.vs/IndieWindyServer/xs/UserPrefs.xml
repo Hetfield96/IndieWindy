@@ -1,0 +1,25 @@
+﻿<Properties StartupConfiguration="{683AFE22-C745-4A16-802E-6ED30E6977EB}|Default">
+  <MonoDevelop.Ide.ItemProperties.WebAPI PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="WebAPI/Controllers/AppUserController.cs">
+    <Files>
+      <File FileName="WebAPI/Controllers/AppUserController.cs" Line="13" Column="27" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="IndieWindyServer" expanded="True" selected="True">
+            <Node name="WebAPI" expanded="True">
+              <Node name="Controllers" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

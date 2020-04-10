@@ -1,21 +1,21 @@
 package com.siroytman.indiewindymobile.services;
 
-import com.google.android.exoplayer2.ui.PlayerView;
+import com.siroytman.indiewindymobile.ui.activity.PlayerActivity;
 
 public class PlayerServiceConnection {
     private static PlayerServiceConnection instance;
-    private PlayerView playerView;
+    private PlayerActivity playerActivity;
 
-    private PlayerServiceConnection(PlayerView playerView) {
-        this.playerView = playerView;
+    private PlayerServiceConnection(PlayerActivity playerActivity) {
+        this.playerActivity = playerActivity;
         instance = this;
     }
 
-    public static void createInstance(PlayerView playerView) {
+    public static void createInstance(PlayerActivity playerView) {
         if (instance == null) {
             new PlayerServiceConnection(playerView);
         } else {
-            instance.playerView = playerView;
+            instance.playerActivity = playerView;
         }
     }
 
@@ -23,7 +23,11 @@ public class PlayerServiceConnection {
         return instance;
     }
 
-    public PlayerView getPlayerView() {
-        return playerView;
+    public static void destroyInstance() {
+        instance = null;
+    }
+
+    public PlayerActivity getPlayerActivity() {
+        return playerActivity;
     }
 }

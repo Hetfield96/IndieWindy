@@ -25,6 +25,7 @@ import com.siroytman.indiewindymobile.services.FragmentService;
 import com.siroytman.indiewindymobile.ui.activity.ArtistActivity;
 import com.siroytman.indiewindymobile.ui.fragments.links.UserSongLinkListFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -111,7 +112,7 @@ public class ArtistPostLinkListAdapter extends ArrayAdapter<ArtistPostLink> {
             PostController.getInstance().getPostSongs(this, link.getPostId());
         }
 
-        public void updatePostSongsView(List<UserSongLink> links) {
+        public void updatePostSongsView(ArrayList<UserSongLink> links) {
             // Dynamically add frame layout
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);

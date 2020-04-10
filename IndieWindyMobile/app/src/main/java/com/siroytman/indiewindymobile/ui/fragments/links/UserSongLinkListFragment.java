@@ -25,7 +25,7 @@ import androidx.fragment.app.ListFragment;
 public class UserSongLinkListFragment extends ListFragment {
     public static final String TAG = "UserSongLinkListFrag";
 
-    List<UserSongLink> songLinks;
+    ArrayList<UserSongLink> songLinks;
     private UserSongLinkListAdapter adapter;
     private Boolean rawList;
     private boolean cutList;
@@ -34,11 +34,11 @@ public class UserSongLinkListFragment extends ListFragment {
     public UserSongLinkListFragment() {
     }
 
-    public UserSongLinkListFragment(List<UserSongLink> songLinks) {
+    public UserSongLinkListFragment(ArrayList<UserSongLink> songLinks) {
         this(songLinks, false, false);
     }
 
-    public UserSongLinkListFragment(List<UserSongLink> songLinks, Boolean rawList, Boolean cutList) {
+    public UserSongLinkListFragment(ArrayList<UserSongLink> songLinks, Boolean rawList, Boolean cutList) {
         this.songLinks = songLinks;
         this.rawList = rawList;
         this.cutList = cutList;
@@ -48,10 +48,10 @@ public class UserSongLinkListFragment extends ListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        List<UserSongLink> subLinks;
+        ArrayList<UserSongLink> subLinks;
         if(cutList) {
             // Cut to subLinks not to show all found songs
-            subLinks = songLinks.subList(0, Math.min(SearchFragment.MAX_ELEMENTS, songLinks.size()));
+            subLinks = (ArrayList<UserSongLink>) songLinks.subList(0, Math.min(SearchFragment.MAX_ELEMENTS, songLinks.size()));
         } else {
             subLinks = songLinks;
         }

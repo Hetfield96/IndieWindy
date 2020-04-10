@@ -3,7 +3,6 @@ package com.siroytman.indiewindymobile.ui.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.exoplayer2.offline.DownloadRequest;
 import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.controller.AppController;
 import com.siroytman.indiewindymobile.controller.SongController;
@@ -22,8 +20,7 @@ import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.services.IconChanger;
 import com.siroytman.indiewindymobile.ui.activity.PlayerActivity;
 
-import java.net.URI;
-import java.util.List;
+import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,22 +29,20 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
     public static final String TAG = "UserSongLinkListAdapter";
     private SongController songController;
     private Context context;
-    private List<UserSongLink> linksList;
-    private AppController appController;
+    private ArrayList<UserSongLink> songLinks;
 
-    public UserSongLinkListAdapter(@NonNull Context context, int resource, @NonNull List<UserSongLink> linksList) {
-        super(context, resource, linksList);
+    public UserSongLinkListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<UserSongLink> songLinks) {
+        super(context, resource, songLinks);
         this.context = context;
-        this.linksList = linksList;
+        this.songLinks = songLinks;
         this.songController = SongController.getInstance();
-        this.appController = AppController.getInstance();
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder viewHolder = null;
-        final UserSongLink songLink = linksList.get(position);
+        final UserSongLink songLink = songLinks.get(position);
 
         if(convertView == null) {
 
@@ -56,7 +51,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             assert inflater != null;
             convertView = inflater.inflate(R.layout.song_list_item, null);
 
-            viewHolder = new ViewHolder(convertView, songLink);
+            viewHolder = new ViewHolder(convertView, songLink, position);
 
             convertView.setTag(viewHolder);
 
@@ -73,6 +68,7 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
     public class ViewHolder implements View.OnClickListener, ILinkAdd<Song> {
         public static final String TAG = "UserSongLinkAdapter.VH";
 
+        private int songPos;
         private UserSongLink songLink;
 
         private TextView songNameView;
@@ -82,8 +78,9 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
         private ImageView songDownloadButton;
 
 
-        public ViewHolder(View convertView, final UserSongLink songLink) {
+        public ViewHolder(View convertView, final UserSongLink songLink, final int songPos) {
             this.songLink = songLink;
+            this.songPos = songPos;
 
             songNameView = convertView.findViewById(R.id.song_name);
             songArtistNameView = convertView.findViewById(R.id.artist_activity__artist_name);
@@ -125,16 +122,11 @@ public class UserSongLinkListAdapter extends ArrayAdapter<UserSongLink> {
             }
 
 
-            Log.d(TAG, "to player of song: " + songLink.getSong().getName());
+            Log.d(TAG, "to player starting starting with song: " + songLink.getSong().getName());
             Intent intent = new Intent(context, PlayerActivity.class);
-            intent.putExtra(UserSongLink.class.getSimpleName(), songLink);
+            intent.putExtra("songLinks", songLinks);
+            intent.putExtra("songPos", songPos);
             context.startActivity(intent);
-        }
-
-
-
-        public UserSongLink getSongLink() {
-            return songLink;
         }
 
         @Override

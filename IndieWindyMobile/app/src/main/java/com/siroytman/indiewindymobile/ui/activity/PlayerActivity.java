@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.offline.DownloadService;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.siroytman.indiewindymobile.R;
@@ -27,6 +28,8 @@ import com.siroytman.indiewindymobile.services.IconChanger;
 import com.siroytman.indiewindymobile.services.PlayerForegroundService;
 import com.siroytman.indiewindymobile.services.PlayerServiceConnection;
 
+import java.util.ArrayList;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.view.menu.MenuPopupHelper;
@@ -38,7 +41,10 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
     private AppController appController;
     private SongController songController;
     public PlayerView playerView;
+
     private UserSongLink songLink;
+    private int songPos;
+    private ArrayList<UserSongLink> songLinks;
 
     private TextView songName;
     private TextView artistName;
@@ -58,7 +64,9 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
         // Get album from bundle
         Bundle arguments = getIntent().getExtras();
         if(arguments != null) {
-            songLink = arguments.getParcelable(UserSongLink.class.getSimpleName());
+            songLinks = arguments.getParcelableArrayList("songLinks");
+            songPos = arguments.getInt("songPos");
+            songLink = songLinks.get(songPos);
         }
         else {
             Log.e(TAG, "Error: Arguments are null!");
@@ -76,10 +84,7 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
         artistName = playerView.findViewById(R.id.player__artist_name);
 
         downloadTracker = appController.getDownloadTracker();
-        Glide.with(this).load(songLink.getSong().getAlbum().getImageUrl()).into(songArtwork);
-        IconChanger.setAddStateIcon(songLink, addButton);
-        songName.setText(songLink.getSong().getName());
-        artistName.setText(songLink.getSong().getArtist().getName());
+        updateSongView(songPos);
 
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,8 +118,8 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
             }
         });
 
-        PlayerServiceConnection.createInstance(playerView);
-        PlayerForegroundService.startService(this, songLink);
+        PlayerServiceConnection.createInstance(this);
+        PlayerForegroundService.startService(this, songLinks, songPos);
 
         // Start the download service if it should be running but it's not currently.
         // Starting the service in the foreground causes notification flicker if there is no scheduled
@@ -125,6 +130,20 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
         } catch (IllegalStateException e) {
             DownloadService.startForeground(this, DownloadService.class);
         }
+    }
+
+    public void updateSongView(int songLinkPos) {
+        Log.d(TAG, "onSongChangedUpdateView");
+        songLink = songLinks.get(songLinkPos);
+
+        Glide.with(this).load(songLink.getSong().getAlbum().getImageUrl()).into(songArtwork);
+        IconChanger.setAddStateIcon(songLink, addButton);
+        songName.setText(songLink.getSong().getName());
+        artistName.setText(songLink.getSong().getArtist().getName());
+    }
+
+    public void setPlayer(SimpleExoPlayer player) {
+        playerView.setPlayer(player);
     }
 
     @Override
@@ -144,6 +163,7 @@ public class PlayerActivity extends AppCompatActivity implements ILinkAdd<Song>,
     @Override
     public void onStop() {
         downloadTracker.removeListener(this);
+        PlayerServiceConnection.destroyInstance();
         super.onStop();
     }
 

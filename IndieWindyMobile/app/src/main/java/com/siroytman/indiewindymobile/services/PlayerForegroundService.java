@@ -14,8 +14,9 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -23,6 +24,8 @@ import com.siroytman.indiewindymobile.R;
 import com.siroytman.indiewindymobile.model.Song;
 import com.siroytman.indiewindymobile.model.UserSongLink;
 import com.siroytman.indiewindymobile.ui.activity.PlayerActivity;
+
+import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -35,23 +38,27 @@ public class PlayerForegroundService extends Service {
 
     public static PlayerForegroundService instance;
 
-    private Song song;
     private UserSongLink songLink;
+
+    private ArrayList<UserSongLink> songLinks;
+    private ConcatenatingMediaSource concatenatingMediaSource;
+
+    private PlayerServiceConnection playerActivityConnection;
 
     private SimpleExoPlayer player;
     private boolean playWhenReady = true;
-    private int currentWindow = 0;
+    private int currentWindow;
     private long playbackPosition = 0;
 
-    public static void startService(Context context, UserSongLink songLink) {
+    public static void startService(Context context, ArrayList<UserSongLink> songLinks, int songPos) {
         Log.d(TAG, "startService begin");
 
         if(instance != null) {
             Log.d(TAG, "instance not null");
-            if (instance.song.equals(songLink.getSong())) {
+            if (instance.songLink.getSong().equals(songLinks.get(songPos).getSong())) {
                 Log.d(TAG, "Instance have same song");
                 // Set new playerView player
-                PlayerServiceConnection.getInstance().getPlayerView().setPlayer(instance.player);
+                PlayerServiceConnection.getInstance().getPlayerActivity().setPlayer(instance.player);
                 return;
             }
 
@@ -59,7 +66,8 @@ public class PlayerForegroundService extends Service {
         }
 
         Intent serviceIntent = new Intent(context, PlayerForegroundService.class);
-        serviceIntent.putExtra(UserSongLink.class.getSimpleName(), songLink);
+        serviceIntent.putExtra("songLinks", songLinks);
+        serviceIntent.putExtra("songPos", songPos);
         ContextCompat.startForegroundService(context, serviceIntent);
 
         Log.d(TAG, "startService end");
@@ -98,8 +106,9 @@ public class PlayerForegroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle arguments = intent.getExtras();
         if(arguments != null) {
-            songLink = arguments.getParcelable(UserSongLink.class.getSimpleName());
-            song = songLink.getSong();
+            songLinks = arguments.getParcelableArrayList("songLinks");
+            currentWindow = arguments.getInt("songPos");
+            songLink = songLinks.get(currentWindow);
         }
         else {
             Log.e(TAG, "Error: Arguments are null!");
@@ -109,7 +118,7 @@ public class PlayerForegroundService extends Service {
 
         initializePlayer();
 //        stopSelf();
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     private void createNotification() {
@@ -187,17 +196,38 @@ public class PlayerForegroundService extends Service {
     }
 
     private void initializePlayer() {
+        Log.d(TAG, "initializePlayer");
         player = ExoPlayerFactory.newSimpleInstance(this);
-        PlayerServiceConnection.getInstance().getPlayerView().setPlayer(player);
 
-        Uri uri = Uri.parse(song.getSongUrl());
-        MediaSource mediaSource = buildMediaSource(uri);
-
+        PlayerServiceConnection.getInstance().getPlayerActivity().setPlayer(player);
+        concatenatingMediaSource = buildConcatenatingMediaSource(songLinks);
 
         player.setPlayWhenReady(playWhenReady);
         player.seekTo(currentWindow, playbackPosition);
-        player.prepare(mediaSource, false, false);
-        Log.d(TAG, "Play: " + song.getName());
+        player.prepare(concatenatingMediaSource, false, false);
+        Log.d(TAG, "Play: " + songLink.getSong().getName());
+
+        player.addListener(new Player.EventListener() {
+            @Override
+            public void onPositionDiscontinuity(int reason) {
+                //THIS METHOD GETS CALLED FOR EVERY NEW SOURCE THAT IS PLAYED
+                int latestWindowIndex = player.getCurrentWindowIndex();
+                if (latestWindowIndex == currentWindow) {
+                    return;
+                }
+
+                // item selected in playlist has changed, handle here
+                currentWindow = latestWindowIndex;
+                songLink = songLinks.get(currentWindow);
+
+                Log.d(TAG, "Song in playlist changed: pos=" + currentWindow + "; songName=" + songLink.getSong().getName());
+
+                playerActivityConnection = PlayerServiceConnection.getInstance();
+                if (playerActivityConnection != null) {
+                    playerActivityConnection.getPlayerActivity().updateSongView(currentWindow);
+                }
+            }
+        });
     }
 
     private void releasePlayer() {
@@ -207,15 +237,23 @@ public class PlayerForegroundService extends Service {
             currentWindow = player.getCurrentWindowIndex();
             player.release();
             player = null;
-            Log.d(TAG, "Stop: " + song.getName());
+            Log.d(TAG, "Stop: " + songLink.getSong().getName());
         }
     }
 
-    private MediaSource buildMediaSource(Uri uri) {
+    private ConcatenatingMediaSource buildConcatenatingMediaSource(ArrayList<UserSongLink> songLinks) {
         DataSource.Factory dataSourceFactory =
                 new DefaultDataSourceFactory(this, "indiewindy_exoplayer");
-        return new ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(uri);
+        ConcatenatingMediaSource concatenatingMediaSource = new ConcatenatingMediaSource();
+
+        for (int i = 0; i < songLinks.size(); ++i) {
+            Uri uri = Uri.parse(songLinks.get(i).getSong().getSongUrl());
+
+            concatenatingMediaSource.addMediaSource(
+                    new ProgressiveMediaSource.Factory(dataSourceFactory)
+                            .createMediaSource(uri));
+        }
+        return concatenatingMediaSource;
     }
 
 }

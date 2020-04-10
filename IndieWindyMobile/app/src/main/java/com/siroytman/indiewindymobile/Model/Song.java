@@ -62,10 +62,6 @@ public class Song implements Parcelable {
         return songUrl;
     }
 
-    public void setSongUrl(String songUrl) {
-        this.songUrl = songUrl;
-    }
-
     public Artist getArtist() {
         return artist;
     }

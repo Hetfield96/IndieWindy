@@ -106,37 +106,13 @@ public class Concert implements Parcelable {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public Timestamp getDate() {
-        return date;
-    }
-
     public String getDateString() {
         String res = date.toString();
         return res.substring(0, res.lastIndexOf(':'));
     }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
-    }
-
     public String getAddress() {
         return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getDescription() {

@@ -57,7 +57,7 @@ public class Artist implements Parcelable{
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    private void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -65,7 +65,7 @@ public class Artist implements Parcelable{
         return description;
     }
 
-    public void setDescription(String description) {
+    private void setDescription(String description) {
         this.description = description;
     }
 

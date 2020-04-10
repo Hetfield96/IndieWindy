@@ -78,14 +78,6 @@ public class UserConcertLink implements Parcelable, ILinkEmpty {
         return concert;
     }
 
-    public int getAppUserId() {
-        return appUserId;
-    }
-
-    public int getConcertId() {
-        return concertId;
-    }
-
     public void setAppUserId(int appUserId) {
         this.appUserId = appUserId;
     }

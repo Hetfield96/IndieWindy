@@ -77,14 +77,6 @@ public class UserAlbumLink implements Parcelable, ILinkEmpty {
         return album;
     }
 
-    public int getAppUserId() {
-        return appUserId;
-    }
-
-    public int getAlbumId() {
-        return albumId;
-    }
-
     public void setAppUserId(int appUserId) {
         this.appUserId = appUserId;
     }

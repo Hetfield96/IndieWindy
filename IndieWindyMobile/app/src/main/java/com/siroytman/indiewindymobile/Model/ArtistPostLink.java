@@ -66,20 +66,8 @@ public class ArtistPostLink {
         return result;
     }
 
-    public int getArtistId() {
-        return artistId;
-    }
-
-    public void setArtistId(int artistId) {
-        this.artistId = artistId;
-    }
-
     public int getPostId() {
         return postId;
-    }
-
-    public void setPostId(int postId) {
-        this.postId = postId;
     }
 
     public Artist getArtist() {
@@ -94,7 +82,4 @@ public class ArtistPostLink {
         return post;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
-    }
 }

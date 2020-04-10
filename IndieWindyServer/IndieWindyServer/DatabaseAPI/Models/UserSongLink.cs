@@ -16,13 +16,13 @@ namespace DatabaseAPI.Models
         
         [Key]
         [Column("app_user_id", Order=1)]
-        public int AppUserId { get; set; }
+        public int AppUserId { get; }
         [ForeignKey("AppUserId")]
         public AppUser AppUser { get; set; }
         
         [Key]
         [Column("song_id", Order=2)]
-        public int SongId { get; set; }
+        public int SongId { get; }
         [ForeignKey("SongId")]
         public Song Song { get; set; }
     }

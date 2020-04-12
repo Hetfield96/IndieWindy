@@ -1,2 +1,0 @@
-Текст Android программы находится в репозитории по адресу https://github.com/lmmediate/android-app
-Текст Кроулера находится в репозитории по адресу https://github.com/lmmediate/crawler

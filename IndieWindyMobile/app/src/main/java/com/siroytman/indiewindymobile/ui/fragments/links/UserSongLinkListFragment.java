@@ -51,7 +51,7 @@ public class UserSongLinkListFragment extends ListFragment {
         ArrayList<UserSongLink> subLinks;
         if(cutList) {
             // Cut to subLinks not to show all found songs
-            subLinks = (ArrayList<UserSongLink>) songLinks.subList(0, Math.min(SearchFragment.MAX_ELEMENTS, songLinks.size()));
+            subLinks = new ArrayList<>(songLinks.subList(0, Math.min(SearchFragment.MAX_ELEMENTS, songLinks.size())));
         } else {
             subLinks = songLinks;
         }

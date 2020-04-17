@@ -16,23 +16,20 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ApiController {
+    public static final String TAG = "ApiController";
     private static final String serverUrl;
+
+    // Volley queue for executing requests to server
+    private VolleyQueue volleyQueue;
+
+    // A singleton instance of the application class for easy access in other places
+    private static ApiController instance;
 
     static {
         // Choosing server url
         int serverUrlId = BuildConfig.DEBUG ? R.string.server_url : R.string.azure_server_url;
         serverUrl = AppController.getContext().getString(serverUrlId);
     }
-    
-    /**
-     * Volley queue for executing requests to server
-     */
-    private VolleyQueue volleyQueue;
-
-    /**
-     * A singleton instance of the application class for easy access in other places
-     */
-    private static ApiController instance;
 
     private ApiController() {
         // initialize the singleton
@@ -68,7 +65,7 @@ public class ApiController {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError e) {
-                Log.d("ApiController", "Error: " + e.toString());
+                Log.d(TAG, "Error: " + e.toString());
             }
         });
 
@@ -91,11 +88,10 @@ public class ApiController {
         volleyQueue.addToRequestQueue(request);
     }
 
-
     public void getJSONObjectResponse(String apiUrl, JSONObject json, final VolleyCallbackJSONObject callback) {
         JsonObjectRequest request = new JsonObjectRequest(serverUrl + "/" + apiUrl,
                 json,
-                new Response.Listener<JSONObject> () {
+                new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         callback.onSuccessResponse(response);
@@ -104,9 +100,11 @@ public class ApiController {
             @Override
             public void onErrorResponse(VolleyError e) {
                 callback.onErrorResponse(e);
-                Log.d("ApiController", "Error: " + e.toString());
+                Log.d(TAG, "Error: " + e.toString());
             }
         });
+
+        volleyQueue.addToRequestQueue(request);
 
         request.setRetryPolicy(new RetryPolicy() {
             @Override
@@ -124,8 +122,6 @@ public class ApiController {
 
             }
         });
-
-        volleyQueue.addToRequestQueue(request);
     }
 
     public void getJSONArrayResponse(int method, String apiUrl, JSONArray json, final VolleyCallbackJSONArray callback) {
@@ -140,7 +136,7 @@ public class ApiController {
             @Override
             public void onErrorResponse(VolleyError e) {
                 callback.onErrorResponse(e);
-                Log.d("ApiController", "Error: " + e.toString());
+                Log.d(TAG, "Error: " + e.toString());
             }
         });
 

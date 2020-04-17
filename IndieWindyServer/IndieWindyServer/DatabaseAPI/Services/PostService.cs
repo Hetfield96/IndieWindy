@@ -7,7 +7,7 @@ using Npgsql;
 
 namespace DatabaseAPI.Services
 {
-    public class PostService : DatabaseBaseService<Concert>
+    public class PostService : DatabaseBaseService<Post>
     {
         public PostService(IndieWindyDbContext indieWindyDb) : base(indieWindyDb) { }
 

@@ -22,7 +22,6 @@ public class PostController {
     private ApiController apiController;
     private static PostController instance;
 
-
     private PostController() {
         apiController = ApiController.getInstance();
     }

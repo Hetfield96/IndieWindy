@@ -10,7 +10,7 @@ IndieWindy - is musical streaming service for indie-musicians with donations ins
 **This repository contains:**  
 Android application (Android Studio + Java 8.0) + Backend (ASP .NET Core 3.0).   
 
-The app provides users(listenners) functionality like: 
+The app provides users(listeners) functionality like: 
 - search and discover indie-musicians
 - listen to their music 
 - see information about their concerts

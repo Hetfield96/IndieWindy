@@ -3,7 +3,7 @@
 Sergey Roytman  
 Moscow, 2020*  
 
-IndieWindy - is musical streaming service for indie-musicians with donations instead of subscription payments   
+**IndieWindy** is a musical streaming service for indie-musicians with donations instead of subscription payments   
 [Project presentation](https://github.com/Hetfield96/IndieWindy/tree/master/Presentation)  
 [Project documentation](https://github.com/Hetfield96/IndieWindy/tree/master/Documentation)
 

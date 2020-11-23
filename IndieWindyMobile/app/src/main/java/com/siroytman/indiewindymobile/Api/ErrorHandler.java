@@ -30,7 +30,9 @@ public class ErrorHandler {
             return true;
         }
 
-        Log.d(TAG, error.getMessage());
+        try {
+            Log.d(TAG, error.getMessage());
+        } catch (Exception ignored) { }
         return false;
     }
 }

@@ -41,8 +41,10 @@ class VolleyQueue {
         if (mRequestQueue == null) {
             if (BuildConfig.DEBUG) {
                 // Https connection with localhost
-                mRequestQueue = Volley.newRequestQueue(context,
-                        new HurlStack(null, SSLSocketFactoryProvider.getSocketFactory(context)));
+//                mRequestQueue = Volley.newRequestQueue(context,
+//                        new HurlStack(null, SSLSocketFactoryProvider.getSocketFactory(context)));
+                // Http connection with localhost
+                mRequestQueue = Volley.newRequestQueue(context);
             } else {
                 // Http connection with Azure
                 mRequestQueue = Volley.newRequestQueue(context);

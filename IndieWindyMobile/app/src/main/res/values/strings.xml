@@ -4,7 +4,8 @@
 
     <!--    Server URL-->
     <string name="azure_server_url" translatable="false">http://indiewindy.azurewebsites.net</string>
-    <string name="server_url" translatable="false">https://10.0.2.2:5001</string>
+<!--    <string name="server_url" translatable="false">https://10.0.2.2:5001</string>-->
+    <string name="server_url" translatable="false">http://10.0.2.2:5000</string>
     <string name="server_host" translatable="false">10.0.2.2</string>
 
     <!--    Navigation-->
